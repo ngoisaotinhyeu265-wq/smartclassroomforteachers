@@ -1,0 +1,6 @@
+{
+  "name": "English Primary Learning Hub",
+  "description": "Comprehensive English learning ecosystem for primary students (Grade 1-5) following Global Success with Vocabulary Guessing, Speaking, Reading, Writing, Listening, Grammar, Pronunciation, Games, AI Tutor Milo, Teacher Hub, and Smart Classroom English with Teacher Mode, 7-Stage Script, and End-of-Year Student Comments for School Records (Thông tư 27/2020/TT-BGDĐT).",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
