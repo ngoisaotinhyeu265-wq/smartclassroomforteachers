@@ -127,18 +127,17 @@ export const AIPronunciationModal: React.FC<AIPronunciationModalProps> = ({
         console.warn("Recognition start error:", e);
       }
 
-      // Auto stop after 5s max
-      setTimeout(() => {
-        if (isRecording) {
-          stopRecording();
-        }
-      }, 5000);
+      // Auto stop & evaluate after 4.5s max if no speech event
+      setTimeout(async () => {
+        stopRecording();
+        await evaluateSpeechWithAI(targetText);
+      }, 4500);
     } else {
       // Browser doesn't support Web Speech API - fallback simulated timeout
       setTimeout(async () => {
         stopRecording();
         await evaluateSpeechWithAI(targetText);
-      }, 3000);
+      }, 2500);
     }
   };
 

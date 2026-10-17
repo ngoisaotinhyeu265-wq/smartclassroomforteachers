@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SpeakingItem, SpeakingLevel, UserProgress } from "../../types";
 import { GLOBAL_SUCCESS_SPEAKING } from "../../data/globalSuccessCurriculum";
+import { TeacherSophieCoach } from "./TeacherSophieCoach";
 import { speakText, createSpeechRecognizer, stopSpeech } from "../../utils/speech";
 import { playSound } from "../../utils/audioEffects";
 import { fireConfetti } from "../../utils/confetti";
@@ -17,6 +18,7 @@ import {
   MessageSquare,
   Image as ImageIcon,
   Timer,
+  GraduationCap,
 } from "lucide-react";
 
 interface SpeakingModuleProps {
@@ -28,8 +30,10 @@ export const SpeakingModule: React.FC<SpeakingModuleProps> = ({
   progress,
   onUpdateProgress,
 }) => {
+  const [speakingMode, setSpeakingMode] = useState<"sophie_coach" | "levels">("sophie_coach");
   const [selectedLevel, setSelectedLevel] = useState<SpeakingLevel>(1);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [transcript, setTranscript] = useState<string>("");
   const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
@@ -128,18 +132,58 @@ export const SpeakingModule: React.FC<SpeakingModuleProps> = ({
                   Speaking Lab
                 </h1>
                 <span className="bg-rose-100 text-rose-800 text-xs font-bold px-2 py-0.5 rounded-full border border-rose-300">
-                  +20 XP
+                  +25 XP
                 </span>
               </div>
               <p className="text-xs text-slate-500">
-                Luyện nói theo 5 cấp độ: Repeat, Q&A, Picture Speaking, Role-play & Topic Presentation
+                Luyện nói tương tác cùng Cô giáo Sophie hoặc theo 5 cấp độ chuẩn SGK Global Success
               </p>
             </div>
           </div>
-        </div>
 
-        {/* 5 Levels Selector Tabs */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-2 border-t border-slate-100">
+          {/* Mode Switcher */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                playSound("click");
+                setSpeakingMode("sophie_coach");
+              }}
+              className={`px-4 py-2 rounded-2xl text-xs font-black transition-all flex items-center gap-2 border-2 ${
+                speakingMode === "sophie_coach"
+                  ? "bg-rose-500 text-white border-rose-600 shadow-[0_3px_0_0_#BE123C]"
+                  : "bg-slate-50 text-slate-700 hover:bg-rose-50 border-slate-200"
+              }`}
+            >
+              <span>👩‍🏫</span>
+              <span>Luyện Nói Với Cô Sophie</span>
+            </button>
+
+            <button
+              onClick={() => {
+                playSound("click");
+                setSpeakingMode("levels");
+              }}
+              className={`px-4 py-2 rounded-2xl text-xs font-black transition-all flex items-center gap-2 border-2 ${
+                speakingMode === "levels"
+                  ? "bg-blue-600 text-white border-blue-700 shadow-[0_3px_0_0_#1D4ED8]"
+                  : "bg-slate-50 text-slate-700 hover:bg-blue-50 border-slate-200"
+              }`}
+            >
+              <span>🎯</span>
+              <span>5 Cấp Độ SGK</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Render Teacher Sophie Coach (Default) or 5 Levels Arena */}
+      {speakingMode === "sophie_coach" ? (
+        <TeacherSophieCoach progress={progress} onUpdateProgress={onUpdateProgress} />
+      ) : (
+        <div className="space-y-6">
+          {/* 5 Levels Selector Header */}
+          <div className="bg-white rounded-3xl p-5 sm:p-6 border border-rose-200 shadow-xs space-y-4">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 border-slate-100">
           {[
             { level: 1 as SpeakingLevel, title: "L1: Repeat", icon: "🔁" },
             { level: 2 as SpeakingLevel, title: "L2: Answer", icon: "❓" },
@@ -316,6 +360,8 @@ export const SpeakingModule: React.FC<SpeakingModuleProps> = ({
           </div>
         )}
       </div>
-    </div>
-  );
+      </div>
+    )}
+  </div>
+);
 };

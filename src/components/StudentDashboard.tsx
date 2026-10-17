@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import { AppSkill, UserProgress, GradeLevel } from "../types";
 import { getUnitsByGrade } from "../data/globalSuccessCurriculumUnits";
 import {
@@ -20,7 +20,12 @@ import {
   ArrowRight,
   Star,
   ChevronRight,
+  ChevronLeft,
   GraduationCap,
+  LayoutGrid,
+  Columns,
+  SlidersHorizontal,
+  MoveHorizontal,
 } from "lucide-react";
 import { playSound } from "../utils/audioEffects";
 
@@ -61,6 +66,19 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
 
   const cards: SkillCardConfig[] = [
     {
+      id: "ai-assistant",
+      title: "Trợ Lý AI Thanh Nguyễn",
+      subtitle: "Hỏi đáp Từ vựng & Ngữ pháp",
+      emoji: "🤖",
+      badge: "Bản Quyền: Thanh Nguyễn",
+      bgColor: "bg-[#FEF3C7]",
+      borderColor: "border-[#FCD34D]",
+      titleColor: "text-[#92400E]",
+      descColor: "text-[#B45309]",
+      xpRate: "HỎI ĐÁP SIÊU TỐC ⭐",
+      description: "Giải đáp tức thì, đúng nội dung kiến thức về từ vựng, ngữ pháp, phát âm, mẫu câu và bài tập.",
+    },
+    {
       id: "smart-classroom",
       title: "Smart Classroom English",
       subtitle: "Tiếng Anh trong lớp học",
@@ -88,29 +106,29 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
     },
     {
       id: "vocabulary",
-      title: "Từ Vựng",
-      subtitle: "Đoán từ qua giải thích",
+      title: "Vocabulary Guessing",
+      subtitle: "Tổng hợp 16 & 20 Unit SGK",
       emoji: "📚",
-      badge: "Module 1 • Core",
+      badge: "Đầy Đủ Các Unit",
       bgColor: "bg-[#FFEDD5]",
       borderColor: "border-[#FED7AA]",
       titleColor: "text-[#9A3412]",
       descColor: "text-[#C2410C]",
       xpRate: "+10 XP",
-      description: "Đoán từ qua manh mối tiếng Anh & 6 dạng bài tập tương tác không lộ đáp án.",
+      description: "Tổng hợp toàn bộ từ vựng 16 Unit (Khối 1, 2) & 20 Unit (Khối 3, 4, 5). Đoán từ qua manh mối & 6 game.",
     },
     {
       id: "speaking",
-      title: "Luyện Nói",
-      subtitle: "Ghi âm & Chấm điểm AI",
-      emoji: "🗣️",
-      badge: "5 Cấp độ",
+      title: "Luyện Nói Với Cô Sophie",
+      subtitle: "Đóng vai hội thoại & Sửa lỗi",
+      emoji: "👩‍🏫",
+      badge: "Teacher Sophie AI",
       bgColor: "bg-[#FCE7F3]",
       borderColor: "border-[#FBCFE8]",
       titleColor: "text-[#9D174D]",
       descColor: "text-[#BE185D]",
-      xpRate: "+20 XP",
-      description: "Nhại câu, trả lời hỏi đáp, miêu tả tranh & thuyết trình chủ đề tự tin.",
+      xpRate: "+25 XP",
+      description: "Cô giáo Sophie trò chuyện, gợi ý câu trả lời khi bí từ, sửa lỗi phát âm và hướng dẫn con nhắc lại.",
     },
     {
       id: "writing",
@@ -127,16 +145,16 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
     },
     {
       id: "reading",
-      title: "Luyện Đọc",
-      subtitle: "Pre / While / Post Reading",
+      title: "Luyện Đọc & Truyện Tương Tác",
+      subtitle: "My Family (Lớp 3) & Global Success",
       emoji: "📖",
-      badge: "Global Success",
+      badge: "Truyện Tương Tác ⭐",
       bgColor: "bg-[#DCFCE7]",
       borderColor: "border-[#BBF7D0]",
       titleColor: "text-[#166534]",
       descColor: "text-[#15803D]",
-      xpRate: "+15 XP",
-      description: "Đọc đoạn văn lớp 1-5, nghe giọng đọc mẫu và trả lời 5 câu hỏi hiểu bài.",
+      xpRate: "+15 - 50 XP",
+      description: "Đọc truyện tương tác phân nhánh 'My Family' đưa ra quyết định, nghe đọc to và làm 5 câu hỏi đọc hiểu tổng kết nhận thưởng.",
     },
     {
       id: "listening",
@@ -229,6 +247,77 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
     { name: "Space", emoji: "🚀", grade: 4 },
   ];
 
+  const [modulesViewMode, setModulesViewMode] = useState<"carousel" | "grid">("carousel");
+  const modulesContainerRef = useRef<HTMLDivElement>(null);
+  const topicsContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollModulesLeft, setCanScrollModulesLeft] = useState(false);
+  const [canScrollModulesRight, setCanScrollModulesRight] = useState(true);
+  const [isDraggingModules, setIsDraggingModules] = useState(false);
+  const [modulesStartX, setModulesStartX] = useState(0);
+  const [modulesScrollLeft, setModulesScrollLeft] = useState(0);
+  const [hasDraggedModules, setHasDraggedModules] = useState(false);
+
+  // Check scroll modules
+  const checkModulesScroll = useCallback(() => {
+    const el = modulesContainerRef.current;
+    if (!el) return;
+    setCanScrollModulesLeft(el.scrollLeft > 6);
+    setCanScrollModulesRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 10);
+  }, []);
+
+  useEffect(() => {
+    checkModulesScroll();
+    const el = modulesContainerRef.current;
+    if (!el) return;
+    const handleResize = () => checkModulesScroll();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [checkModulesScroll, modulesViewMode]);
+
+  const scrollModules = (amount: number) => {
+    const el = modulesContainerRef.current;
+    if (!el) return;
+    playSound("click");
+    el.scrollBy({ left: amount, behavior: "smooth" });
+    setTimeout(checkModulesScroll, 350);
+  };
+
+  const scrollTopics = (amount: number) => {
+    const el = topicsContainerRef.current;
+    if (!el) return;
+    playSound("click");
+    el.scrollBy({ left: amount, behavior: "smooth" });
+  };
+
+  // Drag handlers for modules carousel
+  const handleModulesMouseDown = (e: React.MouseEvent) => {
+    const el = modulesContainerRef.current;
+    if (!el) return;
+    setIsDraggingModules(true);
+    setHasDraggedModules(false);
+    setModulesStartX(e.pageX - el.offsetLeft);
+    setModulesScrollLeft(el.scrollLeft);
+  };
+
+  const handleModulesMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingModules) return;
+    const el = modulesContainerRef.current;
+    if (!el) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - modulesStartX) * 1.3;
+    if (Math.abs(walk) > 6) {
+      setHasDraggedModules(true);
+    }
+    el.scrollLeft = modulesScrollLeft - walk;
+    checkModulesScroll();
+  };
+
+  const handleModulesMouseUp = () => {
+    setIsDraggingModules(false);
+    setTimeout(() => setHasDraggedModules(false), 50);
+  };
+
   const handleUnitClick = (unitNumber: number) => {
     playSound("click");
     if (onSelectGlobalSuccessUnit) {
@@ -256,7 +345,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               Xin chào, {progress.studentName}! 👋
             </h1>
             <p className="text-blue-100 text-xs sm:text-sm font-medium leading-relaxed">
-              Hôm nay em muốn luyện kỹ năng nào? Khám phá trọn bộ các Unit theo sách giáo khoa Global Success chuẩn Bộ GD&ĐT hoặc bắt đầu với 10 phân hệ học tập!
+              Hôm nay em muốn luyện kỹ năng nào? Khám phá trọn bộ các Unit theo sách giáo khoa Global Success chuẩn Bộ GD&ĐT hoặc bắt đầu với các phân hệ học tập dưới đây!
             </p>
 
             {/* Quick Stats Badges */}
@@ -362,7 +451,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
         </div>
       </div>
 
-      {/* Explore Topics Bar */}
+      {/* Explore Topics Bar with Left/Right slide arrows */}
       <div className="bg-white rounded-[28px] p-4 sm:p-5 border-2 border-[#D1E0FB] shadow-[0_6px_0_0_#D1E0FB]">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
@@ -371,9 +460,34 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               Chủ Đề Nổi Bật (Global Success & Mở Rộng)
             </h2>
           </div>
-          <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Chọn để học nhanh</span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-500 font-bold uppercase tracking-wider hidden sm:inline">
+              Chọn để học nhanh
+            </span>
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => scrollTopics(-180)}
+                aria-label="Cuộn chủ đề sang trái"
+                className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-700 flex items-center justify-center transition-all cursor-pointer border border-slate-200"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollTopics(180)}
+                aria-label="Cuộn chủ đề sang phải"
+                className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-700 flex items-center justify-center transition-all cursor-pointer border border-slate-200"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-2.5 overflow-x-auto pb-1 scrollbar-none">
+        <div
+          ref={topicsContainerRef}
+          className="flex items-center gap-2.5 overflow-x-auto pb-1 scrollbar-none scroll-smooth"
+        >
           {quickTopics.map((topic) => (
             <button
               key={topic.name}
@@ -382,7 +496,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
                 onSelectExtendedTopic?.(topic.name);
                 onSelectSkill("vocabulary");
               }}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-[#F0F7FF] hover:bg-blue-100 border-2 border-[#D1E0FB] text-slate-800 hover:text-blue-700 text-xs font-black whitespace-nowrap transition-all shadow-xs active:translate-y-0.5 cursor-pointer"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-[#F0F7FF] hover:bg-blue-100 border-2 border-[#D1E0FB] text-slate-800 hover:text-blue-700 text-xs font-black whitespace-nowrap transition-all shadow-xs active:translate-y-0.5 cursor-pointer shrink-0"
             >
               <span className="text-lg">{topic.emoji}</span>
               <span>{topic.name}</span>
@@ -391,75 +505,240 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
         </div>
       </div>
 
-      {/* 10 Core Modules Grid (Geometric Balance Style) */}
+      {/* Core Modules Section with Interactive Scrollable Bar (Di chuyển qua lại không bị ẩn) */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-[24px] border-2 border-[#D1E0FB] shadow-[0_4px_0_0_#D1E0FB]">
           <div className="flex items-center gap-2.5">
             <h2 className="font-display font-black text-lg sm:text-xl text-[#1E293B] uppercase tracking-tight">
-              Các Phân Hệ Học Tập
+              Thanh Phân Hệ Học Tập
             </h2>
             <span className="text-xs font-black text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-200">
-              10 Hubs
+              13 Ứng Dụng
             </span>
           </div>
-          <span className="text-xs text-slate-500 font-bold hidden sm:inline">
-            Âm thanh sống động • Phản hồi tích cực • 100% tương tác
-          </span>
+
+          {/* Navigation Controls: Left/Right Buttons & View Toggle */}
+          <div className="flex items-center gap-2 self-end sm:self-auto">
+            {modulesViewMode === "carousel" && (
+              <div className="flex items-center gap-1.5 mr-2">
+                <button
+                  type="button"
+                  onClick={() => scrollModules(-320)}
+                  disabled={!canScrollModulesLeft}
+                  title="Di chuyển sang trái"
+                  className={`w-9 h-9 rounded-xl flex items-center justify-center border-2 transition-all ${
+                    canScrollModulesLeft
+                      ? "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-600 hover:text-white cursor-pointer shadow-xs active:scale-95"
+                      : "bg-slate-100 text-slate-300 border-slate-200 cursor-not-allowed opacity-50"
+                  }`}
+                >
+                  <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollModules(320)}
+                  disabled={!canScrollModulesRight}
+                  title="Di chuyển sang phải"
+                  className={`w-9 h-9 rounded-xl flex items-center justify-center border-2 transition-all ${
+                    canScrollModulesRight
+                      ? "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-600 hover:text-white cursor-pointer shadow-xs active:scale-95"
+                      : "bg-slate-100 text-slate-300 border-slate-200 cursor-not-allowed opacity-50"
+                  }`}
+                >
+                  <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+                </button>
+              </div>
+            )}
+
+            {/* Layout Toggle: Carousel vs Grid */}
+            <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+              <button
+                type="button"
+                onClick={() => {
+                  playSound("click");
+                  setModulesViewMode("carousel");
+                }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all ${
+                  modulesViewMode === "carousel"
+                    ? "bg-white text-blue-700 shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+                title="Dạng thanh trượt di chuyển qua lại"
+              >
+                <MoveHorizontal className="w-3.5 h-3.5" />
+                <span>Trượt ngang</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  playSound("click");
+                  setModulesViewMode("grid");
+                }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all ${
+                  modulesViewMode === "grid"
+                    ? "bg-white text-blue-700 shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+                title="Dạng lưới toàn bộ"
+              >
+                <LayoutGrid className="w-3.5 h-3.5" />
+                <span>Lưới</span>
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
-          {cards.map((card) => (
+        {/* Carousel View Mode (Scrollable with Left/Right navigation & drag) */}
+        {modulesViewMode === "carousel" ? (
+          <div className="relative">
+            {/* Left Edge Overlay Button */}
+            {canScrollModulesLeft && (
+              <button
+                type="button"
+                onClick={() => scrollModules(-320)}
+                className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/95 text-blue-700 shadow-[0_4px_12px_rgba(0,0,0,0.15)] border-2 border-blue-200 flex items-center justify-center hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                title="Xem ứng dụng phía trước"
+              >
+                <ChevronLeft className="w-6 h-6 stroke-[3]" />
+              </button>
+            )}
+
+            {/* Right Edge Overlay Button */}
+            {canScrollModulesRight && (
+              <button
+                type="button"
+                onClick={() => scrollModules(320)}
+                className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/95 text-blue-700 shadow-[0_4px_12px_rgba(0,0,0,0.15)] border-2 border-blue-200 flex items-center justify-center hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                title="Xem thêm ứng dụng tràn màn hình"
+              >
+                <ChevronRight className="w-6 h-6 stroke-[3]" />
+              </button>
+            )}
+
+            {/* Scrollable Container */}
             <div
-              key={card.id}
-              id={`module-card-${card.id}`}
-              onClick={() => {
-                playSound("click");
-                onSelectSkill(card.id);
-              }}
-              className={`${card.bgColor} border-b-8 border-r-8 ${card.borderColor} rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 flex flex-col justify-between cursor-pointer transition-all duration-150 hover:-translate-y-1 hover:translate-x-0.5 active:translate-y-1 active:translate-x-1 active:border-b-4 active:border-r-4 select-none group`}
+              ref={modulesContainerRef}
+              onScroll={checkModulesScroll}
+              onMouseDown={handleModulesMouseDown}
+              onMouseMove={handleModulesMouseMove}
+              onMouseUp={handleModulesMouseUp}
+              onMouseLeave={handleModulesMouseUp}
+              className={`flex items-stretch gap-4 overflow-x-auto pb-4 pt-1 px-1 scrollbar-none scroll-smooth ${
+                isDraggingModules ? "cursor-grabbing select-none" : "cursor-grab"
+              }`}
+              style={{ WebkitOverflowScrolling: "touch" }}
             >
-              <div className="space-y-3">
-                {/* Header row: Big Emoji & Badge */}
-                <div className="flex items-start justify-between">
-                  <span className="text-4xl sm:text-5xl group-hover:scale-110 transition-transform block">
-                    {card.emoji}
-                  </span>
-                  <div className="flex flex-col items-end gap-1">
-                    <span className="bg-white/80 backdrop-blur-xs text-slate-800 text-[10px] font-black px-2 py-0.5 rounded-full border border-white/60">
-                      {card.badge}
-                    </span>
-                    <span className="bg-white/90 text-emerald-700 text-[10px] font-black px-1.5 py-0.2 rounded-md shadow-xs">
-                      {card.xpRate}
-                    </span>
+              {cards.map((card) => (
+                <div
+                  key={card.id}
+                  id={`module-card-carousel-${card.id}`}
+                  onClick={() => {
+                    if (hasDraggedModules) return;
+                    playSound("click");
+                    onSelectSkill(card.id);
+                  }}
+                  className={`w-[260px] sm:w-[280px] shrink-0 ${card.bgColor} border-b-8 border-r-8 ${card.borderColor} rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 flex flex-col justify-between cursor-pointer transition-all duration-150 hover:-translate-y-1 hover:translate-x-0.5 active:translate-y-1 active:translate-x-1 active:border-b-4 active:border-r-4 select-none group shadow-xs`}
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-start justify-between">
+                      <span className="text-4xl group-hover:scale-110 transition-transform block">
+                        {card.emoji}
+                      </span>
+                      <div className="flex flex-col items-end gap-1">
+                        <span className="bg-white/80 backdrop-blur-xs text-slate-800 text-[10px] font-black px-2 py-0.5 rounded-full border border-white/60">
+                          {card.badge}
+                        </span>
+                        <span className="bg-white/90 text-emerald-700 text-[10px] font-black px-1.5 py-0.2 rounded-md shadow-xs">
+                          {card.xpRate}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className={`font-display font-black text-base sm:text-lg ${card.titleColor} uppercase tracking-tight`}>
+                        {card.title}
+                      </h3>
+                      <p className={`text-xs font-bold ${card.descColor} line-clamp-1`}>
+                        {card.subtitle}
+                      </p>
+                    </div>
+
+                    <p className={`text-[11px] font-semibold ${card.descColor}/90 leading-relaxed line-clamp-2`}>
+                      {card.description}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 mt-3 border-t border-black/5 flex items-center justify-between text-xs font-black group-hover:opacity-100">
+                    <span className={card.titleColor}>Vào Học Ngay</span>
+                    <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-xs group-hover:translate-x-1 transition-transform">
+                      <ArrowRight className={`w-3.5 h-3.5 ${card.titleColor}`} />
+                    </div>
                   </div>
                 </div>
+              ))}
+            </div>
 
-                {/* Title & Subtitle */}
-                <div>
-                  <h3 className={`font-display font-black text-lg ${card.titleColor} uppercase tracking-tight`}>
-                    {card.title}
-                  </h3>
-                  <p className={`text-xs font-bold ${card.descColor} line-clamp-1`}>
-                    {card.subtitle}
+            {/* Instruction footnote for children */}
+            <div className="flex items-center justify-between text-xs text-slate-400 font-semibold px-2 pt-1">
+              <span className="flex items-center gap-1.5">
+                <MoveHorizontal className="w-4 h-4 text-blue-500 animate-pulse" />
+                Kéo chuột hoặc nhấn nút mũi tên để di chuyển qua lại giữa {cards.length} ứng dụng
+              </span>
+              <span>13 Phân Hệ Học Tập</span>
+            </div>
+          </div>
+        ) : (
+          /* Grid View Mode */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                id={`module-card-grid-${card.id}`}
+                onClick={() => {
+                  playSound("click");
+                  onSelectSkill(card.id);
+                }}
+                className={`${card.bgColor} border-b-8 border-r-8 ${card.borderColor} rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 flex flex-col justify-between cursor-pointer transition-all duration-150 hover:-translate-y-1 hover:translate-x-0.5 active:translate-y-1 active:translate-x-1 active:border-b-4 active:border-r-4 select-none group`}
+              >
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between">
+                    <span className="text-4xl sm:text-5xl group-hover:scale-110 transition-transform block">
+                      {card.emoji}
+                    </span>
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="bg-white/80 backdrop-blur-xs text-slate-800 text-[10px] font-black px-2 py-0.5 rounded-full border border-white/60">
+                        {card.badge}
+                      </span>
+                      <span className="bg-white/90 text-emerald-700 text-[10px] font-black px-1.5 py-0.2 rounded-md shadow-xs">
+                        {card.xpRate}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className={`font-display font-black text-lg ${card.titleColor} uppercase tracking-tight`}>
+                      {card.title}
+                    </h3>
+                    <p className={`text-xs font-bold ${card.descColor} line-clamp-1`}>
+                      {card.subtitle}
+                    </p>
+                  </div>
+
+                  <p className={`text-[11px] font-semibold ${card.descColor}/90 leading-relaxed line-clamp-2`}>
+                    {card.description}
                   </p>
                 </div>
 
-                {/* Description */}
-                <p className={`text-[11px] font-semibold ${card.descColor}/90 leading-relaxed line-clamp-2`}>
-                  {card.description}
-                </p>
-              </div>
-
-              {/* Bottom Action */}
-              <div className="pt-4 mt-3 border-t border-black/5 flex items-center justify-between text-xs font-black group-hover:opacity-100">
-                <span className={card.titleColor}>Vào Học Ngay</span>
-                <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-xs group-hover:translate-x-1 transition-transform">
-                  <ArrowRight className={`w-3.5 h-3.5 ${card.titleColor}`} />
+                <div className="pt-4 mt-3 border-t border-black/5 flex items-center justify-between text-xs font-black group-hover:opacity-100">
+                  <span className={card.titleColor}>Vào Học Ngay</span>
+                  <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-xs group-hover:translate-x-1 transition-transform">
+                    <ArrowRight className={`w-3.5 h-3.5 ${card.titleColor}`} />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Featured Highlight Footer Section */}

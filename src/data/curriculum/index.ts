@@ -1,4 +1,4 @@
-import { GlobalSuccessUnit } from "../../types";
+import { GlobalSuccessUnit, VocabItem, GradeLevel } from "../../types";
 import { GRADE_1_UNITS } from "./grade1";
 import { GRADE_2_UNITS } from "./grade2";
 import { GRADE_3_UNITS } from "./grade3";
@@ -28,3 +28,59 @@ export function getAllUnitsFlat(): GlobalSuccessUnit[] {
     ...GRADE_5_UNITS,
   ];
 }
+
+/**
+ * Extracts and flattens all curriculum vocabulary from all units and lessons
+ * across Grades 1 to 5.
+ * Grade 1: 16 Units | Grade 2: 16 Units | Grade 3: 20 Units | Grade 4: 20 Units | Grade 5: 20 Units
+ */
+export function getAllCurriculumVocab(): VocabItem[] {
+  const units = getAllUnitsFlat();
+  const vocabList: VocabItem[] = [];
+  const seenIds = new Set<string>();
+
+  for (const unit of units) {
+    for (const lesson of unit.lessons || []) {
+      for (const item of lesson.vocabulary || []) {
+        if (!seenIds.has(item.id)) {
+          seenIds.add(item.id);
+          const gradeNum = (item.grade || unit.grade) as GradeLevel;
+          const unitNum = item.unit || unit.unitNumber;
+          const topicStr = item.topic || unit.theme || unit.unitTitle;
+
+          vocabList.push({
+            ...item,
+            grade: gradeNum,
+            unit: unitNum,
+            topic: topicStr,
+            detailedClues:
+              item.detailedClues && item.detailedClues.length > 0
+                ? item.detailedClues
+                : [
+                    item.clue,
+                    `In Vietnamese, it means "${item.vietnameseMeaning || item.word}".`,
+                    `Pronunciation is ${item.phonics || item.word}. Starts with letter "${item.word.charAt(0).toUpperCase()}".`,
+                  ],
+            distractors:
+              item.distractors && item.distractors.length >= 3
+                ? item.distractors
+                : ["apple", "banana", "cat", "dog", "pencil", "book"]
+                    .filter((w) => w.toLowerCase() !== item.word.toLowerCase())
+                    .slice(0, 3),
+          });
+        }
+      }
+    }
+  }
+
+  return vocabList;
+}
+
+export function getVocabByGrade(grade: GradeLevel): VocabItem[] {
+  return getAllCurriculumVocab().filter((v) => v.grade === grade);
+}
+
+export function getVocabByGradeAndUnit(grade: GradeLevel, unitNumber: number): VocabItem[] {
+  return getAllCurriculumVocab().filter((v) => v.grade === grade && v.unit === unitNumber);
+}
+

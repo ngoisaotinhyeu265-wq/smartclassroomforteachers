@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { VocabItem, VocabGameType, GradeLevel, UserProgress } from "../../types";
 import { GLOBAL_SUCCESS_VOCAB, EXTENDED_TOPICS_VOCAB } from "../../data/globalSuccessCurriculum";
+import { getAllCurriculumVocab, getUnitsByGrade } from "../../data/curriculum";
 import { speakText, createSpeechRecognizer, stopSpeech } from "../../utils/speech";
 import { playSound } from "../../utils/audioEffects";
 import { fireConfetti } from "../../utils/confetti";
@@ -23,6 +24,8 @@ import {
   ChevronRight,
   BookOpen,
   Brain,
+  ListFilter,
+  List,
 } from "lucide-react";
 
 interface VocabularyModuleProps {
@@ -39,9 +42,10 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
   // Combine core vocab + extended + teacher custom vocab
   const [allVocabList, setAllVocabList] = useState<VocabItem[]>([]);
   const [selectedGrade, setSelectedGrade] = useState<GradeLevel>(progress.grade);
+  const [selectedUnit, setSelectedUnit] = useState<number | "All">("All");
   const [selectedTopic, setSelectedTopic] = useState<string>(selectedTopicFilter || "All");
   const [gameType, setGameType] = useState<VocabGameType>("multiple_choice");
-  const [viewMode, setViewMode] = useState<"quiz" | "ebbinghaus_srs" | "review">("quiz");
+  const [viewMode, setViewMode] = useState<"quiz" | "ebbinghaus_srs" | "review" | "unit_list">("quiz");
 
   // Active question state
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -55,14 +59,29 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [spokenTranscript, setSpokenTranscript] = useState<string>("");
 
-  // Load vocab list
+  // Load comprehensive vocab list across all 16 units (Grades 1-2) and 20 units (Grades 3-5)
   useEffect(() => {
     const teacherItems = loadTeacherVocab();
-    const combined = [...GLOBAL_SUCCESS_VOCAB, ...EXTENDED_TOPICS_VOCAB, ...teacherItems];
-    setAllVocabList(combined);
+    const curriculumVocab = getAllCurriculumVocab();
+    const combined = [...curriculumVocab, ...GLOBAL_SUCCESS_VOCAB, ...EXTENDED_TOPICS_VOCAB, ...teacherItems];
+
+    // Deduplicate by grade + word
+    const uniqueMap = new Map<string, VocabItem>();
+    for (const item of combined) {
+      const key = `${item.grade}-${item.word.toLowerCase()}`;
+      if (!uniqueMap.has(key)) {
+        uniqueMap.set(key, item);
+      }
+    }
+    setAllVocabList(Array.from(uniqueMap.values()));
   }, []);
 
-  // Filter items
+  // Units list for current selected grade
+  const gradeUnits = React.useMemo(() => {
+    return getUnitsByGrade(selectedGrade);
+  }, [selectedGrade]);
+
+  // Filter items based on Grade, Unit, Topic, or Review mode
   const filteredVocab = React.useMemo(() => {
     if (viewMode === "review") {
       const missedWordTexts = progress.missedWords.map((w) => w.word.toLowerCase());
@@ -70,10 +89,12 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
     }
     return allVocabList.filter((item) => {
       const matchGrade = item.grade === selectedGrade;
+      const matchUnit = selectedUnit === "All" || item.unit === selectedUnit;
       const matchTopic = selectedTopic === "All" || item.topic === selectedTopic;
-      return matchGrade && matchTopic;
+      return matchGrade && matchUnit && matchTopic;
     });
-  }, [allVocabList, selectedGrade, selectedTopic, viewMode, progress.missedWords]);
+  }, [allVocabList, selectedGrade, selectedUnit, selectedTopic, viewMode, progress.missedWords]);
+
 
   const currentItem: VocabItem | undefined = filteredVocab[currentIndex] || filteredVocab[0];
 
@@ -230,8 +251,8 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                   +10 XP
                 </span>
               </div>
-              <p className="text-xs text-slate-500">
-                Read or listen to English clues and guess the target word! (Never reveals the word beforehand)
+              <p className="text-xs text-slate-600 font-medium">
+                📚 <strong className="text-amber-700">Tổng hợp đầy đủ từ vựng:</strong> Khối 1, 2 (16 Unit/khối) • Khối 3, 4, 5 (20 Unit/khối chuẩn SGK Global Success)
               </p>
             </div>
           </div>
@@ -255,6 +276,22 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
             </button>
 
             <button
+              id="vocab-mode-unit-list-btn"
+              onClick={() => {
+                playSound("click");
+                setViewMode(viewMode === "unit_list" ? "quiz" : "unit_list");
+              }}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black border-2 transition-all ${
+                viewMode === "unit_list"
+                  ? "bg-blue-600 text-white border-blue-700 shadow-[0_2px_0_0_#1D4ED8]"
+                  : "bg-blue-50 text-blue-800 hover:bg-blue-100 border-blue-200"
+              }`}
+            >
+              <List className="w-3.5 h-3.5" />
+              <span>📋 Bảng Từ Vựng Unit ({filteredVocab.length} từ)</span>
+            </button>
+
+            <button
               id="vocab-mode-ebbinghaus-btn"
               onClick={() => {
                 playSound("click");
@@ -267,7 +304,7 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
               }`}
             >
               <Brain className="w-3.5 h-3.5" />
-              <span>🧠 Thẻ Lặp Lại SRS (Ebbinghaus)</span>
+              <span>🧠 Thẻ Lặp Lại SRS</span>
             </button>
 
             <button
@@ -289,33 +326,59 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
           </div>
         </div>
 
-        {/* Filter Bar: Grade, Topic, Game Type */}
+        {/* Filter Bar: Grade, Unit, Topic, Game Type */}
         {viewMode !== "ebbinghaus_srs" && (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 border-t border-slate-100">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 pt-2 border-t border-slate-100">
             {/* Grade Selector */}
             <div>
-              <label className="text-[11px] font-bold text-slate-500 mb-1 block">Grade Level:</label>
+              <label className="text-[11px] font-bold text-slate-500 mb-1 block">Khối Lớp:</label>
               <select
                 value={selectedGrade}
                 onChange={(e) => {
                   playSound("click");
                   setSelectedGrade(Number(e.target.value) as GradeLevel);
+                  setSelectedUnit("All");
                   setCurrentIndex(0);
                 }}
                 aria-label="Select Grade Level"
                 className="w-full bg-slate-50 text-slate-800 text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-400 focus:outline-none"
               >
-                <option value={1}>Grade 1</option>
-                <option value={2}>Grade 2</option>
-                <option value={3}>Grade 3 (Global Success)</option>
-                <option value={4}>Grade 4 (Global Success)</option>
-                <option value={5}>Grade 5 (Global Success)</option>
+                <option value={1}>Khối 1 (16 Units)</option>
+                <option value={2}>Khối 2 (16 Units)</option>
+                <option value={3}>Khối 3 (20 Units)</option>
+                <option value={4}>Khối 4 (20 Units)</option>
+                <option value={5}>Khối 5 (20 Units)</option>
+              </select>
+            </div>
+
+            {/* Unit Selector - Full 16 Units for Grade 1, 2 & 20 Units for Grade 3, 4, 5 */}
+            <div>
+              <label className="text-[11px] font-bold text-slate-500 mb-1 block">
+                Chọn Unit ({gradeUnits.length} Units):
+              </label>
+              <select
+                value={selectedUnit}
+                onChange={(e) => {
+                  playSound("click");
+                  const val = e.target.value === "All" ? "All" : Number(e.target.value);
+                  setSelectedUnit(val);
+                  setCurrentIndex(0);
+                }}
+                aria-label="Select Curriculum Unit"
+                className="w-full bg-slate-50 text-slate-800 text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-400 focus:outline-none"
+              >
+                <option value="All">🌟 Tất cả các Unit ({gradeUnits.length} Units)</option>
+                {gradeUnits.map((u) => (
+                  <option key={u.unitNumber} value={u.unitNumber}>
+                    Unit {u.unitNumber}: {u.unitTitle} ({u.unitTitleVi})
+                  </option>
+                ))}
               </select>
             </div>
 
             {/* Topic Selector */}
             <div>
-              <label className="text-[11px] font-bold text-slate-500 mb-1 block">Topic:</label>
+              <label className="text-[11px] font-bold text-slate-500 mb-1 block">Chủ đề:</label>
               <select
                 value={selectedTopic}
                 onChange={(e) => {
@@ -326,7 +389,7 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                 aria-label="Select Topic"
                 className="w-full bg-slate-50 text-slate-800 text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-400 focus:outline-none"
               >
-                <option value="All">All Topics ({availableTopics.length})</option>
+                <option value="All">Tất cả chủ đề ({availableTopics.length})</option>
                 {availableTopics.map((t) => (
                   <option key={t} value={t}>
                     {t}
@@ -337,7 +400,7 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
 
             {/* Game Type Selector */}
             <div>
-              <label className="text-[11px] font-bold text-slate-500 mb-1 block">Game Type:</label>
+              <label className="text-[11px] font-bold text-slate-500 mb-1 block">Kiểu Đố Từ:</label>
               <select
                 value={gameType}
                 onChange={(e) => {
@@ -347,20 +410,91 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                 aria-label="Select Game Type"
                 className="w-full bg-slate-50 text-slate-800 text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-400 focus:outline-none"
               >
-                <option value="multiple_choice">Type 1: Multiple Choice</option>
-                <option value="picture_choices">Type 2: Picture Choices</option>
-                <option value="type_word">Type 3: Type the Word</option>
-                <option value="listen_and_guess">Type 4: Listen & Guess</option>
-                <option value="speaking_guess">Type 5: Speaking Guess (Mic 🎤)</option>
-                <option value="word_detective">Type 6: Word Detective (Multi-clues)</option>
+                <option value="multiple_choice">Dạng 1: Trắc nghiệm 4 đáp án</option>
+                <option value="picture_choices">Dạng 2: Chọn tranh / Emoji</option>
+                <option value="type_word">Dạng 3: Gõ từ vựng (Spelling)</option>
+                <option value="listen_and_guess">Dạng 4: Nghe gợi ý đoán từ</option>
+                <option value="speaking_guess">Dạng 5: Nói phát âm (Mic 🎤)</option>
+                <option value="word_detective">Dạng 6: Thám tử từ vựng (Đa manh mối)</option>
               </select>
             </div>
           </div>
         )}
       </div>
 
-      {/* Render Ebbinghaus Deck if active */}
-      {viewMode === "ebbinghaus_srs" ? (
+      {/* Render Unit Vocabulary Explorer if active */}
+      {viewMode === "unit_list" ? (
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-blue-200 shadow-lg space-y-6 animate-fadeIn">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="bg-blue-100 text-blue-900 text-xs font-black px-3 py-1 rounded-xl">
+                  {selectedUnit === "All" ? `Tất cả các Unit (Khối ${selectedGrade})` : `Unit ${selectedUnit}`}
+                </span>
+                <span className="text-xs font-bold text-slate-500">
+                  {filteredVocab.length} từ vựng
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 mt-1">
+                Bấm vào biểu tượng loa để nghe phát âm chuẩn tiếng Anh hoặc bấm để bắt đầu luyện đố từ vựng!
+              </p>
+            </div>
+
+            <button
+              onClick={() => {
+                playSound("click");
+                setViewMode("quiz");
+                setCurrentIndex(0);
+              }}
+              className="bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl flex items-center gap-1.5 shadow-[0_3px_0_0_#B45309] shrink-0"
+            >
+              <span>Vào Chơi Đố Từ Vựng</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {filteredVocab.map((item, idx) => (
+              <div
+                key={item.id || idx}
+                className="bg-slate-50 hover:bg-blue-50/60 rounded-2xl p-4 border border-slate-200 hover:border-blue-300 transition-all space-y-2 group"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">{item.emoji || "📝"}</span>
+                    <div>
+                      <h4 className="font-extrabold text-base text-slate-900 group-hover:text-blue-700 transition-colors">
+                        {item.word}
+                      </h4>
+                      {item.phonics && (
+                        <p className="text-[11px] font-mono text-slate-500">
+                          {item.phonics}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => speakText(item.word, { rate: 0.9 })}
+                    title="Nghe phát âm"
+                    className="w-8 h-8 rounded-xl bg-white border border-slate-200 group-hover:border-blue-300 text-blue-600 flex items-center justify-center shadow-xs hover:bg-blue-600 hover:text-white transition-all"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="text-xs space-y-1 pt-1 border-t border-slate-200/60">
+                  <p className="font-bold text-amber-900">
+                    👉 {item.vietnameseMeaning || item.clue}
+                  </p>
+                  <p className="text-[11px] text-slate-500 italic">
+                    “{item.exampleSentence.replace("___", item.word)}”
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : viewMode === "ebbinghaus_srs" ? (
         <EbbinghausDeck
           allVocab={allVocabList}
           progress={progress}

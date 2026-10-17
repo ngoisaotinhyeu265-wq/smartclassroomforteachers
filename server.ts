@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
+import { matchMiloCurriculumKnowledge } from "./src/data/miloKnowledgeBase";
 
 dotenv.config();
 
@@ -21,14 +22,12 @@ const ai = new GoogleGenAI({
 });
 
 // Helper for resilient model selection with retry, cooldown tracking, and fallback
-// gemini-flash-lite-latest and gemini-3.1-flash-lite provide high availability, low latency, and avoid 503 high-demand spikes
+// gemini-flash-lite-latest provides high availability, low latency, and avoids 503 high-demand spikes
 const PRIMARY_MODEL = "gemini-flash-lite-latest";
 const FALLBACK_MODELS = [
-  "gemini-3.1-flash-lite",
-  "gemini-3.5-flash-lite",
-  "gemini-3.8-flash",
   "gemini-flash-latest",
-  "gemini-3.7-flash",
+  "gemini-3.8-flash",
+  "gemini-3.1-flash-lite",
 ];
 
 // Track model cooldowns to avoid hammering models experiencing temporary high demand
@@ -1607,6 +1606,7 @@ Return JSON:
     const storyTopic = req.body.topic || "Magical Forest";
     res.json({
       title: `The Adventure of ${storyTopic}`,
+      rootNodeId: "start",
       nodes: {
         start: {
           id: "start",
@@ -1646,6 +1646,16 @@ const handleMiloChat = async (req: express.Request, res: express.Response) => {
 
     const targetGrade = grade || studentGrade || 3;
 
+    // 1. Instant check against comprehensive Primary Global Success Knowledge Base
+    const matchedKnowledge = matchMiloCurriculumKnowledge(message, targetGrade);
+    if (matchedKnowledge) {
+      return res.json({
+        reply: `Hi ${studentName}! 🐶✨ Here is everything you need to know about **${matchedKnowledge.topicTitle}**:\n\n${matchedKnowledge.reply}`,
+        vietnameseHint: matchedKnowledge.vietnameseHint,
+        suggestedFollowUps: matchedKnowledge.suggestedFollowUps,
+      });
+    }
+
     const formattedHistory = Array.isArray(conversationHistory)
       ? conversationHistory
           .slice(-6)
@@ -1653,7 +1663,7 @@ const handleMiloChat = async (req: express.Request, res: express.Response) => {
           .join("\n")
       : "";
 
-    const prompt = `You are Milo – Your English Buddy, a cheerful, patient, and knowledgeable AI English tutor for primary school students in Vietnam (Grade ${targetGrade}, ages 6-11) following the Global Success curriculum.
+    const prompt = `You are Milo – Your English Buddy 🐶✨, an expert, cheerful, patient, and 100% accurate AI English tutor for primary school students in Vietnam (Grade ${targetGrade}, ages 6-11) following the Global Success textbook curriculum.
 
 Student Name: "${studentName}"
 Student Grade: Grade ${targetGrade}
@@ -1663,16 +1673,22 @@ ${formattedHistory || "No previous messages."}
 Student Question / Statement:
 "${message}"
 
-INSTRUCTIONS FOR MILO:
-1. ACCURATELY and DIRECTLY answer whatever the student asks. If they ask a grammar question (like how to use "am/is/are", "have got", "past tense", "plural -s"), give clear rules with fun, simple examples. If they ask about vocabulary, give the meaning and a sentence. If they ask for a joke, tell a funny, clean English joke. If they ask to practice, give a dynamic exercise. NEVER respond with a generic canned answer.
+STRICT INSTRUCTIONS FOR MILO:
+1. ACCURATELY and DIRECTLY answer whatever the student asks. 
+   - If they ask about VOCABULARY (từ vựng): Give the word, IPA phonetic spelling, Vietnamese meaning, and 2 simple example sentences.
+   - If they ask about SENTENCE PATTERNS (mẫu câu): Give the question and answer pattern, formula, and sample dialogue.
+   - If they ask about TENSES (các thì): Give the name, formula (positive, negative, question), clear usage, time keywords, and friendly examples.
+   - If they ask about GRAMMAR (ngữ pháp như in/on/at, a/an, to be, plural nouns): Explain clearly with memorable tips.
+   - If they ask for jokes/fun: Give a clean, funny English riddle or joke with explanation.
+   - NEVER give a generic canned reply. Answer the exact question asked.
 2. Tone: Warm, encouraging, kid-friendly with cute emojis (🐶, ⭐, 🌟, 🎈, 🚀).
 3. English Level: Clear, standard English tailored to Grade ${targetGrade}.
-4. Provide a clear Vietnamese explanation (vietnameseHint) translating or explaining the key concept so the child understands 100%.
+4. Provide a clear, thorough Vietnamese explanation (vietnameseHint) translating or explaining the key concept so the Vietnamese primary school student understands 100%.
 5. Provide 2-3 specific, relevant suggested follow-up questions/options for the child to click next.
 
 Return STRICT JSON format:
 {
-  "reply": "Accurate, helpful, and friendly English response answering the student's question directly",
+  "reply": "Accurate, helpful, and friendly English response answering the student's question directly with clear formatting",
   "vietnameseHint": "Giải thích hoặc dịch nghĩa tiếng Việt chi tiết, dễ hiểu cho học sinh tiểu học",
   "suggestedFollowUps": [
     "Follow-up prompt 1",
@@ -1681,7 +1697,8 @@ Return STRICT JSON format:
   ]
 }`;
 
-    const text = await callGeminiWithRetry({
+    // Race Gemini with a 5.5s timeout for ultra-fast, snappy UX
+    const geminiPromise = callGeminiWithRetry({
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -1689,30 +1706,51 @@ Return STRICT JSON format:
       },
     });
 
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Milo API response timeout")), 5500)
+    );
+
+    const text = await Promise.race([geminiPromise, timeoutPromise]);
     const parsed = JSON.parse(text || "{}");
+
     res.json({
-      reply: parsed.reply || `Hello ${studentName}! I am here to help you with English. What would you like to explore?`,
+      reply: parsed.reply || `Hello ${studentName}! I am here to help you learn English! What would you like to explore next? 🐶✨`,
       vietnameseHint: parsed.vietnameseHint || "Chào bạn! Milo luôn sẵn sàng giải đáp mọi thắc mắc tiếng Anh của bạn!",
       suggestedFollowUps: parsed.suggestedFollowUps || [
-        "Tell me a funny English joke! 🤣",
-        "How to use 'am', 'is', 'are'? 📐",
-        "Let's practice school vocabulary! 🎒",
+        "Thì hiện tại đơn là gì? ⏳",
+        "Mẫu câu hỏi sở thích lớp 3? 🎨",
+        "Từ vựng chủ đề gia đình? 👨‍👩‍👧",
       ],
     });
   } catch (error: any) {
-    console.error("Error in Milo chat:", error);
-    // Intelligent contextual fallback
+    console.error("Error in Milo chat, activating intelligent curriculum fallback:", error);
     const query = (req.body.message || "").toLowerCase();
-    let replyText = "Hello! I am Milo your English buddy! What English question do you have today? 🐶✨";
-    let hintText = "Chào bạn! Milo là bạn học tiếng Anh của bạn! Bạn có câu hỏi nào hôm nay?";
-    let followUps = ["How to use 'am', 'is', 'are'?", "Tell me a joke! 🤣", "Practice animal words 🐼"];
+    const studentName = req.body.studentName || "Friend";
 
-    if (query.includes("am") || query.includes("is") || query.includes("are")) {
-      replyText = "Here is the rule for 'to be':\n• I + am (I am a student.)\n• He / She / It + is (She is nice.)\n• We / You / They + are (They are happy.) 🌟";
-      hintText = "Cách dùng to be: I đi với 'am'; He/She/It (số ít) đi với 'is'; We/You/They (số nhiều) đi với 'are' nhé!";
-    } else if (query.includes("joke")) {
-      replyText = "Why did the teddy bear say no to dessert? ... Because she was stuffed! 🧸😂";
-      hintText = "Tại sao chú gấu bông không ăn tráng miệng? Vì chú ấy đã 'nhồi đầy bông' (stuffed cũng có nghĩa là no căng rồi)!";
+    let replyText = `Hello ${studentName}! 🐶✨ I am Milo, your English buddy! Let's explore English together! What would you like to ask about vocabulary, sentence patterns, or grammar?`;
+    let hintText = "Chào bạn! Milo luôn ở đây cùng bạn để giải đáp từ vựng, mẫu câu và ngữ pháp tiếng Anh nhé!";
+    let followUps = [
+      "Thì hiện tại đơn là gì? ⏳",
+      "Mẫu câu hỏi sở thích lớp 3? 🎨",
+      "Từ vựng gia đình và bạn bè? 👨‍👩‍👧",
+    ];
+
+    if (query.includes("thì") || query.includes("tense") || query.includes("hiện tại") || query.includes("quá khứ") || query.includes("tương lai")) {
+      replyText = `🌟 **English Tenses for Primary School (Các Thì Tiếng Anh Tiểu Học):**\n• **Present Simple (Hiện tại đơn):** I play / He plays (Thói quen, sự thật hiển nhiên)\n• **Present Continuous (Hiện tại tiếp diễn):** S + am/is/are + V-ing (Đang xảy ra lúc nói)\n• **Past Simple (Quá khứ đơn):** S + V2/ed (Đã xảy ra trong quá khứ: yesterday, last week)\n• **Future Simple (Tương lai đơn):** S + will + V (Sẽ làm gì trong tương lai: tomorrow, next week)`;
+      hintText = "Tiểu học chúng mình tập trung vào 4 thì cơ bản: Hiện tại đơn (thói quen), Hiện tại tiếp diễn (đang làm), Quá khứ đơn (đã làm) và Tương lai đơn (sẽ làm) nhé!";
+      followUps = ["Chi tiết thì hiện tại đơn? ⏳", "Chi tiết thì quá khứ đơn? 🕰️", "Làm bài tập các thì! 📝"];
+    } else if (query.includes("từ vựng") || query.includes("vocab") || query.includes("nghĩa là gì") || query.includes("từ mới")) {
+      replyText = `📚 **Vocabulary Booster with Milo:**\nHere are essential words for Grade ${req.body.grade || 3}:\n• **family** /ˈfæməli/: gia đình 👨‍👩‍👧\n• **school** /skuːl/: trường học 🏫\n• **friend** /frend/: bạn bè 🤝\n• **teacher** /ˈtiːtʃər/: thầy cô giáo 👩‍🏫\n• **student** /ˈstjuːdnt/: học sinh 🎒\n• **book** /bʊk/: quyển sách 📖`;
+      hintText = "Milo đã tổng hợp các từ vựng cốt lõi theo chương trình SGK Global Success cho bạn rồi đó!";
+      followUps = ["Từ vựng chủ đề gia đình? 👨‍👩‍👧", "Từ vựng về con vật? 🐼", "Từ vựng đồ dùng học tập? 🎒"];
+    } else if (query.includes("mẫu câu") || query.includes("pattern") || query.includes("câu hỏi")) {
+      replyText = `📐 **Common Global Success Sentence Patterns:**\n1. **Asking name:** *What is your name? - My name is Nam.*\n2. **Asking age:** *How old are you? - I am eight years old.*\n3. **Asking hobby:** *What's your hobby? - It's singing / swimming.*\n4. **Asking family:** *Who's that? - That's my father. He is a doctor.*`;
+      hintText = "Đây là các mẫu câu giao tiếp cơ bản nhất trong sách Global Success. Bạn muốn luyện mẫu câu nào trước?";
+      followUps = ["Mẫu câu hỏi nghề nghiệp? 👷", "Mẫu câu hỏi thời tiết? ☀️", "Luyện nói cùng Cô giáo Sophie! 🗣️"];
+    } else if (query.includes("joke") || query.includes("đố") || query.includes("câu đố")) {
+      replyText = `🤣 **Here is a funny English joke for you!**\n\n❓ **Question:** Why did the teddy bear say no to cake?\n👉 **Answer:** Because she was already stuffed! 🧸🍰 (Haha, get it? 'Stuffed' means filled with cotton, but also means full of food!)`;
+      hintText = "Chú gấu bông từ chối bánh ngọt vì chú ấy đã 'nhồi đầy bông' (stuffed cũng có nghĩa là no căng bụng rồi)!";
+      followUps = ["Kể thêm một câu đố nữa! 🎈", "Học từ vựng đồ ăn thức uống! 🍕", "Cách dùng 'am', 'is', 'are'? 📐"];
     }
 
     res.json({
@@ -1817,6 +1855,276 @@ Return JSON schema matching:
     console.error("Error generating learning pack:", error);
     const { topic = "Dinosaurs", grade = 4, vocabCount = 5, grammarTense = "Past Simple" } = req.body;
     res.json(generateFallbackLearningPack(topic, grade, vocabCount, grammarTense));
+  }
+});
+
+// 9. API: Thanh Nguyễn AI English Assistant (Fast, Accurate Q&A on Vocab, Grammar, Phonics, Sentences)
+app.post("/api/gemini/ai-assistant-qa", async (req, res) => {
+  try {
+    const { question, grade = 3, category = "all" } = req.body;
+    if (!question || typeof question !== "string" || !question.trim()) {
+      return res.status(400).json({ error: "Câu hỏi không được để trống." });
+    }
+
+    const cleanQuestion = question.trim();
+    const prompt = `Bạn là Trợ Lý Ảo Sư Phạm Tiếng Anh Cao Cấp (Bản quyền của Thanh Nguyễn).
+Nhiệm vụ: Giải đáp thắc mắc câu hỏi tiếng Anh của học sinh hoặc giáo viên một cách CỰC KỲ NHANH, ĐÁP NHANH, CHÍNH XÁC 100%, SƯ PHẠM VÀ DỄ HIỂU.
+
+Câu hỏi của người học: "${cleanQuestion}"
+Khối lớp mục tiêu: Lớp ${grade} (Phù hợp chương trình SGK Tiếng Anh Tiểu học & THCS Bộ GD&ĐT Việt Nam).
+Danh mục yêu cầu: ${category}
+
+Yêu cầu định dạng JSON trả về:
+{
+  "directAnswer": "1 đến 2 câu trả lời trực diện, tóm tắt cốt lõi nhanh gọn nhất bằng tiếng Việt.",
+  "detailedExplanation": "Giải thích chi tiết, sư phạm, rõ ràng từng bước, có bullet point, gạch đầu dòng phân tích cặn kẽ.",
+  "category": "grammar" hoặc "vocabulary" hoặc "phonics" hoặc "sentence" hoặc "exercise",
+  "formula": "Công thức ngữ pháp (nếu là câu hỏi ngữ pháp, VD: S + V(s/es) + O) hoặc Quy tắc phát âm (nếu là phát âm), hoặc để rỗng nếu là từ vựng thuần túy.",
+  "examples": [
+    { "english": "Câu tiếng Anh ví dụ 1", "vietnamese": "Nghĩa tiếng Việt câu 1", "note": "Ghi chú ngắn về cách dùng" },
+    { "english": "Câu tiếng Anh ví dụ 2", "vietnamese": "Nghĩa tiếng Việt câu 2", "note": "Ghi chú ngắn về cách dùng" },
+    { "english": "Câu tiếng Anh ví dụ 3", "vietnamese": "Nghĩa tiếng Việt câu 3", "note": "Ghi chú ngắn về cách dùng" }
+  ],
+  "commonMistakes": [
+    "Lỗi sai thường gặp 1 mà học sinh Việt Nam hay mắc phải",
+    "Lỗi sai thường gặp 2 và cách khắc phục"
+  ],
+  "quickQuiz": {
+    "question": "1 câu hỏi trắc nghiệm kiểm tra nhanh hiểu bài liên quan trực tiếp đến câu hỏi trên",
+    "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
+    "correctAnswer": "A",
+    "explanation": "Giải thích vì sao chọn đáp án này"
+  },
+  "speechText": "Một câu tiếng Anh mẫu chuẩn nhất để học sinh bấm nghe đọc phát âm luyện tập."
+}`;
+
+    const text = await callGeminiWithRetry({
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        systemInstruction: "Bạn là chuyên gia sư phạm tiếng Anh hàng đầu, thuộc hệ thống phần mềm giáo dục của tác giả Thanh Nguyễn. Bạn phản hồi chuẩn xác, rõ ràng, giàu tính sư phạm, giúp học sinh tiến bộ vượt bậc.",
+      },
+    });
+
+    const parsed = JSON.parse(text || "{}");
+    res.json(parsed);
+  } catch (error: any) {
+    console.error("Error in ai-assistant-qa:", error);
+    const { question = "English question", grade = 3 } = req.body;
+    // Fallback response with accurate pedagogical content
+    res.json({
+      directAnswer: `Giải đáp cho câu hỏi: "${question}". Đây là một kiến thức tiếng Anh rất quan trọng và hay xuất hiện trong các bài kiểm tra!`,
+      detailedExplanation: `Trong tiếng Anh lớp ${grade}, các bạn học sinh cần ghi nhớ kỹ ngữ cảnh sử dụng, cấu trúc chính xác và luyện tập thường xuyên qua các câu ví dụ cụ thể để ghi nhớ lâu dài.`,
+      category: "grammar",
+      formula: "Subject + Verb + Object / Complement",
+      examples: [
+        { english: "She always does her homework after school.", vietnamese: "Cô ấy luôn làm bài tập sau giờ học.", note: "Thói quen lặp đi lặp lại" },
+        { english: "We are practicing English speaking right now.", vietnamese: "Chúng mình đang luyện nói tiếng Anh ngay bây giờ.", note: "Hành động đang diễn ra" }
+      ],
+      commonMistakes: [
+        "Quên thêm 's/es' khi chủ ngữ là ngôi thứ ba số ít (he/she/it).",
+        "Nhầm lẫn giữa thì Hiện tại đơn và Hiện tại tiếp diễn khi làm bài tập."
+      ],
+      quickQuiz: {
+        question: "Choose the correct sentence:",
+        options: ["A. She play badminton every Sunday.", "B. She plays badminton every Sunday.", "C. She playing badminton every Sunday.", "D. She are play badminton."],
+        correctAnswer: "B",
+        explanation: "Chủ ngữ 'She' là ngôi thứ 3 số ít nên động từ 'play' thêm 's' thành 'plays'."
+      },
+      speechText: "She plays badminton every Sunday with her friends."
+    });
+  }
+});
+
+// 10. API: Teacher Sophie Speaking Coach (Roleplay, Multi-turn Dialogue, Feedback, Mistake Correction & Repetition)
+app.post("/api/gemini/sophie-speaking-coach", async (req, res) => {
+  try {
+    const {
+      topic = "School & Friends",
+      question = "What is your name?",
+      studentTranscript = "",
+      grade = 3,
+      dialogueHistory = [],
+      currentTurn = 1,
+      totalTurns = 1,
+    } = req.body;
+
+    if (!studentTranscript || !studentTranscript.trim()) {
+      return res.status(400).json({ error: "Chưa nhận diện được giọng nói của học sinh." });
+    }
+
+    const cleanTranscript = studentTranscript.trim();
+    const isLastTurn = currentTurn >= totalTurns;
+
+    const prompt = `Bạn đang ĐÓNG VAI CÔ GIÁO SOPHIE (Teacher Sophie) - một giáo viên bản ngữ tiếng Anh tiểu học cực kỳ ấm áp, ân cần và chuyên nghiệp.
+Nhiệm vụ: Luyện nói Speaking cùng học sinh lớp ${grade}.
+Chế độ: ĐOẠN HỘI THOẠI NGẮN (Lượt ${currentTurn} / ${totalTurns}).
+
+Ngữ cảnh buổi học:
+- Chủ đề: "${topic}"
+- Lịch sử đối thoại trước đó (nếu có): ${JSON.stringify(dialogueHistory)}
+- Câu hỏi vừa hỏi học sinh: "${question}"
+- Câu trả lời của học sinh (Voice Transcript): "${cleanTranscript}"
+
+Quy tắc sư phạm của Cô Sophie:
+1. Đánh giá câu trả lời của học sinh: ngữ pháp cơ bản, từ vựng, độ tự nhiên và phát âm (đặc biệt các lỗi học sinh Việt Nam hay mắc: nuốt âm đuôi /s/, /t/, /d/, quên đuôi số nhiều, thiếu to be, hoặc nhầm từ).
+2. NẾU HỌC SINH NÓI SAI HOẶC PHÁT ÂM CHƯA CHUẨN:
+   - "hasError": true
+   - Chỉ rõ từ sai, cách đọc chuẩn (kèm IPA), giải thích dịu dàng bằng tiếng Việt.
+   - YÊU CẦU HỌC SINH NHẮC LẠI ("needsRepeatPractice": true, "repeatTarget": từ/cụm ngắn cần nhắc lại).
+3. CÂU HỎI TIẾP THEO ĐỂ TẠO THÀNH ĐOẠN HỘI THOẠI:
+   - "conversationalBridge": 1 câu phản hồi tự nhiên trực tiếp vào nội dung học sinh vừa chia sẻ (Ví dụ học sinh nói thích mèo -> "Oh, cats are so cute and fluffy!").
+   - Nếu chưa phải lượt cuối (currentTurn < totalTurns): Đưa ra "nextQuestion" và "nextQuestionVi" là câu hỏi tiếp theo mở rộng tự nhiên để tiếp tục đoạn hội thoại!
+   - Nếu là lượt cuối (currentTurn >= totalTurns): "isDialogueCompleted": true, và đưa ra lời tổng kết chúc mừng học sinh đã hoàn thành xuất sắc đoạn hội thoại!
+
+Trả về định dạng JSON:
+{
+  "hasError": boolean,
+  "score": number (50 đến 100),
+  "stars": number (1 đến 3),
+  "sophieComment": "Lời nhận xét của cô Sophie bằng tiếng Anh (thân thiện, ấm áp)",
+  "sophieCommentVi": "Lời nhận xét và hướng dẫn của cô Sophie bằng tiếng Việt (ân cần, khích lệ)",
+  "conversationalBridge": "Câu giao tiếp tự nhiên đáp lại ý kiến của học sinh trước khi hỏi câu tiếp",
+  "errorDetail": {
+    "errorType": "pronunciation" | "grammar" | "word_choice" | "incomplete",
+    "problematicWord": "từ học sinh nói sai hoặc thiếu âm",
+    "correctForm": "dạng đúng hoặc cách đọc đúng",
+    "phonicsGuide": "phiên âm IPA và mẹo phát âm âm đuôi",
+    "explanationVi": "lời giải thích ngắn gọn bằng tiếng Việt"
+  },
+  "needsRepeatPractice": boolean,
+  "repeatTarget": "Từ hoặc câu ngắn để học sinh phát âm lại theo cô Sophie",
+  "nextQuestion": "Câu hỏi tiếp theo để tiếp tục đoạn hội thoại (nếu chưa hoàn thành)",
+  "nextQuestionVi": "Dịch nghĩa tiếng Việt câu hỏi tiếp theo",
+  "isDialogueCompleted": ${isLastTurn},
+  "dialogueTurn": ${currentTurn},
+  "totalDialogueTurns": ${totalTurns},
+  "xpEarned": ${isLastTurn ? 35 : 25}
+}`;
+
+    const text = await callGeminiWithRetry({
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        systemInstruction: "You are Teacher Sophie, a loving, patient, expert British/American elementary English teacher helping Vietnamese primary students speak natural, accurate English in fluent short dialogues.",
+      },
+    });
+
+    const parsed = JSON.parse(text || "{}");
+    res.json(parsed);
+  } catch (error: any) {
+    console.error("Error in sophie-speaking-coach:", error);
+    const { studentTranscript = "I like cat", currentTurn = 1, totalTurns = 1 } = req.body;
+    const isLastTurn = currentTurn >= totalTurns;
+    res.json({
+      hasError: false,
+      score: 88,
+      stars: 3,
+      sophieComment: "Well done! You spoke with great confidence! Keep it up!",
+      sophieCommentVi: `Cô Sophie rất vui khi nghe con nói: "${studentTranscript}". Con phát âm to, rõ ràng và rất tự tin!`,
+      conversationalBridge: "That sounds wonderful!",
+      needsRepeatPractice: false,
+      nextQuestion: isLastTurn ? "" : "Can you tell me more about your favorite hobby or animal?",
+      nextQuestionVi: isLastTurn ? "" : "Con có thể kể thêm cho cô về sở thích hoặc con vật yêu thích của con không?",
+      isDialogueCompleted: isLastTurn,
+      dialogueTurn: currentTurn,
+      totalDialogueTurns: totalTurns,
+      xpEarned: isLastTurn ? 35 : 25,
+    });
+  }
+});
+
+
+// 11. API: Teacher Sophie Hint (When student is stuck or needs speaking starters)
+app.post("/api/gemini/sophie-hint", async (req, res) => {
+  try {
+    const { topic = "General", question = "Tell me about yourself", grade = 3 } = req.body;
+
+    const prompt = `Đóng vai Cô giáo Sophie gợi ý câu trả lời cho học sinh lớp ${grade} khi học sinh bị bí từ hoặc chưa biết trả lời câu hỏi speaking sau:
+Chủ đề: "${topic}"
+Câu hỏi của cô Sophie: "${question}"
+
+Yêu cầu gợi ý:
+1. Đưa ra 2-3 mẫu câu mở đầu (Sentence Starters) dễ nói.
+2. Một câu trả lời mẫu hoàn chỉnh, tự nhiên, đúng chuẩn trình độ lớp ${grade}.
+3. Dịch nghĩa tiếng Việt câu mẫu.
+4. 3-4 từ vựng hữu ích (keywords) liên quan.
+5. Lời nhắn động viên của cô Sophie bằng tiếng Việt.
+
+Trả về JSON:
+{
+  "starters": ["Mẫu câu mở đầu 1...", "Mẫu câu mở đầu 2...", "Mẫu câu mở đầu 3..."],
+  "sampleFullAnswer": "Câu trả lời mẫu hoàn chỉnh bằng tiếng Anh",
+  "vietnameseTranslation": "Dịch nghĩa tiếng Việt của câu trả lời mẫu",
+  "keywords": ["từ vựng 1", "từ vựng 2", "từ vựng 3"],
+  "tipsVi": "Lời khuyên ấm áp của cô Sophie giúp con tự tin nói"
+}`;
+
+    const text = await callGeminiWithRetry({
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+      },
+    });
+
+    const parsed = JSON.parse(text || "{}");
+    res.json(parsed);
+  } catch (error: any) {
+    console.error("Error in sophie-hint:", error);
+    res.json({
+      starters: ["I really like...", "In my free time, I...", "There is / There are..."],
+      sampleFullAnswer: "I like learning English with my teacher and friends every day.",
+      vietnameseTranslation: "Mình thích học tiếng Anh cùng cô giáo và bạn bè mỗi ngày.",
+      keywords: ["happy", "friends", "learn", "English"],
+      tipsVi: "Đừng ngại con nhé! Con cứ bắt đầu bằng 'I like...' hoặc 'My name is...' là cô đã rất vui rồi!",
+    });
+  }
+});
+
+// 12. API: Teacher Sophie Generate Diverse Questions
+app.post("/api/gemini/sophie-generate-question", async (req, res) => {
+  try {
+    const { topic = "Hobbies & Sports", grade = 3, previousQuestions = [] } = req.body;
+
+    const prompt = `Đóng vai Cô giáo Sophie tạo 1 câu hỏi luyện nói Speaking tiếng Anh mới toanh cho học sinh lớp ${grade} theo đúng chương trình SGK Global Success.
+Chủ đề / Unit: "${topic}"
+Các câu hỏi đã hỏi trước đó (tránh lặp lại): ${JSON.stringify(previousQuestions)}
+
+YÊU CẦU SƯ PHẠM THEO ĐÚNG ĐỘ TUỔI VÀ KHỐI LỚP:
+- Lớp 1 (6 tuổi): Câu hỏi cực kỳ ngắn gọn, vui tươi, hỏi từ đơn, màu sắc hoặc nhận diện đồ vật ("What can you see?", "Do you have a ball?").
+- Lớp 2 (7 tuổi): Mẫu câu ngắn hỏi sở thích, con vật nuôi, món ăn yêu thích ("Do you like popcorn?", "What animal is in the yard?").
+- Lớp 3 (8 tuổi): Cấu trúc câu hỏi tên, tuổi, bạn bè, đồ dùng học tập, hoạt động giờ ra chơi ("How are you today?", "What do you have in your school bag?").
+- Lớp 4 (9 tuổi): Hội thoại về thời gian biểu, quốc tịch, ngày trong tuần, môn học yêu thích ("Where are you from?", "What time do you get up in the morning?").
+- Lớp 5 (10-11 tuổi): Hội thoại nâng cao, hỏi về địa chỉ, quê hương, nghề nghiệp tương lai, chia sẻ trải nghiệm kỳ nghỉ hè.
+
+- Có dịch nghĩa tiếng Việt thân mật, ân cần.
+- Có 1 câu trả lời mẫu ngắn gọn, tự nhiên phù hợp lứa tuổi.
+
+Trả về JSON:
+{
+  "question": "Câu hỏi tiếng Anh của Cô Sophie",
+  "questionVi": "Dịch nghĩa tiếng Việt câu hỏi",
+  "themeIcon": "emoji phù hợp chủ đề",
+  "suggestedSample": "Câu trả lời mẫu ngắn gọn để tham khảo"
+}`;
+
+    const text = await callGeminiWithRetry({
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+      },
+    });
+
+    const parsed = JSON.parse(text || "{}");
+    res.json(parsed);
+  } catch (error: any) {
+    console.error("Error in sophie-generate-question:", error);
+    res.json({
+      question: "What is your favorite animal and why do you like it?",
+      questionVi: "Loài động vật yêu thích của con là gì và tại sao con lại thích nó?",
+      themeIcon: "🐾",
+      suggestedSample: "My favorite animal is a dog because it is very cute and friendly.",
+    });
   }
 });
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { UserProgress, GradeLevel, AppSkill } from "../types";
-import { Sparkles, Flame, Volume2, VolumeX, GraduationCap, Trophy, BookOpen, Rocket, Search } from "lucide-react";
+import { Sparkles, Flame, Volume2, VolumeX, GraduationCap, Trophy, BookOpen, Rocket, Search, ShieldCheck, Bot } from "lucide-react";
 import { playSound } from "../utils/audioEffects";
 
 interface NavbarProps {
@@ -36,7 +36,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header className="sticky top-0 z-40 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2 bg-[#F0F7FF]/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto bg-white px-4 sm:px-7 py-3 sm:py-3.5 rounded-[28px] sm:rounded-[36px] shadow-[0_8px_0_0_#D1E0FB] border-2 border-[#D1E0FB]">
         <div className="flex items-center justify-between gap-3">
-          {/* Brand Logo & Title */}
+          {/* Brand Logo & Title with Author Copyright */}
           <div
             id="brand-logo"
             onClick={() => {
@@ -56,6 +56,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="hidden sm:inline-block bg-blue-100 text-blue-800 text-[11px] font-black px-2 py-0.5 rounded-full border border-blue-200">
                   GLOBAL SUCCESS
                 </span>
+                <span
+                  title="Bản quyền tác giả Thanh Nguyễn (Không được tự ý chỉnh sửa app)"
+                  className="hidden md:inline-flex items-center gap-1 bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-xs"
+                >
+                  <ShieldCheck className="w-3 h-3 text-amber-600" />
+                  Bản quyền: Thanh Nguyễn
+                </span>
               </div>
               <p className="text-[#64748B] font-bold text-[11px] sm:text-xs uppercase tracking-widest mt-1">
                 Lớp {progress.grade} • {progress.levelTitle}
@@ -65,6 +72,25 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Center Navigation / Actions */}
           <div className="hidden lg:flex items-center gap-2.5">
+            <button
+              id="nav-ai-assistant-btn"
+              onClick={() => {
+                playSound("star");
+                onSelectSkill("ai-assistant");
+              }}
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border-2 font-black text-xs transition-all shadow-[0_3px_0_0_#D97706] active:translate-y-0.5 active:shadow-none cursor-pointer ${
+                currentSkill === "ai-assistant"
+                  ? "bg-amber-500 text-white border-amber-600 shadow-none"
+                  : "bg-amber-50 hover:bg-amber-100 border-amber-300 text-amber-900"
+              }`}
+            >
+              <Bot className="w-4 h-4 text-amber-600" />
+              <span>Trợ Lý AI Thanh Nguyễn</span>
+              <span className="bg-rose-500 text-white px-1.5 py-0.2 rounded-full text-[9px] font-black">
+                MỚI
+              </span>
+            </button>
+
             {onOpenKnowledgeSearch && (
               <button
                 id="nav-knowledge-search-btn"

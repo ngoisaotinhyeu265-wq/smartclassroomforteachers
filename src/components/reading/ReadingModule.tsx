@@ -26,12 +26,44 @@ interface ReadingModuleProps {
   onUpdateProgress: (progress: UserProgress) => void;
 }
 
+const DEFAULT_FALLBACK_PASSAGE: ReadingPassage = {
+  id: "rd-fallback-default",
+  grade: 3,
+  unit: 11,
+  topic: "My Family",
+  title: "A Happy Sunday with My Family",
+  passage: "Hello, my name is Nam. I am eight years old. There are four people in my family: my father, my mother, my younger sister Mai, and me. On Sundays, my family visits the green park and eats delicious ice cream together. I love my family very much!",
+  passageText: "Hello, my name is Nam. I am eight years old. There are four people in my family: my father, my mother, my younger sister Mai, and me. On Sundays, my family visits the green park and eats delicious ice cream together. I love my family very much!",
+  vietnameseTranslation: "Xin chào, mình tên là Nam. Mình tám tuổi. Gia đình mình có bốn người: bố, mẹ, em gái Mai và mình. Vào các ngày Chủ Nhật, gia đình mình cùng đi công viên xanh và ăn kem ngon tuyệt. Mình yêu gia đình mình rất nhiều!",
+  vocabularyHighlights: ["family", "park", "together", "Sunday"],
+  keyVocabulary: [
+    { word: "family", meaning: "gia đình" },
+    { word: "together", meaning: "cùng nhau" },
+  ],
+  questions: [
+    {
+      id: 1,
+      question: "How many people are there in Nam's family?",
+      options: ["Three", "Four", "Five", "Six"],
+      correctAnswer: "Four",
+      explanation: "Nam says: 'There are four people in my family: my father, my mother, my younger sister Mai, and me.'",
+    },
+    {
+      id: 2,
+      question: "Where does the family go on Sundays?",
+      options: ["To the green park", "To the cinema", "To the hospital", "To the zoo"],
+      correctAnswer: "To the green park",
+      explanation: "The story states: 'On Sundays, my family visits the green park...'",
+    },
+  ],
+};
+
 export const ReadingModule: React.FC<ReadingModuleProps> = ({
   progress,
   onUpdateProgress,
 }) => {
   const [readingMode, setReadingMode] = useState<"passages" | "interactive_story">("passages");
-  const [selectedGrade, setSelectedGrade] = useState<GradeLevel>(progress.grade);
+  const [selectedGrade, setSelectedGrade] = useState<GradeLevel>(progress.grade || 3);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [showVietnamese, setShowVietnamese] = useState<boolean>(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState<boolean>(false);
@@ -45,13 +77,17 @@ export const ReadingModule: React.FC<ReadingModuleProps> = ({
 
   const passages = React.useMemo(() => {
     const list = [...GLOBAL_SUCCESS_READING, ...customPassageList];
-    return list.filter((p) => p.grade === selectedGrade);
+    const filtered = list.filter((p) => p.grade === selectedGrade);
+    if (filtered.length > 0) return filtered;
+    return [DEFAULT_FALLBACK_PASSAGE];
   }, [selectedGrade, customPassageList]);
 
-  const currentPassage: ReadingPassage | undefined = passages[currentIndex] || passages[0];
+  const currentPassage: ReadingPassage =
+    passages[currentIndex] || passages[0] || DEFAULT_FALLBACK_PASSAGE;
 
   const handleReadAloud = () => {
-    if (!currentPassage) return;
+    const textToRead = currentPassage.passage || currentPassage.passageText || "";
+    if (!textToRead) return;
     if (isPlayingAudio) {
       stopSpeech();
       setIsPlayingAudio(false);
@@ -60,7 +96,7 @@ export const ReadingModule: React.FC<ReadingModuleProps> = ({
 
     setIsPlayingAudio(true);
     playSound("click");
-    speakText(currentPassage.passage, {
+    speakText(textToRead, {
       rate: 0.9,
       onEnd: () => setIsPlayingAudio(false),
     });
@@ -75,15 +111,16 @@ export const ReadingModule: React.FC<ReadingModuleProps> = ({
   const handleSubmitQuiz = () => {
     if (!currentPassage || isSubmitted) return;
 
+    const questions = currentPassage.questions || [];
     let correctCount = 0;
-    currentPassage.questions.forEach((q, idx) => {
+    questions.forEach((q, idx) => {
       if (userAnswers[idx] === q.correctAnswer) {
         correctCount += 1;
       }
     });
 
     setIsSubmitted(true);
-    if (correctCount >= Math.ceil(currentPassage.questions.length * 0.7)) {
+    if (correctCount >= Math.ceil(questions.length * 0.7)) {
       playSound("star");
       fireConfetti();
     } else {
@@ -201,14 +238,17 @@ export const ReadingModule: React.FC<ReadingModuleProps> = ({
               playSound("click");
               setReadingMode("interactive_story");
             }}
-            className={`py-2.5 px-4 rounded-2xl text-xs font-black border-2 transition-all flex items-center justify-center gap-2 ${
+            className={`py-2.5 px-4 rounded-2xl text-xs font-black border-2 transition-all flex items-center justify-center gap-2 cursor-pointer ${
               readingMode === "interactive_story"
                 ? "bg-indigo-600 text-white border-indigo-800 shadow-[0_3px_0_0_#3730A3]"
-                : "bg-indigo-50 text-indigo-800 hover:bg-indigo-100 border-indigo-200"
+                : "bg-indigo-50 text-indigo-900 hover:bg-indigo-100 border-indigo-200"
             }`}
           >
-            <Compass className="w-4 h-4" />
-            <span>2. ✨ Truyện Tương Tác Phân Nhánh (Interactive Stories)</span>
+            <Compass className="w-4 h-4 text-indigo-500" />
+            <span>2. ✨ Truyện Tương Tác Phân Nhánh</span>
+            <span className="bg-amber-400 text-amber-950 px-2 py-0.5 rounded-full text-[10px] font-black shadow-xs">
+              Lớp 3: My Family ⭐
+            </span>
           </button>
         </div>
 
@@ -247,10 +287,10 @@ export const ReadingModule: React.FC<ReadingModuleProps> = ({
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <span className="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
-                {currentPassage.topic} {currentPassage.unit && `• Unit ${currentPassage.unit}`}
+                {currentPassage?.topic || "Global Success Reading"} {currentPassage?.unit ? `• Unit ${currentPassage.unit}` : ""}
               </span>
               <h2 className="font-display font-bold text-xl text-slate-800 mt-2">
-                {currentPassage.title}
+                {currentPassage?.title || "Reading Passage"}
               </h2>
             </div>
 
@@ -282,11 +322,11 @@ export const ReadingModule: React.FC<ReadingModuleProps> = ({
           {/* Reading Passage Body */}
           <div className="p-6 rounded-2xl bg-emerald-50/40 border border-emerald-100 space-y-4">
             <p className="font-display text-base sm:text-lg text-slate-800 leading-relaxed">
-              {currentPassage.passage}
+              {currentPassage?.passage || currentPassage?.passageText || "No text available for this passage."}
             </p>
 
             {/* Vietnamese Translation Toggle */}
-            {showVietnamese && (
+            {showVietnamese && currentPassage?.vietnameseTranslation && (
               <div className="p-4 rounded-xl bg-white border border-emerald-200 text-xs sm:text-sm text-emerald-950 font-medium leading-relaxed animate-fade-in">
                 <span className="font-bold text-emerald-800 block mb-1">🇻🇳 Bản dịch tiếng Việt:</span>
                 {currentPassage.vietnameseTranslation}
@@ -295,14 +335,19 @@ export const ReadingModule: React.FC<ReadingModuleProps> = ({
           </div>
 
           {/* Key Vocabulary Pills */}
-          {currentPassage.vocabularyHighlights && (
+          {((currentPassage?.vocabularyHighlights && currentPassage.vocabularyHighlights.length > 0) ||
+            (currentPassage?.keyVocabulary && currentPassage.keyVocabulary.length > 0)) && (
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-bold text-slate-600">Key Words:</span>
-              {currentPassage.vocabularyHighlights.map((w, idx) => (
+              {(
+                currentPassage.vocabularyHighlights ||
+                currentPassage.keyVocabulary?.map((k) => k.word) ||
+                []
+              ).map((w, idx) => (
                 <button
                   key={idx}
                   onClick={() => speakText(w, { rate: 0.9 })}
-                  className="flex items-center gap-1 px-3 py-1 rounded-xl bg-slate-100 hover:bg-emerald-50 text-slate-800 hover:text-emerald-800 text-xs font-bold border border-slate-200"
+                  className="flex items-center gap-1 px-3 py-1 rounded-xl bg-slate-100 hover:bg-emerald-50 text-slate-800 hover:text-emerald-800 text-xs font-bold border border-slate-200 cursor-pointer"
                 >
                   <Volume2 className="w-3 h-3 text-emerald-600" />
                   <span>{w}</span>
@@ -315,11 +360,11 @@ export const ReadingModule: React.FC<ReadingModuleProps> = ({
           <div className="space-y-4 pt-4 border-t border-slate-100">
             <h3 className="font-display font-bold text-base text-slate-800 flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-              <span>Comprehension Questions ({currentPassage.questions.length})</span>
+              <span>Comprehension Questions ({(currentPassage?.questions || []).length})</span>
             </h3>
 
             <div className="space-y-4">
-              {currentPassage.questions.map((q, qIdx) => {
+              {(currentPassage?.questions || []).map((q, qIdx) => {
                 const userAns = userAnswers[qIdx];
                 const isCorrect = userAns === q.correctAnswer;
 

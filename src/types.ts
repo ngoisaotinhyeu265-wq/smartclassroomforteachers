@@ -11,6 +11,7 @@ export type AppSkill =
   | "pronunciation"
   | "games"
   | "ai-tutor"
+  | "ai-assistant"
   | "progress"
   | "curriculum"
   | "teacher"
@@ -375,6 +376,16 @@ export interface StoryNode {
   moralLesson?: string;
 }
 
+export interface PostStoryQuestion {
+  id: string;
+  question: string;
+  questionVi?: string;
+  options: string[];
+  correctAnswer: string;
+  explanation: string;
+  explanationVi?: string;
+}
+
 export interface InteractiveStory {
   id: string;
   title: string;
@@ -387,6 +398,7 @@ export interface InteractiveStory {
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   rootNodeId: string;
   nodes: Record<string, StoryNode>;
+  postStoryQuestions?: PostStoryQuestion[];
 }
 
 // AI Speech & Pronunciation Analysis Types
@@ -552,3 +564,77 @@ export interface TeacherAuthProfile {
   avatar: string;
   schoolName: string;
 }
+
+// AI Assistant & Sophie Speaking Types
+export interface AiAssistantResponse {
+  directAnswer: string;
+  detailedExplanation: string;
+  category: "grammar" | "vocabulary" | "phonics" | "sentence" | "exercise";
+  formula?: string;
+  examples: Array<{ english: string; vietnamese: string; note?: string }>;
+  commonMistakes?: string[];
+  quickQuiz?: {
+    question: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+  };
+  speechText?: string;
+}
+
+export interface SophieSpeakingTopic {
+  id: string;
+  name: string;
+  nameEn: string;
+  grade: GradeLevel;
+  unitNumber?: number;
+  semester?: 1 | 2;
+  level: "basic" | "intermediate" | "advanced";
+  levelLabel: string;
+  icon: string;
+  descriptionVi: string;
+  initialQuestion: string;
+  initialQuestionVi: string;
+  sampleAnswer: string;
+  sampleAnswerVi: string;
+  suggestedKeywords: string[];
+  dialogueChain: Array<{
+    turn: number;
+    question: string;
+    questionVi: string;
+    sampleAnswer: string;
+  }>;
+}
+
+export interface SophieFeedbackResult {
+  hasError: boolean;
+  score: number;
+  stars: number;
+  sophieComment: string;
+  sophieCommentVi: string;
+  errorDetail?: {
+    errorType: "pronunciation" | "grammar" | "word_choice" | "incomplete";
+    problematicWord: string;
+    correctForm: string;
+    phonicsGuide: string;
+    explanationVi: string;
+  };
+  needsRepeatPractice: boolean;
+  repeatTarget?: string;
+  nextQuestion?: string;
+  nextQuestionVi?: string;
+  conversationalBridge?: string;
+  isDialogueCompleted?: boolean;
+  dialogueTurn?: number;
+  totalDialogueTurns?: number;
+  xpEarned: number;
+}
+
+export interface SophieHintData {
+  starters: string[];
+  sampleFullAnswer: string;
+  vietnameseTranslation: string;
+  keywords: string[];
+  tipsVi: string;
+}
+
