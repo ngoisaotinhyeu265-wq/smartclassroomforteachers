@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
-import { matchMiloCurriculumKnowledge } from "./src/data/miloKnowledgeBase";
+import { matchMiloCurriculumKnowledge, getPedagogicalAssistantQA } from "./src/data/miloKnowledgeBase";
 
 dotenv.config();
 
@@ -22,16 +22,45 @@ const ai = new GoogleGenAI({
 });
 
 // Helper for resilient model selection with retry, cooldown tracking, and fallback
-// gemini-flash-lite-latest provides high availability, low latency, and avoids 503 high-demand spikes
-const PRIMARY_MODEL = "gemini-flash-lite-latest";
+// gemini-3.8-flash is the primary model for AI Studio Build; gemini-flash-latest and gemini-3.1-flash-lite are high-speed fallbacks
+const PRIMARY_MODEL = "gemini-3.8-flash";
 const FALLBACK_MODELS = [
   "gemini-flash-latest",
-  "gemini-3.8-flash",
   "gemini-3.1-flash-lite",
 ];
 
+// Helper to safely parse JSON from AI model text (handling markdown code blocks if any)
+function safeParseJson<T = any>(raw: string | undefined): T | null {
+  if (!raw || typeof raw !== "string") return null;
+  let clean = raw.trim();
+  // Strip ```json and ```
+  if (clean.startsWith("```")) {
+    clean = clean.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim();
+  }
+  try {
+    return JSON.parse(clean);
+  } catch (e) {
+    const start = clean.indexOf("{");
+    const end = clean.lastIndexOf("}");
+    if (start !== -1 && end !== -1 && end > start) {
+      try {
+        return JSON.parse(clean.slice(start, end + 1));
+      } catch (inner) {}
+    }
+    return null;
+  }
+}
+
 // Track model cooldowns to avoid hammering models experiencing temporary high demand
 const modelCooldowns = new Map<string, number>();
+
+function callWithTimeout<T>(promise: Promise<T>, timeoutMs: number = 8000): Promise<T> {
+  let timer: any;
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`AI model request timed out after ${timeoutMs}ms`)), timeoutMs);
+  });
+  return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timer));
+}
 
 async function callGeminiWithRetry(params: {
   contents: any;
@@ -53,11 +82,14 @@ async function callGeminiWithRetry(params: {
   for (let mIdx = 0; mIdx < modelsToTry.length; mIdx++) {
     const model = modelsToTry[mIdx];
     try {
-      const response = await ai.models.generateContent({
-        model,
-        contents: params.contents,
-        config: params.config,
-      });
+      const response = await callWithTimeout(
+        ai.models.generateContent({
+          model,
+          contents: params.contents,
+          config: params.config,
+        }),
+        8000
+      );
       if (response && response.text) {
         // Clear cooldown on success
         modelCooldowns.delete(model);
@@ -67,7 +99,7 @@ async function callGeminiWithRetry(params: {
       lastError = err;
       const msg = String(err?.message || err || "");
 
-      const isHighDemandOrUnavailable = /503|demand|unavailable|overloaded|resource_exhausted/i.test(msg);
+      const isHighDemandOrUnavailable = /503|demand|unavailable|overloaded|resource_exhausted|timed out/i.test(msg);
       const isRateLimited = /429|quota|rate/i.test(msg);
 
       if (isHighDemandOrUnavailable || isRateLimited) {
@@ -80,11 +112,14 @@ async function callGeminiWithRetry(params: {
       // For transient network errors, try at most one quick retry
       try {
         await new Promise((resolve) => setTimeout(resolve, 300));
-        const retryResponse = await ai.models.generateContent({
-          model,
-          contents: params.contents,
-          config: params.config,
-        });
+        const retryResponse = await callWithTimeout(
+          ai.models.generateContent({
+            model,
+            contents: params.contents,
+            config: params.config,
+          }),
+          6000
+        );
         if (retryResponse && retryResponse.text) {
           return retryResponse.text;
         }
@@ -1635,17 +1670,17 @@ Return JSON:
 
 // 7. API: Milo AI Tutor Chat (Supporting both /api/gemini/milo-tutor-chat and /api/gemini/milo-chat)
 const handleMiloChat = async (req: express.Request, res: express.Response) => {
+  const {
+    message = "",
+    studentName = "Friend",
+    grade = 3,
+    studentGrade = 3,
+    conversationHistory = [],
+  } = req.body;
+
+  const targetGrade = grade || studentGrade || 3;
+
   try {
-    const {
-      message = "",
-      studentName = "Friend",
-      grade = 3,
-      studentGrade = 3,
-      conversationHistory = [],
-    } = req.body;
-
-    const targetGrade = grade || studentGrade || 3;
-
     // 1. Instant check against comprehensive Primary Global Success Knowledge Base
     const matchedKnowledge = matchMiloCurriculumKnowledge(message, targetGrade);
     if (matchedKnowledge) {
@@ -1679,7 +1714,8 @@ STRICT INSTRUCTIONS FOR MILO:
    - If they ask about SENTENCE PATTERNS (mẫu câu): Give the question and answer pattern, formula, and sample dialogue.
    - If they ask about TENSES (các thì): Give the name, formula (positive, negative, question), clear usage, time keywords, and friendly examples.
    - If they ask about GRAMMAR (ngữ pháp như in/on/at, a/an, to be, plural nouns): Explain clearly with memorable tips.
-   - If they ask for jokes/fun: Give a clean, funny English riddle or joke with explanation.
+   - If they ask for translation or meaning: Translate accurately and explain the context.
+   - If they greet or ask how are you: Greet back warmly and invite them to learn.
    - NEVER give a generic canned reply. Answer the exact question asked.
 2. Tone: Warm, encouraging, kid-friendly with cute emojis (🐶, ⭐, 🌟, 🎈, 🚀).
 3. English Level: Clear, standard English tailored to Grade ${targetGrade}.
@@ -1697,8 +1733,7 @@ Return STRICT JSON format:
   ]
 }`;
 
-    // Race Gemini with a 5.5s timeout for ultra-fast, snappy UX
-    const geminiPromise = callGeminiWithRetry({
+    const text = await callGeminiWithRetry({
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -1706,28 +1741,40 @@ Return STRICT JSON format:
       },
     });
 
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error("Milo API response timeout")), 5500)
-    );
+    const parsed = safeParseJson<{
+      reply?: string;
+      vietnameseHint?: string;
+      suggestedFollowUps?: string[];
+    }>(text);
 
-    const text = await Promise.race([geminiPromise, timeoutPromise]);
-    const parsed = JSON.parse(text || "{}");
+    if (parsed && parsed.reply) {
+      return res.json({
+        reply: parsed.reply,
+        vietnameseHint: parsed.vietnameseHint || "Milo luôn ở đây giải đáp mọi thắc mắc tiếng Anh cho bạn nhé!",
+        suggestedFollowUps: parsed.suggestedFollowUps || [
+          "Thì hiện tại đơn là gì? ⏳",
+          "Mẫu câu hỏi sở thích lớp 3? 🎨",
+          "Từ vựng chủ đề gia đình? 👨‍👩‍👧",
+        ],
+      });
+    }
 
-    res.json({
-      reply: parsed.reply || `Hello ${studentName}! I am here to help you learn English! What would you like to explore next? 🐶✨`,
-      vietnameseHint: parsed.vietnameseHint || "Chào bạn! Milo luôn sẵn sàng giải đáp mọi thắc mắc tiếng Anh của bạn!",
-      suggestedFollowUps: parsed.suggestedFollowUps || [
-        "Thì hiện tại đơn là gì? ⏳",
-        "Mẫu câu hỏi sở thích lớp 3? 🎨",
-        "Từ vựng chủ đề gia đình? 👨‍👩‍👧",
-      ],
-    });
+    throw new Error("Could not parse AI response JSON");
   } catch (error: any) {
     console.error("Error in Milo chat, activating intelligent curriculum fallback:", error);
-    const query = (req.body.message || "").toLowerCase();
-    const studentName = req.body.studentName || "Friend";
+    const query = (message || "").toLowerCase().trim();
 
-    let replyText = `Hello ${studentName}! 🐶✨ I am Milo, your English buddy! Let's explore English together! What would you like to ask about vocabulary, sentence patterns, or grammar?`;
+    // Check knowledge base again
+    const matched = matchMiloCurriculumKnowledge(message, targetGrade);
+    if (matched) {
+      return res.json({
+        reply: `Hi ${studentName}! 🐶✨ Here is the answer about **${matched.topicTitle}**:\n\n${matched.reply}`,
+        vietnameseHint: matched.vietnameseHint,
+        suggestedFollowUps: matched.suggestedFollowUps,
+      });
+    }
+
+    let replyText = `Hello ${studentName}! 🐶✨ Let's learn English together!`;
     let hintText = "Chào bạn! Milo luôn ở đây cùng bạn để giải đáp từ vựng, mẫu câu và ngữ pháp tiếng Anh nhé!";
     let followUps = [
       "Thì hiện tại đơn là gì? ⏳",
@@ -1740,17 +1787,29 @@ Return STRICT JSON format:
       hintText = "Tiểu học chúng mình tập trung vào 4 thì cơ bản: Hiện tại đơn (thói quen), Hiện tại tiếp diễn (đang làm), Quá khứ đơn (đã làm) và Tương lai đơn (sẽ làm) nhé!";
       followUps = ["Chi tiết thì hiện tại đơn? ⏳", "Chi tiết thì quá khứ đơn? 🕰️", "Làm bài tập các thì! 📝"];
     } else if (query.includes("từ vựng") || query.includes("vocab") || query.includes("nghĩa là gì") || query.includes("từ mới")) {
-      replyText = `📚 **Vocabulary Booster with Milo:**\nHere are essential words for Grade ${req.body.grade || 3}:\n• **family** /ˈfæməli/: gia đình 👨‍👩‍👧\n• **school** /skuːl/: trường học 🏫\n• **friend** /frend/: bạn bè 🤝\n• **teacher** /ˈtiːtʃər/: thầy cô giáo 👩‍🏫\n• **student** /ˈstjuːdnt/: học sinh 🎒\n• **book** /bʊk/: quyển sách 📖`;
+      replyText = `📚 **Vocabulary Booster with Milo:**\nHere are essential words for Grade ${targetGrade}:\n• **family** /ˈfæməli/: gia đình 👨‍👩‍👧\n• **school** /skuːl/: trường học 🏫\n• **friend** /frend/: bạn bè 🤝\n• **teacher** /ˈtiːtʃər/: thầy cô giáo 👩‍🏫\n• **student** /ˈstjuːdnt/: học sinh 🎒\n• **book** /bʊk/: quyển sách 📖`;
       hintText = "Milo đã tổng hợp các từ vựng cốt lõi theo chương trình SGK Global Success cho bạn rồi đó!";
       followUps = ["Từ vựng chủ đề gia đình? 👨‍👩‍👧", "Từ vựng về con vật? 🐼", "Từ vựng đồ dùng học tập? 🎒"];
     } else if (query.includes("mẫu câu") || query.includes("pattern") || query.includes("câu hỏi")) {
       replyText = `📐 **Common Global Success Sentence Patterns:**\n1. **Asking name:** *What is your name? - My name is Nam.*\n2. **Asking age:** *How old are you? - I am eight years old.*\n3. **Asking hobby:** *What's your hobby? - It's singing / swimming.*\n4. **Asking family:** *Who's that? - That's my father. He is a doctor.*`;
       hintText = "Đây là các mẫu câu giao tiếp cơ bản nhất trong sách Global Success. Bạn muốn luyện mẫu câu nào trước?";
       followUps = ["Mẫu câu hỏi nghề nghiệp? 👷", "Mẫu câu hỏi thời tiết? ☀️", "Luyện nói cùng Cô giáo Sophie! 🗣️"];
+    } else if (query.includes("hello") || query.includes("hi") || query.includes("chào") || query.includes("khỏe không") || query.includes("how are you")) {
+      replyText = `Hello ${studentName}! 🐶✨ I am doing wonderful, thank you! I am ready to answer any questions about English grammar, vocabulary, or phonics! What are you learning today? ⭐`;
+      hintText = `Xin chào ${studentName}! Milo rất khỏe và hào hứng được học cùng bạn. Hôm nay bạn muốn tìm hiểu kiến thức tiếng Anh nào?`;
+      followUps = ["Dạy mình thì hiện tại đơn ⏳", "Học từ vựng về gia đình 👨‍👩‍👧", "Kể cho mình nghe một câu đố vui 🎈"];
     } else if (query.includes("joke") || query.includes("đố") || query.includes("câu đố")) {
       replyText = `🤣 **Here is a funny English joke for you!**\n\n❓ **Question:** Why did the teddy bear say no to cake?\n👉 **Answer:** Because she was already stuffed! 🧸🍰 (Haha, get it? 'Stuffed' means filled with cotton, but also means full of food!)`;
       hintText = "Chú gấu bông từ chối bánh ngọt vì chú ấy đã 'nhồi đầy bông' (stuffed cũng có nghĩa là no căng bụng rồi)!";
       followUps = ["Kể thêm một câu đố nữa! 🎈", "Học từ vựng đồ ăn thức uống! 🍕", "Cách dùng 'am', 'is', 'are'? 📐"];
+    } else {
+      replyText = `🐶 **Milo's Answer for "${message}":**\nGreat question! In English Grade ${targetGrade}, always remember to use the right words and sentence structures. Practice reading out loud every day to speak naturally and confidently! 🌟`;
+      hintText = `Về câu hỏi: "${message}", hãy chú ý ôn tập kỹ từ vựng và cấu trúc câu tương ứng trong SGK Global Success nhé!`;
+      followUps = [
+        "Cho mình một ví dụ cụ thể! 💡",
+        "Luyện tập mẫu câu này 🗣️",
+        "Kiểm tra trắc nghiệm nhanh 📝",
+      ];
     }
 
     res.json({
@@ -1859,14 +1918,16 @@ Return JSON schema matching:
 });
 
 // 9. API: Thanh Nguyễn AI English Assistant (Fast, Accurate Q&A on Vocab, Grammar, Phonics, Sentences)
-app.post("/api/gemini/ai-assistant-qa", async (req, res) => {
-  try {
-    const { question, grade = 3, category = "all" } = req.body;
-    if (!question || typeof question !== "string" || !question.trim()) {
-      return res.status(400).json({ error: "Câu hỏi không được để trống." });
-    }
+const handleAssistantQA = async (req: express.Request, res: express.Response) => {
+  const { question = "", grade = 3, category = "all" } = req.body;
+  if (!question || typeof question !== "string" || !question.trim()) {
+    return res.status(400).json({ error: "Câu hỏi không được để trống." });
+  }
 
-    const cleanQuestion = question.trim();
+  const cleanQuestion = question.trim();
+  const lowerQ = cleanQuestion.toLowerCase();
+
+  try {
     const prompt = `Bạn là Trợ Lý Ảo Sư Phạm Tiếng Anh Cao Cấp (Bản quyền của Thanh Nguyễn).
 Nhiệm vụ: Giải đáp thắc mắc câu hỏi tiếng Anh của học sinh hoặc giáo viên một cách CỰC KỲ NHANH, ĐÁP NHANH, CHÍNH XÁC 100%, SƯ PHẠM VÀ DỄ HIỂU.
 
@@ -1906,35 +1967,127 @@ Yêu cầu định dạng JSON trả về:
       },
     });
 
-    const parsed = JSON.parse(text || "{}");
-    res.json(parsed);
+    const parsed = safeParseJson(text);
+    if (parsed && parsed.directAnswer) {
+      return res.json(parsed);
+    }
+    throw new Error("Invalid AI assistant QA JSON format");
   } catch (error: any) {
-    console.error("Error in ai-assistant-qa:", error);
-    const { question = "English question", grade = 3 } = req.body;
-    // Fallback response with accurate pedagogical content
+    console.error("Error in ai-assistant-qa, activating smart pedagogical fallback:", error);
+
+    // 1. Check primary curriculum pedagogical knowledge base
+    const matchedQA = getPedagogicalAssistantQA(cleanQuestion, grade);
+    if (matchedQA) {
+      return res.json(matchedQA);
+    }
+
+    // 2. Smart contextual pedagogical fallbacks for common topics
+    if (lowerQ.includes("look") && (lowerQ.includes("see") || lowerQ.includes("watch"))) {
+      return res.json({
+        directAnswer: "• See: nhìn thấy tự nhiên (không chủ ý). • Look: nhìn chăm chú có chủ ý (thường đi với 'at'). • Watch: theo dõi vật chuyển động (xem phim, xem bóng đá).",
+        detailedExplanation: "1. See: Đôi mắt mở ra là nhìn thấy (tự nhiên).\n2. Look (at): Hướng ánh mắt về một điểm cụ thể có chủ đích (VD: Look at the board).\n3. Watch: Quan sát thứ gì đó đang vận động trong một khoảng thời gian (VD: watch TV, watch football).",
+        category: "vocabulary",
+        formula: "Look at + Noun | Watch + Video/Match/TV | See + Object",
+        examples: [
+          { english: "Can you see the bird in the tree?", vietnamese: "Cậu có nhìn thấy chú chim trên cây không?", note: "Nhìn thấy tự nhiên (see)" },
+          { english: "Look at the blackboard, please!", vietnamese: "Xin mời các em nhìn lên bảng!", note: "Nhìn có chủ đích (look at)" },
+          { english: "We usually watch cartoons on Saturday.", vietnamese: "Chúng mình thường xem hoạt hình vào thứ Bảy.", note: "Xem chương trình chuyển động (watch)" }
+        ],
+        commonMistakes: [
+          "Dùng 'look TV' thay vì 'watch TV'.",
+          "Quên giới từ 'at' sau 'look' khi nhìn vào vật thể (phải là 'look at me')."
+        ],
+        quickQuiz: {
+          question: "My brother likes to ______ football matches on the weekend.",
+          options: ["A. watch", "B. look", "C. see", "D. seeing"],
+          correctAnswer: "A",
+          explanation: "Xem trận đấu thể thao chuyển động ta dùng động từ 'watch'."
+        },
+        speechText: "We usually watch cartoons and football on Saturday."
+      });
+    }
+
+    if (lowerQ.includes("ed") && (lowerQ.includes("phát âm") || lowerQ.includes("đuôi") || lowerQ.includes("quy tắc"))) {
+      return res.json({
+        directAnswer: "Đuôi '-ed' có 3 cách phát âm: /ɪd/ (sau âm /t/, /d/), /t/ (sau âm vô thanh: p, k, f, s, sh, ch) và /d/ (các trường hợp còn lại).",
+        detailedExplanation: "• Nhóm 1: Đọc là /ɪd/ khi tận cùng là /t/ hoặc /d/ (Mẹo nhớ: 'Tiền Đô'). VD: wanted, needed.\n• Nhóm 2: Đọc là /t/ khi tận cùng là các âm vô thanh /p, k, f, s, ʃ, tʃ/ (Mẹo nhớ: 'Phòng Khi Phải Sợ Súng Cháy'). VD: stopped, cooked, washed.\n• Nhóm 3: Đọc là /d/ với các âm hữu thanh còn lại. VD: played, cleaned, loved.",
+        category: "phonics",
+        formula: "/t/, /d/ ➔ /ɪd/ | Vô thanh (p, k, f, s, ch, sh) ➔ /t/ | Còn lại ➔ /d/",
+        examples: [
+          { english: "I visited my grandparents yesterday.", vietnamese: "Tớ đã đến thăm ông bà hôm qua.", note: "visit tận cùng /t/ ➔ /ɪd/" },
+          { english: "She watched a funny movie last night.", vietnamese: "Cô ấy đã xem phim tối qua.", note: "watch tận cùng /tʃ/ ➔ /t/" },
+          { english: "They played badminton after school.", vietnamese: "Họ đã chơi cầu lông sau giờ học.", note: "play tận cùng nguyên âm ➔ /d/" }
+        ],
+        commonMistakes: [
+          "Tất cả từ có đuôi -ed đều đọc là 'ét' (phát âm sai phổ biến).",
+          "Quên không phát âm âm đuôi /t/ hoặc /d/."
+        ],
+        quickQuiz: {
+          question: "Từ nào sau đây có đuôi '-ed' phát âm là /ɪd/?",
+          options: ["A. played", "B. wanted", "C. cooked", "D. washed"],
+          correctAnswer: "B",
+          explanation: "Từ 'want' tận cùng là âm /t/ nên khi thêm -ed phát âm là /ˈwɒn.tɪd/ (/ɪd/)."
+        },
+        speechText: "I visited my grandparents and played games yesterday."
+      });
+    }
+
+    if (lowerQ.includes("make") && lowerQ.includes("do")) {
+      return res.json({
+        directAnswer: "• DO dùng cho hành động, nhiệm vụ, bài tập (do homework, do housework). • MAKE dùng khi tạo ra thứ gì mới, đồ ăn, cảm xúc (make a cake, make friends).",
+        detailedExplanation: "1. DO: Thể hiện hành động hoặc công việc đã có quy trình (do exercises, do research, do your best).\n2. MAKE: Thể hiện sự sáng tạo hoặc chế tạo ra sản phẩm mới (make a mistake, make noise, make coffee).",
+        category: "vocabulary",
+        formula: "DO + Work/Task/Duty | MAKE + Product/Creation/Result",
+        examples: [
+          { english: "I always do my homework before dinner.", vietnamese: "Tớ luôn làm bài tập về nhà trước bữa tối.", note: "Làm bài tập: do homework" },
+          { english: "My mother makes delicious cakes on Sunday.", vietnamese: "Mẹ tớ làm những chiếc bánh rất ngon vào Chủ nhật.", note: "Làm bánh: make cakes" },
+        ],
+        commonMistakes: [
+          "Nói 'make homework' thay vì 'do homework'.",
+          "Nói 'do a cake' thay vì 'make a cake'."
+        ],
+        quickQuiz: {
+          question: "Can you help me ______ this difficult exercise?",
+          options: ["A. do", "B. make", "C. making", "D. does"],
+          correctAnswer: "A",
+          explanation: "Làm bài tập ta dùng động từ 'do' (do this exercise)."
+        },
+        speechText: "I always do my homework and my mother makes delicious cakes."
+      });
+    }
+
+    // Default pedagogical structured response
     res.json({
-      directAnswer: `Giải đáp cho câu hỏi: "${question}". Đây là một kiến thức tiếng Anh rất quan trọng và hay xuất hiện trong các bài kiểm tra!`,
-      detailedExplanation: `Trong tiếng Anh lớp ${grade}, các bạn học sinh cần ghi nhớ kỹ ngữ cảnh sử dụng, cấu trúc chính xác và luyện tập thường xuyên qua các câu ví dụ cụ thể để ghi nhớ lâu dài.`,
+      directAnswer: `Giải đáp sư phạm về: "${cleanQuestion}". Kiến thức trọng tâm chương trình tiếng Anh Lớp ${grade} SGK Global Success!`,
+      detailedExplanation: `Để ghi nhớ và áp dụng xuất sắc kiến thức "${cleanQuestion}":\n1. Hiểu rõ ngữ cảnh và cách dùng tự nhiên trong giao tiếp hàng ngày.\n2. Luyện tập đọc to từng câu mẫu để phát âm chuẩn ngữ điệu.\n3. Đặt ít nhất 2 câu ví dụ gắn liền với cuộc sống của chính mình.`,
       category: "grammar",
-      formula: "Subject + Verb + Object / Complement",
+      formula: "Subject + Verb + Object",
       examples: [
-        { english: "She always does her homework after school.", vietnamese: "Cô ấy luôn làm bài tập sau giờ học.", note: "Thói quen lặp đi lặp lại" },
-        { english: "We are practicing English speaking right now.", vietnamese: "Chúng mình đang luyện nói tiếng Anh ngay bây giờ.", note: "Hành động đang diễn ra" }
+        { english: `I practice English every single day.`, vietnamese: "Tớ luyện tập tiếng Anh mỗi ngày.", note: "Mẫu câu ứng dụng chuẩn SGK" },
+        { english: "We love learning new words with our teacher.", vietnamese: "Chúng mình rất thích học từ mới cùng thầy cô.", note: "Thói quen học tập tốt" }
       ],
       commonMistakes: [
-        "Quên thêm 's/es' khi chủ ngữ là ngôi thứ ba số ít (he/she/it).",
-        "Nhầm lẫn giữa thì Hiện tại đơn và Hiện tại tiếp diễn khi làm bài tập."
+        "Quên chia động từ theo ngôi số ít (he/she/it).",
+        "Bỏ quên âm đuôi (ending sounds) khi phát âm từ vựng."
       ],
       quickQuiz: {
-        question: "Choose the correct sentence:",
-        options: ["A. She play badminton every Sunday.", "B. She plays badminton every Sunday.", "C. She playing badminton every Sunday.", "D. She are play badminton."],
-        correctAnswer: "B",
-        explanation: "Chủ ngữ 'She' là ngôi thứ 3 số ít nên động từ 'play' thêm 's' thành 'plays'."
+        question: `Chọn phương án tốt nhất để ghi nhớ kiến thức "${cleanQuestion}":`,
+        options: [
+          "A. Thực hành đặt câu và luyện nói to mỗi ngày",
+          "B. Chỉ học thuộc lòng qua loa",
+          "C. Không cần làm bài tập vận dụng",
+          "D. Bỏ qua các ví dụ thực tế"
+        ],
+        correctAnswer: "A",
+        explanation: "Phương pháp tốt nhất là học hiểu bản chất, phát âm chuẩn và thực hành đặt câu giao tiếp mỗi ngày!"
       },
-      speechText: "She plays badminton every Sunday with her friends."
+      speechText: "I practice English every single day with my teacher and friends."
     });
   }
-});
+};
+
+app.post("/api/gemini/ai-assistant-qa", handleAssistantQA);
+app.post("/api/gemini/assistant-chat", handleAssistantQA);
 
 // 10. API: Teacher Sophie Speaking Coach (Roleplay, Multi-turn Dialogue, Feedback, Mistake Correction & Repetition)
 app.post("/api/gemini/sophie-speaking-coach", async (req, res) => {

@@ -107,7 +107,8 @@ export interface SpeechRecognitionController {
 export function createSpeechRecognizer(
   onResult: (transcript: string, isFinal: boolean) => void,
   onStatusChange?: (isListening: boolean) => void,
-  onError?: (error: string) => void
+  onError?: (error: string) => void,
+  lang: string = "en-US"
 ): SpeechRecognitionController {
   if (typeof window === "undefined") {
     return {
@@ -136,12 +137,14 @@ export function createSpeechRecognizer(
   const recognition = new SpeechRecognition();
   recognition.continuous = false;
   recognition.interimResults = true;
-  recognition.lang = "en-US";
+  recognition.lang = lang;
 
   let listening = false;
+  let lastCapturedText = "";
 
   recognition.onstart = () => {
     listening = true;
+    lastCapturedText = "";
     onStatusChange?.(true);
   };
 
@@ -157,8 +160,11 @@ export function createSpeechRecognizer(
       }
     }
 
-    const currentText = finalTranscript || interimTranscript;
-    onResult(currentText.trim(), !!finalTranscript);
+    const currentText = (finalTranscript || interimTranscript).trim();
+    if (currentText) {
+      lastCapturedText = currentText;
+    }
+    onResult(currentText, !!finalTranscript);
   };
 
   recognition.onerror = (event: any) => {
@@ -171,6 +177,9 @@ export function createSpeechRecognizer(
   recognition.onend = () => {
     listening = false;
     onStatusChange?.(false);
+    if (lastCapturedText) {
+      onResult(lastCapturedText, true);
+    }
   };
 
   return {

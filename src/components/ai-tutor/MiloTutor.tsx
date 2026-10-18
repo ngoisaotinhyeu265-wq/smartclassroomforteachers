@@ -3,6 +3,7 @@ import { UserProgress, MiloChatMessage, GradeLevel } from "../../types";
 import { speakText, createSpeechRecognizer, stopSpeech } from "../../utils/speech";
 import { playSound } from "../../utils/audioEffects";
 import { addXpAndRecord } from "../../utils/storage";
+import { matchMiloCurriculumKnowledge } from "../../data/miloKnowledgeBase";
 import {
   Bot,
   Send,
@@ -20,6 +21,7 @@ import {
   CheckCircle2,
   Copy,
   Check,
+  Globe,
 } from "lucide-react";
 
 interface MiloTutorProps {
@@ -36,17 +38,19 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
     {
       id: "milo-welcome",
       sender: "milo",
-      text: `Hello ${progress.studentName}! I am Milo, your 24/7 English Buddy! 🐶✨\nAsk me anything about English: tenses (các thì), sentence patterns (mẫu câu), vocabulary (từ vựng), or grammar (ngữ pháp). I will answer instantly and accurately!`,
-      vietnameseHint: `Xin chào ${progress.studentName}! Tớ là Milo, gia sư tiếng Anh 24/7 của bạn! Cứ hỏi tớ bất cứ câu hỏi nào về các thì, mẫu câu, từ vựng hay ngữ pháp SGK Global Success nhé! Tớ sẽ trả lời siêu nhanh và chuẩn xác!`,
+      text: `Hello ${progress.studentName || "Friend"}! I am Milo, your 24/7 English Buddy! 🐶✨\nAsk me anything about English: tenses (các thì), sentence patterns (mẫu câu), vocabulary (từ vựng), or grammar (ngữ pháp). I will answer instantly and accurately!`,
+      vietnameseHint: `Xin chào ${progress.studentName || "Bạn"}! Tớ là Milo, gia sư tiếng Anh 24/7 của bạn! Cứ hỏi tớ bất cứ câu hỏi nào về các thì, mẫu câu, từ vựng hay ngữ pháp SGK Global Success nhé! Tớ sẽ trả lời siêu nhanh và chuẩn xác!`,
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     },
   ]);
   const [inputText, setInputText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [voiceLang, setVoiceLang] = useState<"vi-VN" | "en-US">("vi-VN");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [activeCategoryTab, setActiveCategoryTab] = useState<"tenses" | "patterns" | "vocab" | "grammar">("tenses");
   const chatBottomRef = useRef<HTMLDivElement>(null);
+  const recognizerRef = useRef<any>(null);
 
   const scrollToBottom = () => {
     chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -57,8 +61,8 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
   }, [messages, isLoading]);
 
   const handleSendMessage = async (textToSend?: string) => {
-    const query = textToSend || inputText;
-    if (!query.trim() || isLoading) return;
+    const query = (textToSend || inputText).trim();
+    if (!query || isLoading) return;
 
     playSound("click");
     const userMsg: MiloChatMessage = {
@@ -83,7 +87,7 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          studentName: progress.studentName,
+          studentName: progress.studentName || "Friend",
           grade: selectedGrade,
           studentGrade: selectedGrade,
           message: query,
@@ -91,13 +95,25 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
         }),
       });
 
+      if (!response.ok) {
+        throw new Error(`Milo API error: ${response.status}`);
+      }
+
       const data = await response.json();
+      if (!data || !data.reply) {
+        throw new Error("Invalid response format");
+      }
+
       const miloReply: MiloChatMessage = {
         id: "milo-" + Date.now(),
         sender: "milo",
-        text: data.reply || "That's great! Let's keep learning together! 🌟",
-        vietnameseHint: data.vietnameseHint,
-        suggestedFollowUps: data.suggestedFollowUps,
+        text: data.reply,
+        vietnameseHint: data.vietnameseHint || "Milo luôn ở đây giải đáp mọi thắc mắc tiếng Anh cho bạn nhé!",
+        suggestedFollowUps: data.suggestedFollowUps || [
+          "Thì hiện tại đơn là gì? ⏳",
+          "Mẫu câu hỏi sở thích lớp 3? 🎨",
+          "Từ vựng chủ đề gia đình? 👨‍👩‍👧",
+        ],
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       };
 
@@ -107,13 +123,19 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
       const { updatedProgress } = addXpAndRecord("speaking", 10, true);
       onUpdateProgress(updatedProgress);
     } catch (e) {
-      console.error("Milo chat error:", e);
+      console.warn("Milo chat error, using local intelligent curriculum engine:", e);
+      // Smart offline / fallback knowledge lookup
+      const matched = matchMiloCurriculumKnowledge(query, selectedGrade);
       const fallbackReply: MiloChatMessage = {
         id: "milo-" + Date.now(),
         sender: "milo",
-        text: "I am right here with you! What question do you have about vocabulary, tenses, or sentence patterns? 🐶✨",
-        vietnameseHint: "Milo luôn ở đây giải đáp mọi thắc mắc về từ vựng, các thì và mẫu câu tiếng Anh cho bạn nhé!",
-        suggestedFollowUps: [
+        text: matched
+          ? `Hi ${progress.studentName || "Friend"}! 🐶✨ Here is everything you need to know about **${matched.topicTitle}**:\n\n${matched.reply}`
+          : `Hello ${progress.studentName || "Friend"}! 🐶✨ Great question about "${query}"!\n\nIn Grade ${selectedGrade} English, always remember to use the right words and sentence structures. Practice reading out loud every day to speak naturally and confidently! 🌟`,
+        vietnameseHint: matched
+          ? matched.vietnameseHint
+          : `Về câu hỏi "${query}", bạn hãy nắm vững từ vựng và mẫu câu tương ứng trong SGK Global Success Lớp ${selectedGrade} nhé!`,
+        suggestedFollowUps: matched?.suggestedFollowUps || [
           "Thì hiện tại đơn là gì? ⏳",
           "Mẫu câu hỏi sở thích lớp 3? 🎨",
           "Từ vựng chủ đề gia đình? 👨‍👩‍👧",
@@ -121,6 +143,7 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       };
       setMessages((prev) => [...prev, fallbackReply]);
+      playSound("star");
     } finally {
       setIsLoading(false);
     }
@@ -128,7 +151,13 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
 
   const handleVoiceInput = () => {
     if (isRecording) {
+      if (recognizerRef.current) {
+        recognizerRef.current.stop();
+      }
       setIsRecording(false);
+      if (inputText.trim()) {
+        handleSendMessage(inputText);
+      }
       return;
     }
 
@@ -137,16 +166,20 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
 
     const recognizer = createSpeechRecognizer(
       (transcript, isFinal) => {
-        setInputText(transcript);
-        if (isFinal) {
+        if (transcript) {
+          setInputText(transcript);
+        }
+        if (isFinal && transcript.trim().length > 1) {
           setIsRecording(false);
           handleSendMessage(transcript);
         }
       },
       (listening) => setIsRecording(listening),
-      () => setIsRecording(false)
+      () => setIsRecording(false),
+      voiceLang
     );
 
+    recognizerRef.current = recognizer;
     recognizer.start();
   };
 
@@ -166,22 +199,31 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
       { label: "🚀 Tương lai đơn (Future Simple)", query: "Thì tương lai đơn (will và be going to)?" },
     ],
     patterns: [
+      { label: "👨‍👩‍👧 Mẫu câu My Family (Lớp 3)", query: "Mẫu câu hỏi về gia đình lớp 3 (Who's that, How old is your father)?" },
       { label: "🎨 Mẫu câu hỏi sở thích", query: "Mẫu câu hỏi sở thích tiếng Anh lớp 3 (What's your hobby)?" },
-      { label: "👨‍👩‍👧 Mẫu câu hỏi gia đình", query: "Mẫu câu hỏi về gia đình lớp 3 (Who's that, How old is your father)?" },
+      { label: "⏰ Mẫu câu hỏi & nói giờ", query: "Cách hỏi và nói giờ trong tiếng Anh (What time is it)?" },
+      { label: "🏷️ Mẫu câu hỏi giá tiền", query: "Cách hỏi giá tiền trong tiếng Anh (How much is it)?" },
       { label: "☀️ Mẫu câu hỏi thời tiết", query: "Mẫu câu hỏi thời tiết hôm nay (What's the weather like)?" },
       { label: "👷 Mẫu câu hỏi nghề nghiệp", query: "Mẫu câu hỏi nghề nghiệp của bố mẹ (What does your father do)?" },
     ],
     vocab: [
       { label: "👨‍👩‍👧‍👦 Từ vựng chủ đề gia đình", query: "Từ vựng chủ đề gia đình lớp 3 chuẩn SGK Global Success" },
+      { label: "🎨 Từ vựng các màu sắc", query: "Từ vựng màu sắc tiếng Anh và cách hỏi màu (What color is it)?" },
+      { label: "🔢 Số đếm từ 1 đến 100", query: "Bảng số đếm tiếng Anh từ 1 đến 100 và cách hỏi số lượng" },
       { label: "🐶 Từ vựng con vật & thú cưng", query: "Từ vựng các con vật tiếng Anh chuẩn tiểu học" },
       { label: "🎒 Từ vựng đồ dùng học tập", query: "Từ vựng đồ dùng học tập trường học lớp 3" },
       { label: "🍕 Từ vựng đồ ăn thức uống", query: "Từ vựng các món ăn và đồ uống tiếng Anh" },
+      { label: "🧍 Bộ phận cơ thể", query: "Từ vựng bộ phận cơ thể tiếng Anh (My Body)" },
     ],
     grammar: [
+      { label: "🗣️ Phát âm đuôi -ed chuẩn xác", query: "Quy tắc phát âm đuôi -ed chuẩn nhất (/t/, /d/, /ɪd/)" },
+      { label: "🔊 Phát âm đuôi -s và -es", query: "Quy tắc phát âm đuôi -s và -es chuẩn xác nhất" },
+      { label: "⚖️ Phân biệt Make và Do", query: "Khi nào dùng make và khi nào dùng do?" },
+      { label: "👀 Phân biệt Look, See & Watch", query: "Phân biệt cách dùng của look, see và watch" },
       { label: "📍 Phân biệt IN - ON - AT", query: "Phân biệt in, on, at chỉ thời gian và nơi chốn" },
       { label: "💡 Cách dùng mạo từ A và AN", query: "Cách dùng mạo từ a và an chuẩn xác" },
       { label: "📐 Động từ To Be (am, is, are)", query: "Cách dùng động từ to be am, is, are" },
-      { label: "🐱 Danh từ số ít & số nhiều", query: "Quy tắc thêm s và es cho danh từ số nhiều" },
+      { label: "🏊 Khả năng: Can và Can't", query: "Cách dùng động từ khiếm khuyết can và can't" },
     ],
   };
 
@@ -439,6 +481,20 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
         }}
         className="flex items-center gap-2"
       >
+        {/* Language Selector for Voice */}
+        <button
+          type="button"
+          onClick={() => {
+            playSound("click");
+            setVoiceLang((prev) => (prev === "vi-VN" ? "en-US" : "vi-VN"));
+          }}
+          className="px-2.5 py-3 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-200 text-xs font-black text-slate-700 flex items-center gap-1 shadow-xs transition-all"
+          title="Chuyển đổi ngôn ngữ giọng nói: Tiếng Việt / Tiếng Anh"
+        >
+          <span>{voiceLang === "vi-VN" ? "🇻🇳 VI" : "🇬🇧 EN"}</span>
+        </button>
+
+        {/* Mic Button */}
         <button
           type="button"
           onClick={handleVoiceInput}
@@ -447,7 +503,7 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
               ? "bg-rose-500 text-white animate-pulse border-rose-600 shadow-md"
               : "bg-white hover:bg-slate-50 text-slate-700 border-slate-200"
           }`}
-          title="Nói với Milo bằng giọng nói"
+          title={isRecording ? "Dừng nói và gửi" : `Nói với Milo bằng giọng nói (${voiceLang === "vi-VN" ? "Tiếng Việt" : "Tiếng Anh"})`}
         >
           {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5 text-violet-600" />}
         </button>
@@ -456,7 +512,7 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder="Hỏi Milo bất kỳ câu hỏi nào về từ vựng, mẫu câu, các thì, ngữ pháp..."
+          placeholder={`Hỏi Milo bất kỳ câu hỏi nào (${voiceLang === "vi-VN" ? "Nói/gõ Tiếng Việt hoặc Tiếng Anh" : "Speak/type in English"})...`}
           className="flex-1 px-4 py-3.5 rounded-2xl bg-white border-2 border-slate-200 font-bold text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-violet-500 shadow-xs"
         />
 

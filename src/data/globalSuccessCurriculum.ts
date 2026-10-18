@@ -1568,12 +1568,14 @@ export const GLOBAL_SUCCESS_LISTENING: ListeningItem[] = [
 // 6. GRAMMAR LAB DATA (6-STEP PEDAGOGY)
 // ==========================================
 export const GLOBAL_SUCCESS_GRAMMAR: GrammarLesson[] = [
+  // ================= GRADE 3 =================
   {
     id: "grm-be-1",
     grade: 3,
     category: "be",
     title: "To Be: am / is / are",
     vietnameseTitle: "Động từ To Be: am / is / are",
+    exampleContext: "Hello, I am Nam. This is my friend Tony. We are in class 3A. She is Miss Hien, our teacher.",
     discoverExamples: [
       "I am a student.",
       "He is a kind doctor.",
@@ -1581,102 +1583,439 @@ export const GLOBAL_SUCCESS_GRAMMAR: GrammarLesson[] = [
       "We are happy friends.",
       "They are playing in the garden.",
     ],
+    discoveryExplanation: "Quan sát đại từ đứng trước: 'am' CHỈ ĐI VỚI 'I'. 'is' đi với chủ ngữ số ít (he, she, it, một người/vật). 'are' đi với chủ ngữ số nhiều (you, we, they, từ hai người/vật trở lên).",
     noticeRule: "Notice how 'am' is ONLY used with 'I', 'is' is used with singular subjects (he, she, it, one person), and 'are' is used with plural subjects (we, they, you, many people)!",
-    learnExplanation: `
-• I + **am** (I'm)
-• He / She / It / Singular noun + **is** (He's, She's, It's)
-• You / We / They / Plural noun + **are** (You're, We're, They're)
-
-*Ví dụ tiếng Việt:* 
-- Tôi là học sinh -> I **am** a student.
-- Cô ấy là cô giáo -> She **is** a teacher.
-- Họ là bạn tốt -> They **are** good friends.`,
+    structureFormula: "S + am / is / are + Noun / Adjective",
+    vietnameseExplanation: "• I + am (viết tắt: I'm)\n• He / She / It / Danh từ số ít + is (He's, She's, It's)\n• You / We / They / Danh từ số nhiều + are (You're, We're, They're)\n*Phủ định:* thêm 'not' sau to be (am not, is not = isn't, are not = aren't).\n*Nghi vấn:* Đảo Am / Is / Are lên đầu câu.",
+    learnExplanation: "• I + am (I'm)\n• He / She / It / Singular noun + is (He's, She's, It's)\n• You / We / They / Plural noun + are (You're, We're, They're)",
+    guidedPractice: [
+      { question: "She ___ my lovely mother.", answer: "is", hint: "Chủ ngữ 'She' (cô ấy - số ít) đi với động từ to be nào?" },
+      { question: "I ___ eight years old.", answer: "am", hint: "Đại từ 'I' (tôi) luôn luôn đi cùng 'am'." },
+      { question: "They ___ pupils in grade 3.", answer: "are", hint: "'They' (họ - số nhiều) đi với 'are'." },
+    ],
     practiceQuestions: [
-      {
-        question: "She ___ my wonderful mother.",
-        options: ["am", "is", "are"],
-        correctAnswer: "is",
-        explanation: "With 'She' (singular pronoun), we always use 'is'.",
-      },
-      {
-        question: "I ___ eight years old.",
-        options: ["am", "is", "are"],
-        correctAnswer: "am",
-        explanation: "With the pronoun 'I', we strictly use 'am'.",
-      },
-      {
-        question: "They ___ playing football in the schoolyard.",
-        options: ["am", "is", "are"],
-        correctAnswer: "are",
-        explanation: "With 'They' (plural pronoun), we use 'are'.",
-      },
+      { question: "She ___ my wonderful mother.", options: ["am", "is", "are"], correctAnswer: "is", explanation: "With 'She' (singular pronoun), we always use 'is'." },
+      { question: "I ___ eight years old.", options: ["am", "is", "are"], correctAnswer: "am", explanation: "With the pronoun 'I', we strictly use 'am'." },
+      { question: "They ___ playing football.", options: ["am", "is", "are"], correctAnswer: "are", explanation: "With 'They' (plural pronoun), we use 'are'." },
     ],
     challengeQuestions: [
-      {
-        question: "My brother and I ___ watching a funny cartoon.",
-        options: ["am", "is", "are"],
-        correctAnswer: "are",
-        explanation: "'My brother and I' = 'We' (two people = plural), so we use 'are'!",
-      },
-      {
-        question: "The cat on the roof ___ so fluffy.",
-        options: ["am", "is", "are"],
-        correctAnswer: "is",
-        explanation: "'The cat' is a single animal (singular), so we use 'is'.",
-      },
+      { question: "My brother and I ___ happy today.", options: ["am", "is", "are"], correctAnswer: "are", explanation: "'My brother and I' tương đương 'We' (chúng tôi - 2 người = số nhiều), dùng 'are'." },
+      { question: "The cat on the roof ___ so cute.", options: ["am", "is", "are"], correctAnswer: "is", explanation: "'The cat' là 1 con mèo (danh từ số ít), dùng 'is'." },
+      { question: "Are you ready? - Yes, I ___.", options: ["is", "am", "are"], correctAnswer: "am", explanation: "Câu trả lời khẳng định với I: Yes, I am." },
     ],
-    useItPrompt: "Say or write 2 sentences using 'is' and 'are' to introduce your best friends!",
+    quiz: [
+      { id: 1, question: "My brother and I ___ happy today.", options: ["am", "is", "are"], correctAnswer: "are", explanation: "'My brother and I' tương đương 'We' (số nhiều), nên ta dùng 'are'!" },
+      { id: 2, question: "The cat on the roof ___ so cute.", options: ["am", "is", "are"], correctAnswer: "is", explanation: "'The cat' là danh từ số ít (1 con mèo), nên dùng 'is'." },
+      { id: 3, question: "Are you ready? - Yes, I ___.", options: ["is", "am", "are"], correctAnswer: "am", explanation: "Trả lời cho ngôi thứ nhất số ít: 'Yes, I am.'" },
+    ],
+    useItPrompt: "Hãy viết 1 câu giới thiệu bản thân hoặc bạn bè dùng 'is' hoặc 'are' (Ví dụ: My teacher is kind. / We are friends.)",
   },
   {
     id: "grm-pres-simp-1",
     grade: 3,
     category: "present_simple",
-    title: "Present Simple with He / She / It",
+    title: "Present Simple with He / She / It (+s/es)",
     vietnameseTitle: "Thì Hiện Tại Đơn với He / She / It (+s/es)",
+    exampleContext: "Every day, Mai gets up at six o'clock. She brushes her teeth and eats breakfast. Her brother plays with a toy car.",
     discoverExamples: [
       "I play badminton every day.",
-      "She play**s** badminton every day.",
+      "She plays badminton every day.",
       "They like fresh milk.",
-      "He like**s** fresh milk.",
+      "He likes fresh milk.",
     ],
+    discoveryExplanation: "Khi chủ ngữ là He, She, It hoặc 1 người/1 vật, động từ hành động ở thì Hiện tại đơn BẮT BUỘC phải thêm đuôi -s hoặc -es!",
     noticeRule: "Notice how when the subject is He, She, or It, we add '-s' or '-es' to the end of the action verb in the Present Simple tense!",
-    learnExplanation: `
-Quy tắc thêm -s / -es cho động từ:
-• Với I / You / We / They + Động từ nguyên thể (V):
-  *I eat apples. We live in Hanoi.*
-• Với He / She / It + Động từ thêm **-s** hoặc **-es**:
-  *He eat**s** apples. She live**s** in Hanoi.*
-
-*Mẹo nhớ:* 'He/She/It' thích chữ **s**! (Remember: He/She/It likes 's'!)`,
+    structureFormula: "He / She / It + V(s/es)",
+    vietnameseExplanation: "• I / You / We / They + Động từ giữ nguyên (V nguyên thể): I play, We go, They read.\n• He / She / It / Tên 1 người + Động từ thêm -s hoặc -es: He plays, She goes, Nam watches.\n*Mẹo nhớ:* Động từ tận cùng bằng: o, ch, s, x, sh, z (Ông Cháu Sắm Xe Sh Xịn) thì thêm -es!",
+    learnExplanation: "Quy tắc thêm -s / -es: He/She/It likes 's'!",
+    guidedPractice: [
+      { question: "My father ___ (work) in an office.", answer: "works", hint: "My father = He (số ít) nên động từ work phải thêm 's' thành 'works'." },
+      { question: "She ___ (read) fairy tales before sleeping.", answer: "reads", hint: "Chủ ngữ 'She' thì động từ read thêm 's'." },
+      { question: "Nam always ___ (watch) TV in the evening.", answer: "watches", hint: "Động từ 'watch' tận cùng bằng 'ch' nên ta thêm 'es' thành 'watches'." },
+    ],
     practiceQuestions: [
-      {
-        question: "My father ___ (work) at a big hospital.",
-        options: ["work", "works", "working"],
-        correctAnswer: "works",
-        explanation: "My father = He (singular), so we add '-s' to form 'works'.",
-      },
-      {
-        question: "She ___ (read) fairy tale books every evening.",
-        options: ["reads", "read", "reading"],
-        correctAnswer: "reads",
-        explanation: "With subject 'She', the verb takes '-s': 'reads'.",
-      },
-      {
-        question: "We ___ (go) to school by bicycle.",
-        options: ["goes", "go", "going"],
-        correctAnswer: "go",
-        explanation: "With subject 'We' (plural), the verb stays in base form 'go'.",
-      },
+      { question: "My father ___ at a big hospital.", options: ["work", "works", "working"], correctAnswer: "works", explanation: "My father = He, so we add '-s' to form 'works'." },
+      { question: "She ___ books every evening.", options: ["reads", "read", "reading"], correctAnswer: "reads", explanation: "With subject 'She', verb takes '-s': 'reads'." },
+      { question: "We ___ to school by bus.", options: ["goes", "go", "going"], correctAnswer: "go", explanation: "With 'We' (plural), verb stays base form 'go'." },
     ],
     challengeQuestions: [
-      {
-        question: "Nam always ___ (watch) cartoons after dinner.",
-        options: ["watch", "watches", "watching"],
-        correctAnswer: "watches",
-        explanation: "Verbs ending in -ch (like watch) take '-es' -> 'watches'.",
-      },
+      { question: "Nam always ___ cartoons after school.", options: ["watch", "watches", "watching"], correctAnswer: "watches", explanation: "Verbs ending in -ch take '-es' -> 'watches'." },
+      { question: "A monkey ___ bananas.", options: ["likes", "like", "liking"], correctAnswer: "likes", explanation: "'A monkey' (1 con khỉ) là số ít, động từ thêm 's'." },
+      { question: "They ___ soccer on Sundays.", options: ["plays", "play", "playing"], correctAnswer: "play", explanation: "'They' là số nhiều, động từ giữ nguyên." },
     ],
-    useItPrompt: "Tell Milo what your mother or father does every day (e.g., 'My mother cooks yummy soup').",
+    quiz: [
+      { id: 1, question: "Nam always ___ cartoons after school.", options: ["watch", "watches", "watching"], correctAnswer: "watches", explanation: "Động từ tận cùng bằng đuôi 'ch' khi đi với Nam (ngôi 3 số ít) thêm '-es'." },
+      { id: 2, question: "A monkey ___ bananas.", options: ["likes", "like", "liking"], correctAnswer: "likes", explanation: "'A monkey' là danh từ số ít nên động từ 'like' thêm 's'." },
+      { id: 3, question: "They ___ soccer on Sundays.", options: ["plays", "play", "playing"], correctAnswer: "play", explanation: "Chủ ngữ 'They' số nhiều nên động từ giữ nguyên không thêm 's'." },
+    ],
+    useItPrompt: "Hãy viết 1 câu kể về việc bố hoặc mẹ làm mỗi ngày (Ví dụ: My mom cooks good food.)",
+  },
+  {
+    id: "grm-demonstratives-1",
+    grade: 3,
+    category: "this_that_these_those",
+    title: "This / That / These / Those",
+    vietnameseTitle: "Đại từ chỉ định: This / That / These / Those",
+    exampleContext: "This is my pen on the desk. That is a bird high in the tree. These are my pencils here. Those are kites in the sky.",
+    discoverExamples: [
+      "This is my book (ở gần, 1 quyển).",
+      "That is my school (ở xa, 1 ngôi trường).",
+      "These are my books (ở gần, nhiều quyển).",
+      "Those are my friends over there (ở xa, nhiều người).",
+    ],
+    discoveryExplanation: "• Gần (Here): This (số ít) - These (số nhiều).\n• Xa (There): That (số ít) - Those (số nhiều).",
+    noticeRule: "This (singular close) vs That (singular far). These (plural close) vs Those (plural far).",
+    structureFormula: "This / That + is + N(số ít) | These / Those + are + N(số nhiều)",
+    vietnameseExplanation: "• This is a/an...: Đây là một... (gần, 1 cái)\n• That is a/an...: Kia là một... (xa, 1 cái)\n• These are...: Đây là những... (gần, từ 2 cái trở lên)\n• Those are...: Kia là những... (xa, từ 2 cái trở lên)",
+    learnExplanation: "This/That + is; These/Those + are.",
+    guidedPractice: [
+      { question: "___ is my new backpack on my chair.", answer: "This", hint: "Ở gần vị trí của mình (số ít) dùng 'This'." },
+      { question: "Look over there! ___ is a flying plane.", answer: "That", hint: "Ở đằng xa kia (số ít) dùng 'That'." },
+      { question: "___ are colorful flowers in my hand.", answer: "These", hint: "Những bông hoa ở ngay trong tay mình (số nhiều) dùng 'These'." },
+    ],
+    practiceQuestions: [
+      { question: "___ is my school bag right here.", options: ["This", "These", "Those"], correctAnswer: "This", explanation: "'right here' (ở đây, số ít) -> This." },
+      { question: "Look at the stars up there! ___ are so bright.", options: ["That", "This", "Those"], correctAnswer: "Those", explanation: "Stars (số nhiều, ở xa) -> Those." },
+    ],
+    challengeQuestions: [
+      { question: "___ are my shoes next to the door.", options: ["This", "These", "That"], correctAnswer: "These", explanation: "Shoes là số nhiều, ở gần -> These." },
+    ],
+    quiz: [
+      { id: 1, question: "___ is my school bag right here.", options: ["This", "These", "Those"], correctAnswer: "This", explanation: "Đồ vật ở gần và số ít ta dùng 'This is'." },
+      { id: 2, question: "Look at the stars up there! ___ are so bright.", options: ["That", "This", "Those"], correctAnswer: "Those", explanation: "Những ngôi sao ở đằng xa trên bầu trời (số nhiều) ta dùng 'Those'." },
+      { id: 3, question: "___ are my shoes next to the door.", options: ["This", "These", "That"], correctAnswer: "These", explanation: "Đôi giày (số nhiều) ở gần cửa dùng 'These are'." },
+    ],
+    useItPrompt: "Chỉ vào 1 đồ vật gần bạn và viết câu với 'This is...' (Ví dụ: This is my red ruler.)",
+  },
+  {
+    id: "grm-prep-place-1",
+    grade: 3,
+    category: "prepositions",
+    title: "Prepositions of Place: in, on, under, behind, next to",
+    vietnameseTitle: "Giới từ chỉ vị trí: in, on, under, behind, next to",
+    exampleContext: "Where is the cat? The cat is on the table. The ball is under the chair. The pencils are in the pencil case.",
+    discoverExamples: [
+      "The apple is ON the table (trên mặt bàn).",
+      "The ball is UNDER the bed (dưới gầm giường).",
+      "The pencil is IN the box (trong hộp).",
+      "He is NEXT TO the door (bên cạnh cửa).",
+      "The puppy is BEHIND the tree (sau cái cây).",
+    ],
+    discoveryExplanation: "Giới từ đứng trước danh từ chỉ nơi chốn để cho biết vị trí chính xác của đồ vật hoặc người.",
+    noticeRule: "In = inside. On = surface. Under = below. Next to = beside. Behind = at the back.",
+    structureFormula: "Where is / are + S? -> S + is / are + prep + the + Place",
+    vietnameseExplanation: "• In: ở trong (trong hộp, trong phòng)\n• On: ở trên (tiếp xúc mặt phẳng như trên bàn, trên tường)\n• Under: ở dưới (dưới gầm giường, dưới gầm bàn)\n• Behind: ở phía sau\n• Next to: ở ngay bên cạnh",
+    learnExplanation: "In (trong), On (trên), Under (dưới), Behind (sau), Next to (bên cạnh).",
+    guidedPractice: [
+      { question: "The book is ___ the desk (ở trên bàn).", answer: "on", hint: "Ở trên bề mặt bàn dùng 'on'." },
+      { question: "The fish swims ___ the water (ở trong nước).", answer: "in", hint: "Ở bên trong môi trường nước dùng 'in'." },
+      { question: "The dog sleeps ___ the chair (ở dưới cái ghế).", answer: "under", hint: "Ở phía dưới gầm ghế dùng 'under'." },
+    ],
+    practiceQuestions: [
+      { question: "The pencil is ___ the pencil case.", options: ["in", "on", "under"], correctAnswer: "in", explanation: "Bút chì nằm ở bên trong hộp bút -> in." },
+      { question: "The picture hangs ___ the wall.", options: ["in", "on", "behind"], correctAnswer: "on", explanation: "Bức tranh treo trên bề mặt bức tường -> on." },
+    ],
+    challengeQuestions: [
+      { question: "The cat is hiding ___ the door.", options: ["behind", "under", "in"], correctAnswer: "behind", explanation: "Nấp phía sau cánh cửa -> behind." },
+    ],
+    quiz: [
+      { id: 1, question: "The pencil is ___ the pencil case.", options: ["in", "on", "under"], correctAnswer: "in", explanation: "Bút chì nằm ở bên trong hộp bút dùng 'in'." },
+      { id: 2, question: "The picture hangs ___ the wall.", options: ["in", "on", "behind"], correctAnswer: "on", explanation: "Bức tranh treo trên mặt tường dùng 'on'." },
+      { id: 3, question: "The cat is hiding ___ the door.", options: ["behind", "under", "in"], correctAnswer: "behind", explanation: "Mèo trốn sau cánh cửa dùng 'behind'." },
+    ],
+    useItPrompt: "Hãy miêu tả vị trí một đồ dùng học tập của em (Ví dụ: My eraser is in the box.)",
+  },
+  {
+    id: "grm-articles-1",
+    grade: 3,
+    category: "articles",
+    title: "Articles: A / An / The",
+    vietnameseTitle: "Mạo từ: A / An / The",
+    exampleContext: "I have a pen and an apple. The pen is blue and the apple is sweet. There is an elephant at the zoo.",
+    discoverExamples: [
+      "a book, a cat, a doctor, a school.",
+      "an apple, an elephant, an ice cream, an orange, an umbrella.",
+      "The sun is shining. The moon is bright.",
+    ],
+    discoveryExplanation: "• Dùng 'an' trước các từ bắt đầu bằng nguyên âm (U, E, O, A, I - UỂ OẢI).\n• Dùng 'a' trước các từ bắt đầu bằng phụ âm.\n• Dùng 'the' khi nói về vật duy nhất hoặc vật đã được nhắc tới trước đó.",
+    noticeRule: "Use 'an' before vowel sounds: a, e, i, o, u. Use 'a' before consonant sounds. Use 'the' for specific/unique things.",
+    structureFormula: "a / an + Noun (số ít đếm được) | the + Noun",
+    vietnameseExplanation: "• 'A' đi với từ bắt đầu bằng phụ âm: a dog, a car, a banana.\n• 'An' đi với từ bắt đầu bằng nguyên âm (A, E, I, O, U): an orange, an egg, an uncle.\n• 'The' dùng cho vật độc nhất (the sun, the sky) hoặc vật cả người nói và nghe đều đã biết.",
+    learnExplanation: "Mẹo nhớ: U-E-O-A-I (uể oải) dùng 'AN'!",
+    guidedPractice: [
+      { question: "I want to eat ___ orange.", answer: "an", hint: "'orange' bắt đầu bằng nguyên âm 'o' (uể oải) nên dùng mạo từ gì?" },
+      { question: "He is ___ brave policeman.", answer: "a", hint: "'brave' bắt đầu bằng phụ âm 'b' nên dùng 'a'." },
+      { question: "Look at ___ moon in the night sky.", answer: "the", hint: "Mặt trăng là vật duy nhất trên bầu trời nên dùng 'the'." },
+    ],
+    practiceQuestions: [
+      { question: "She has ___ umbrella.", options: ["a", "an", "the"], correctAnswer: "an", explanation: "Umbrella starts with vowel 'u' -> an." },
+    ],
+    challengeQuestions: [
+      { question: "Tony wants to be ___ astronaut.", options: ["a", "an", "the"], correctAnswer: "an", explanation: "Astronaut starts with vowel 'a' -> an." },
+    ],
+    quiz: [
+      { id: 1, question: "She has ___ umbrella.", options: ["a", "an", "the"], correctAnswer: "an", explanation: "'umbrella' bắt đầu bằng nguyên âm 'u' nên ta dùng 'an'." },
+      { id: 2, question: "Tony wants to be ___ astronaut.", options: ["a", "an", "the"], correctAnswer: "an", explanation: "'astronaut' (phi hành gia) bắt đầu bằng 'a' nên dùng 'an'." },
+      { id: 3, question: "There is ___ bird on the roof.", options: ["a", "an", "the"], correctAnswer: "a", explanation: "'bird' bắt đầu bằng phụ âm 'b' nên dùng 'a'." },
+    ],
+    useItPrompt: "Viết 1 câu với 'an' (Ví dụ: I have an apple.)",
+  },
+
+  // ================= GRADE 4 =================
+  {
+    id: "grm-can-1",
+    grade: 4,
+    category: "can_cant",
+    title: "Ability: Can & Can't",
+    vietnameseTitle: "Khả năng: Can & Can't (Có thể / Không thể)",
+    exampleContext: "Birds can fly high in the sky, but they can't swim. Fish can swim fast, but they can't run. Can you swim? Yes, I can!",
+    discoverExamples: [
+      "I can ride a bicycle.",
+      "She can play the piano very well.",
+      "He can't drive a big bus.",
+      "Can you play chess? - Yes, I can. / No, I can't.",
+    ],
+    discoveryExplanation: "Sau 'can' và 'can't', động từ LUÔN Ở DẠNG NGUYÊN THỂ (không thêm s, không thêm ing, không thêm ed) với mọi chủ ngữ!",
+    noticeRule: "Subject + can / can't + BASE VERB (no -s, no -ing, no -ed). In questions: Can + S + base verb?",
+    structureFormula: "(+) S + can + V_nguyên thể | (-) S + cannot (can't) + V_nguyên thể | (?) Can + S + V?",
+    vietnameseExplanation: "• 'can' = có thể làm gì\n• 'can't' (viết tắt của cannot) = không thể làm gì\n• Động từ theo sau luôn giữ nguyên: I can swim, He can swim (không thêm s!).",
+    learnExplanation: "Can / can't + V (base).",
+    guidedPractice: [
+      { question: "A monkey can ___ (climb) tall trees.", answer: "climb", hint: "Sau 'can', động từ giữ nguyên mẫu: 'climb'." },
+      { question: "She can't ___ (speak) Japanese.", answer: "speak", hint: "Sau 'can't', động từ giữ nguyên không chia." },
+      { question: "___ you play badminton? - Yes, I can.", answer: "Can", hint: "Đảo 'Can' lên đầu câu để hỏi về khả năng." },
+    ],
+    practiceQuestions: [
+      { question: "Fish can ___ fast.", options: ["swim", "swims", "swimming"], correctAnswer: "swim", explanation: "After 'can', use base verb 'swim'." },
+    ],
+    challengeQuestions: [
+      { question: "She can ___ very well.", options: ["dance", "dances", "dancing"], correctAnswer: "dance", explanation: "Base verb after can -> dance." },
+    ],
+    quiz: [
+      { id: 1, question: "Fish can ___ fast in water.", options: ["swim", "swims", "swimming"], correctAnswer: "swim", explanation: "Sau modal verb 'can', động từ luôn ở dạng nguyên thể 'swim'." },
+      { id: 2, question: "She can ___ very well.", options: ["dance", "dances", "dancing"], correctAnswer: "dance", explanation: "Dùng dạng nguyên thể 'dance' sau 'can'." },
+      { id: 3, question: "Can your brother ride a bike? - No, he ___.", options: ["can", "can't", "isn't"], correctAnswer: "can't", explanation: "Trả lời phủ định: 'No, he can't.'" },
+    ],
+    useItPrompt: "Viết 1 câu về điều em có thể làm và 1 điều em chưa thể làm (Ví dụ: I can swim but I can't play guitar.)",
+  },
+  {
+    id: "grm-pres-cont-1",
+    grade: 4,
+    category: "present_continuous",
+    title: "Present Continuous: am/is/are + V-ing",
+    vietnameseTitle: "Thì Hiện Tại Tiếp Diễn (Đang diễn ra ngay bây giờ)",
+    exampleContext: "Look! The children are playing football in the schoolyard. Linh is drawing a beautiful picture. I am reading an English comic book.",
+    discoverExamples: [
+      "I am studying English now.",
+      "He is riding his red bike at the moment.",
+      "They are having a picnic in the park.",
+      "What are you doing? - I am writing a letter.",
+    ],
+    discoveryExplanation: "Thì Hiện tại tiếp diễn diễn tả hành động đang xảy ra ngay lúc nói. Công thức gồm 2 phần: TO BE (am/is/are) + ĐỘNG TỪ THÊM -ING.",
+    noticeRule: "Subject + am/is/are + Verb-ING. Look out for signal words: now, right now, at the moment, Look!, Listen!",
+    structureFormula: "S + am / is / are + V-ing",
+    vietnameseExplanation: "• Dấu hiệu nhận biết: now (bây giờ), at the moment (lúc này), Look! (Nhìn kìa!), Listen! (Hãy nghe kìa!)\n• Cách thêm -ing: thông thường thêm -ing (play -> playing). Tận cùng bằng 'e' bỏ 'e' thêm -ing (ride -> riding). Gấp đôi phụ âm cuối (swim -> swimming, run -> running).",
+    learnExplanation: "am/is/are + V-ing.",
+    guidedPractice: [
+      { question: "Listen! The baby is ___ (cry).", answer: "crying", hint: "Thêm đuôi '-ing' vào động từ cry thành 'crying'." },
+      { question: "They are ___ (swim) in the clean pool.", answer: "swimming", hint: "Từ 'swim' gấp đôi chữ m rồi thêm -ing -> 'swimming'." },
+      { question: "What are you ___ (do) now?", answer: "doing", hint: "Động từ do thêm -ing thành 'doing'." },
+    ],
+    practiceQuestions: [
+      { question: "Look! The dog is ___ after a butterfly.", options: ["running", "run", "runs"], correctAnswer: "running", explanation: "Present continuous with 'Look!' -> is running." },
+    ],
+    challengeQuestions: [
+      { question: "We ___ English right now.", options: ["are learning", "is learning", "learn"], correctAnswer: "are learning", explanation: "'We' takes 'are learning'." },
+    ],
+    quiz: [
+      { id: 1, question: "Look! The dog is ___ after a butterfly.", options: ["running", "run", "runs"], correctAnswer: "running", explanation: "Có 'Look!' báo hiệu hành động đang diễn ra, to be 'is' đi với 'running' (gấp đôi phụ âm n)." },
+      { id: 2, question: "We ___ English right now.", options: ["are learning", "is learning", "learn"], correctAnswer: "are learning", explanation: "'We' đi với 'are', có 'right now' nên dùng thì tiếp diễn 'are learning'." },
+      { id: 3, question: "What is she doing? - She ___ a sandwich.", options: ["is eating", "eats", "eat"], correctAnswer: "is eating", explanation: "Trả lời câu hỏi 'What is she doing?' bằng 'She is eating'." },
+    ],
+    useItPrompt: "Viết 1 câu miêu tả em đang làm gì ngay lúc này (Ví dụ: I am learning English now.)",
+  },
+  {
+    id: "grm-wh-time-1",
+    grade: 4,
+    category: "wh_questions",
+    title: "Asking Time & Prepositions: at, in, on",
+    vietnameseTitle: "Hỏi Giờ & Giới Từ Thời Gian: at, in, on",
+    exampleContext: "What time is it? It's seven o'clock. I go to school at 7:15. We have English on Mondays. Our summer holiday begins in June.",
+    discoverExamples: [
+      "What time is it? - It is 8:30.",
+      "I get up AT 6:00 AM (giờ cụ thể).",
+      "We play soccer ON Saturday (thứ trong tuần / ngày).",
+      "My birthday is IN May / IN summer / IN 2024 (tháng / mùa / năm).",
+    ],
+    discoveryExplanation: "• 'AT' dùng cho giờ chính xác (at 7 o'clock, at noon, at night).\n• 'ON' dùng cho thứ trong tuần và ngày tháng cụ thể (on Monday, on October 10th).\n• 'IN' dùng cho khoảng thời gian dài: tháng, mùa, năm, buổi trong ngày (in the morning, in July, in summer).",
+    noticeRule: "AT for precise clock time. ON for days and dates. IN for months, seasons, years, and parts of the day.",
+    structureFormula: "AT + giờ | ON + thứ / ngày | IN + tháng / mùa / năm / buổi",
+    vietnameseExplanation: "• What time is it? = Mấy giờ rồi?\n• Mẹo nhớ thứ tự: AT (nhỏ nhất: giờ) -> ON (vừa: ngày, thứ) -> IN (lớn nhất: tháng, mùa, năm).",
+    learnExplanation: "At (giờ) - On (ngày/thứ) - In (tháng/mùa/năm).",
+    guidedPractice: [
+      { question: "I eat breakfast ___ 6:30 AM.", answer: "at", hint: "Thời gian theo đồng hồ dùng giới từ 'at'." },
+      { question: "We have Art class ___ Thursday.", answer: "on", hint: "Thứ trong tuần dùng giới từ 'on'." },
+      { question: "The weather is hot ___ June.", answer: "in", hint: "Tháng trong năm dùng giới từ 'in'." },
+    ],
+    practiceQuestions: [
+      { question: "School starts ___ 7:30.", options: ["at", "on", "in"], correctAnswer: "at", explanation: "Precise time takes 'at'." },
+    ],
+    challengeQuestions: [
+      { question: "My family goes on vacation ___ summer.", options: ["in", "on", "at"], correctAnswer: "in", explanation: "Seasons take 'in'." },
+    ],
+    quiz: [
+      { id: 1, question: "School starts ___ 7:30 in the morning.", options: ["at", "on", "in"], correctAnswer: "at", explanation: "Chỉ giờ chính xác ta dùng giới từ 'at'." },
+      { id: 2, question: "We usually visit our grandparents ___ Sundays.", options: ["on", "at", "in"], correctAnswer: "on", explanation: "Chỉ các ngày thứ trong tuần ta dùng giới từ 'on'." },
+      { id: 3, question: "My family goes on vacation ___ summer.", options: ["in", "on", "at"], correctAnswer: "in", explanation: "Chỉ mùa trong năm (summer) ta dùng giới từ 'in'." },
+    ],
+    useItPrompt: "Viết 1 câu kể giờ em thức dậy vào buổi sáng (Ví dụ: I get up at 6:00 AM on weekdays.)",
+  },
+
+  // ================= GRADE 5 =================
+  {
+    id: "grm-past-be-1",
+    grade: 5,
+    category: "past_simple",
+    title: "Past Simple of To Be: was / were",
+    vietnameseTitle: "Thì Quá Khứ Đơn với To Be: was / were",
+    exampleContext: "Where were you yesterday? I was at home with my grandmother. My parents were at the office. The weather was sunny.",
+    discoverExamples: [
+      "I was happy yesterday.",
+      "She was at the zoo last Sunday.",
+      "They were in Hanoi two days ago.",
+      "Were you at school yesterday? - Yes, I was. / No, I wasn't.",
+    ],
+    discoveryExplanation: "Trong quá khứ, động từ 'to be' đổi thành 2 dạng:\n• 'was' (quá khứ của am / is): đi với I, he, she, it, số ít.\n• 'were' (quá khứ của are): đi với you, we, they, số nhiều.",
+    noticeRule: "Was for singular (I, he, she, it). Were for plural (you, we, they). Signal words: yesterday, last night, last week, ago.",
+    structureFormula: "(+) S + was / were | (-) S + wasn't / weren't | (?) Was / Were + S...?",
+    vietnameseExplanation: "• Dấu hiệu thì quá khứ: yesterday (hôm qua), last night (tối qua), last week/year (tuần/năm trước), ... ago (cách đây...).\n• I / He / She / It + WAS (phủ định: wasn't = was not)\n• You / We / They + WERE (phủ định: weren't = were not)",
+    learnExplanation: "was (số ít) vs were (số nhiều).",
+    guidedPractice: [
+      { question: "I ___ (be) at the seaside last weekend.", answer: "was", hint: "Chủ ngữ 'I' ở quá khứ đi với 'was'." },
+      { question: "They ___ (be) very tired after the trip.", answer: "were", hint: "Chủ ngữ 'They' ở quá khứ đi với 'were'." },
+      { question: "Yesterday, the weather ___ cool and pleasant.", answer: "was", hint: "The weather (thời tiết - danh từ không đếm được số ít) dùng 'was'." },
+    ],
+    practiceQuestions: [
+      { question: "Where ___ you yesterday afternoon?", options: ["were", "was", "are"], correctAnswer: "were", explanation: "Subject 'you' in the past takes 'were'." },
+    ],
+    challengeQuestions: [
+      { question: "She ___ not at home last night.", options: ["was", "were", "is"], correctAnswer: "was", explanation: "She takes was." },
+    ],
+    quiz: [
+      { id: 1, question: "Where ___ you yesterday afternoon?", options: ["were", "was", "are"], correctAnswer: "were", explanation: "Ngôi 'you' trong câu hỏi quá khứ đi với 'were'." },
+      { id: 2, question: "My classmates ___ at the museum last Sunday.", options: ["were", "was", "are"], correctAnswer: "were", explanation: "'My classmates' là số nhiều (những người bạn cùng lớp), đi với 'were'." },
+      { id: 3, question: "Tony ___ absent from class yesterday because he was sick.", options: ["was", "were", "is"], correctAnswer: "was", explanation: "'Tony' là 1 người (số ít) nên dùng 'was'." },
+    ],
+    useItPrompt: "Kể hôm qua em đã ở đâu (Ví dụ: Yesterday, I was at my grandparents' house.)",
+  },
+  {
+    id: "grm-past-verbs-1",
+    grade: 5,
+    category: "past_simple",
+    title: "Past Simple Verbs: -ed & Irregular Verbs",
+    vietnameseTitle: "Động từ Quá Khứ Đơn: Đuôi -ed & Bất Quy Tắc",
+    exampleContext: "Last summer, we visited Ha Long Bay. We went by train and saw many islands. My father bought some gifts and took beautiful photos.",
+    discoverExamples: [
+      "I played badminton yesterday (play -> played).",
+      "She watched TV last night (watch -> watched).",
+      "We went to the zoo last week (go -> went).",
+      "He ate a delicious pizza (eat -> ate).",
+      "They had a wonderful holiday (have -> had).",
+    ],
+    discoveryExplanation: "Khi nói về sự việc đã kết thúc trong quá khứ:\n• Động từ có quy tắc: thêm đuôi -ed (visit -> visited, play -> played).\n• Động từ bất quy tắc: biến đổi dạng từ (go -> went, see -> saw, buy -> bought, eat -> ate).",
+    noticeRule: "Regular verbs add '-ed'. Irregular verbs change their form (go -> went, see -> saw, have -> had).",
+    structureFormula: "S + V2 / V-ed + (yesterday / last... / ... ago)",
+    vietnameseExplanation: "• Phủ định: S + did not (didn't) + ĐỘNG TỪ NGUYÊN THỂ (I didn't go).\n• Nghi vấn: Did + S + ĐỘNG TỪ NGUYÊN THỂ? (Did you go?).\n*Lưu ý:* Khi đã có trợ động từ 'did' hoặc 'didn't', động từ chính trở về nguyên mẫu!",
+    learnExplanation: "V-ed hoặc V2 (bất quy tắc).",
+    guidedPractice: [
+      { question: "Yesterday, Mai ___ (visit) her grandparents.", answer: "visited", hint: "Động từ có quy tắc visit thêm đuôi -ed thành 'visited'." },
+      { question: "Last week, we ___ (go) to the beach.", answer: "went", hint: "Quá khứ bất quy tắc của 'go' là 'went'." },
+      { question: "Did you ___ (see) the monkeys? - Yes, I did.", answer: "see", hint: "Trong câu hỏi có 'Did', động từ trở về dạng nguyên thể 'see'." },
+    ],
+    practiceQuestions: [
+      { question: "He ___ an interesting film last night.", options: ["saw", "see", "sees"], correctAnswer: "saw", explanation: "Past of see is saw." },
+    ],
+    challengeQuestions: [
+      { question: "We didn't ___ any soccer yesterday.", options: ["play", "played", "playing"], correctAnswer: "play", explanation: "After didn't, verb is base form play." },
+    ],
+    quiz: [
+      { id: 1, question: "He ___ an interesting film last night.", options: ["saw", "see", "sees"], correctAnswer: "saw", explanation: "Có 'last night' (tối qua), dạng quá khứ của động từ 'see' là 'saw'." },
+      { id: 2, question: "We didn't ___ any soccer yesterday because of the rain.", options: ["play", "played", "playing"], correctAnswer: "play", explanation: "Sau trợ động từ phủ định 'didn't', động từ trở về nguyên mẫu 'play'." },
+      { id: 3, question: "Where did you go last holiday? - I ___ to Da Nang.", options: ["went", "go", "goes"], correctAnswer: "went", explanation: "Trả lời cho sự việc trong quá khứ: 'I went to Da Nang.'" },
+    ],
+    useItPrompt: "Viết 1 câu kể việc em đã làm vào cuối tuần trước (Ví dụ: Last weekend, I played football with my friends.)",
+  },
+  {
+    id: "grm-comparatives-1",
+    grade: 5,
+    category: "comparatives",
+    title: "Comparatives: Short & Long Adjectives",
+    vietnameseTitle: "So Sánh Hơn: Tính Từ Ngắn & Tính Từ Dài",
+    exampleContext: "A giraffe is taller than an elephant. A car is faster than a bicycle. Da Nang is more modern than my hometown.",
+    discoverExamples: [
+      "Tony is taller than Nam (tall -> taller).",
+      "A cheetah is faster than a horse (fast -> faster).",
+      "A watermelon is bigger than an apple (big -> bigger).",
+      "This book is more interesting than that one (interesting -> more interesting).",
+    ],
+    discoveryExplanation: "• Tính từ ngắn (1 âm tiết): thêm đuôi '-er' + THAN (tall -> taller than, fast -> faster than).\n• Tính từ dài (từ 2 âm tiết trở lên không có đuôi y): thêm 'MORE' + tính từ + THAN (more beautiful than).",
+    noticeRule: "Short adjective: adj + -er + THAN. Long adjective: MORE + adj + THAN.",
+    structureFormula: "S1 + be + adj-er + than + S2 | S1 + be + more + adj + than + S2",
+    vietnameseExplanation: "• Quy tắc tính từ ngắn: fast -> faster, small -> smaller. Tận cùng nguyên âm + 1 phụ âm thì gấp đôi phụ âm: big -> bigger, hot -> hotter.\n• Quy tắc tính từ dài: more beautiful than, more exciting than, more expensive than.",
+    learnExplanation: "Tính từ ngắn + er + than; more + tính từ dài + than.",
+    guidedPractice: [
+      { question: "An airplane is ___ (fast) than a car.", answer: "faster", hint: "Tính từ ngắn fast thêm đuôi -er thành 'faster'." },
+      { question: "This elephant is ___ (big) than that horse.", answer: "bigger", hint: "Gấp đôi phụ âm g: big -> 'bigger'." },
+      { question: "City life is ___ (crowded) than village life.", answer: "more crowded", hint: "'crowded' là tính từ 2 âm tiết (tính từ dài) nên thêm 'more crowded'." },
+    ],
+    practiceQuestions: [
+      { question: "My ruler is ___ than your ruler.", options: ["longer", "long", "more long"], correctAnswer: "longer", explanation: "Short adjective long -> longer." },
+    ],
+    challengeQuestions: [
+      { question: "English is ___ than I thought.", options: ["easier", "more easy", "easyer"], correctAnswer: "easier", explanation: "easy ends in y -> easier." },
+    ],
+    quiz: [
+      { id: 1, question: "My ruler is ___ than your ruler.", options: ["longer", "long", "more long"], correctAnswer: "longer", explanation: "'long' là tính từ ngắn nên thêm đuôi -er thành 'longer than'." },
+      { id: 2, question: "English is ___ than I thought.", options: ["easier", "more easy", "easyer"], correctAnswer: "easier", explanation: "Tính từ tận cùng bằng 'y' đổi y thành i rồi thêm er: easy -> 'easier'." },
+      { id: 3, question: "A sports car is ___ than a normal bicycle.", options: ["more expensive", "expensiver", "most expensive"], correctAnswer: "more expensive", explanation: "'expensive' có 3 âm tiết (tính từ dài) nên dùng 'more expensive than'." },
+    ],
+    useItPrompt: "Viết 1 câu so sánh giữa 2 con vật hoặc 2 đồ vật (Ví dụ: A plane is faster than a train.)",
+  },
+  {
+    id: "grm-there-is-are-1",
+    grade: 4,
+    category: "there_is_are",
+    title: "There is & There are",
+    vietnameseTitle: "Cấu trúc 'Có...': There is & There are",
+    exampleContext: "There is a pencil on the table. There are three apples in the fridge. Is there a cat in the room? Yes, there is.",
+    discoverExamples: [
+      "There is a big playground in our school (1 cái sân).",
+      "There is some milk in the glass (sữa - không đếm được).",
+      "There are twenty students in my classroom (nhiều học sinh).",
+      "There aren't any books on the floor (không có quyển sách nào).",
+    ],
+    discoveryExplanation: "• 'There is' dùng cho 1 vật (danh từ số ít) hoặc danh từ không đếm được (nước, sữa, đường).\n• 'There are' dùng cho từ 2 vật trở lên (danh từ số nhiều).",
+    noticeRule: "There is + singular / uncountable noun. There are + plural countable nouns.",
+    structureFormula: "There is + a/an + N(số ít) | There are + N(số nhiều)",
+    vietnameseExplanation: "• Khẳng định: There is a book / There are two books.\n• Phủ định: There isn't a book / There aren't any books.\n• Câu hỏi: Is there a book? / Are there any books?",
+    learnExplanation: "There is (1 hoặc không đếm được); There are (từ 2 trở lên).",
+    guidedPractice: [
+      { question: "There ___ a clock on the wall.", answer: "is", hint: "'a clock' là 1 cái đồng hồ (số ít) nên dùng 'is'." },
+      { question: "There ___ four seasons in a year.", answer: "are", hint: "'four seasons' là 4 mùa (số nhiều) nên dùng 'are'." },
+      { question: "Is there ___ water in the bottle?", answer: "any", hint: "Trong câu hỏi với danh từ không đếm được dùng 'any'." },
+    ],
+    practiceQuestions: [
+      { question: "There ___ a garden behind the house.", options: ["is", "are", "am"], correctAnswer: "is", explanation: "'a garden' is singular -> There is." },
+    ],
+    challengeQuestions: [
+      { question: "There ___ many stars tonight.", options: ["are", "is", "be"], correctAnswer: "are", explanation: "'many stars' is plural -> There are." },
+    ],
+    quiz: [
+      { id: 1, question: "There ___ a green garden behind my house.", options: ["is", "are", "am"], correctAnswer: "is", explanation: "'a green garden' là 1 khu vườn (số ít), dùng 'There is'." },
+      { id: 2, question: "There ___ many bright stars in the sky tonight.", options: ["are", "is", "be"], correctAnswer: "are", explanation: "'many bright stars' là số nhiều nên dùng 'There are'." },
+      { id: 3, question: "Are there ___ chairs in the kitchen?", options: ["any", "some", "a"], correctAnswer: "any", explanation: "Trong câu hỏi số nhiều ta dùng từ 'any'." },
+    ],
+    useItPrompt: "Viết 1 câu miêu tả có những gì trong phòng học của em (Ví dụ: There are twenty desks in my classroom.)",
   },
 ];
 

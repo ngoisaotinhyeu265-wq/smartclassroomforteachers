@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { UserProgress, GradeLevel, AiAssistantResponse } from "../../types";
 import { speakText, createSpeechRecognizer, stopSpeech } from "../../utils/speech";
 import { playSound } from "../../utils/audioEffects";
 import { fireConfetti } from "../../utils/confetti";
 import { addXpAndRecord } from "../../utils/storage";
+import { getPedagogicalAssistantQA } from "../../data/miloKnowledgeBase";
 import {
   Bot,
   Sparkles,
@@ -30,14 +31,18 @@ interface AiAssistantModuleProps {
 }
 
 const POPULAR_QUESTIONS = [
-  { label: "Phân biệt look, see & watch", query: "Phân biệt cách dùng của look, see và watch trong tiếng Anh", category: "vocabulary" },
-  { label: "Quy tắc phát âm đuôi -ed", query: "Quy tắc phát âm đuôi -ed chuẩn nhất (/t/, /d/, /ɪd/)", category: "phonics" },
+  { label: "Phân biệt make & do", query: "Khi nào dùng make và khi nào dùng do trong tiếng Anh?", category: "vocabulary" },
   { label: "Hiện tại đơn vs Tiếp diễn", query: "Cách phân biệt thì Hiện tại đơn và Hiện tại tiếp diễn", category: "grammar" },
-  { label: "Phân biệt many, much & a lot of", query: "Khi nào dùng many, much và a lot of?", category: "grammar" },
-  { label: "Giới từ in, on, at chỉ thời gian", query: "Cách dùng giới từ in, on, at chỉ thời gian và nơi chốn", category: "grammar" },
+  { label: "Quy tắc phát âm đuôi -ed", query: "Quy tắc phát âm đuôi -ed chuẩn nhất (/t/, /d/, /ɪd/)", category: "phonics" },
   { label: "Quy tắc phát âm đuôi -s/es", query: "Quy tắc phát âm đuôi -s và -es chuẩn xác nhất", category: "phonics" },
+  { label: "Phân biệt look, see & watch", query: "Phân biệt cách dùng của look, see và watch trong tiếng Anh", category: "vocabulary" },
+  { label: "Chủ đề My Family (Lớp 3)", query: "Mẫu câu và từ vựng chủ đề gia đình My Family lớp 3 SGK Global Success", category: "sentence" },
+  { label: "Giới từ in, on, at chỉ thời gian", query: "Cách dùng giới từ in, on, at chỉ thời gian và nơi chốn", category: "grammar" },
+  { label: "Phân biệt many, much & a lot of", query: "Khi nào dùng many, much và a lot of?", category: "grammar" },
+  { label: "Cách dùng can và can't", query: "Cách dùng động từ khiếm khuyết can và can't chỉ khả năng", category: "grammar" },
+  { label: "Cách hỏi giờ (What time is it?)", query: "Cách hỏi và nói giờ trong tiếng Anh chuẩn SGK", category: "sentence" },
+  { label: "Cách dùng There is và There are", query: "Phân biệt cách dùng There is và There are", category: "grammar" },
   { label: "Cấu trúc 'How often...?'", query: "Cách đặt câu hỏi và trả lời với How often trong tiếng Anh", category: "sentence" },
-  { label: "Phân biệt make & do", query: "Khi nào dùng make và khi nào dùng do?", category: "vocabulary" },
 ];
 
 export const AiAssistantModule: React.FC<AiAssistantModuleProps> = ({
@@ -50,9 +55,11 @@ export const AiAssistantModule: React.FC<AiAssistantModuleProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [result, setResult] = useState<AiAssistantResponse | null>(null);
   const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [voiceLang, setVoiceLang] = useState<"vi-VN" | "en-US">("vi-VN");
   const [history, setHistory] = useState<Array<{ q: string; ans: AiAssistantResponse }>>([]);
   const [quizSelectedOption, setQuizSelectedOption] = useState<string | null>(null);
   const [quizSubmitted, setQuizSubmitted] = useState<boolean>(false);
+  const recognizerRef = useRef<any>(null);
 
   const handleAsk = async (questionToAsk?: string) => {
     const q = (questionToAsk || query).trim();
@@ -74,7 +81,15 @@ export const AiAssistantModule: React.FC<AiAssistantModuleProps> = ({
         }),
       });
 
+      if (!res.ok) {
+        throw new Error(`Server returned status ${res.status}`);
+      }
+
       const data: AiAssistantResponse = await res.json();
+      if (!data || !data.directAnswer) {
+        throw new Error("Invalid response format");
+      }
+
       setResult(data);
       setHistory((prev) => [{ q, ans: data }, ...prev.filter((h) => h.q !== q).slice(0, 7)]);
       playSound("star");
@@ -89,7 +104,42 @@ export const AiAssistantModule: React.FC<AiAssistantModuleProps> = ({
         }, 500);
       }
     } catch (e) {
-      console.error("Assistant ask error:", e);
+      console.warn("Assistant API error, using pedagogical knowledge engine:", e);
+      // Smart pedagogical fallback on client side
+      const matched = getPedagogicalAssistantQA(q, selectedGrade);
+      const fallback: AiAssistantResponse = matched || {
+        directAnswer: `Giải đáp sư phạm về "${q}" (Chương trình Lớp ${selectedGrade} SGK Global Success).`,
+        detailedExplanation: `Trợ lý AI Thanh Nguyễn đã tiếp nhận câu hỏi của bạn:\n1. Nắm chắc cách dùng và ngữ cảnh xuất hiện trong SGK tiếng Anh.\n2. Luyện tập đọc to rõ ràng từng từ vựng và câu mẫu.\n3. Áp dụng ngay vào các bài tập vận dụng để nhớ lâu.`,
+        category: (selectedCategory === "all" ? "grammar" : selectedCategory) as any,
+        formula: "Subject + Verb + Object",
+        examples: [
+          { english: "We practice English every single day.", vietnamese: "Chúng mình luyện tập tiếng Anh mỗi ngày.", note: "Thói quen học tập chuẩn" },
+          { english: "Practice makes perfect!", vietnamese: "Có công mài sắt, có ngày nên kim!", note: "Thành ngữ tiếng Anh ý nghĩa" },
+        ],
+        commonMistakes: [
+          "Quên không chia động từ theo ngôi số ít (he/she/it).",
+          "Bỏ quên âm đuôi (ending sounds) khi phát âm.",
+        ],
+        quickQuiz: {
+          question: `Để học tốt kiến thức về "${q}", phương pháp nào là tốt nhất?`,
+          options: [
+            "A. Luyện tập đặt câu và phát âm to rõ ràng mỗi ngày",
+            "B. Chỉ học qua loa không làm bài tập",
+            "C. Bỏ qua các ví dụ thực tế",
+            "D. Không cần ôn tập lại",
+          ],
+          correctAnswer: "A",
+          explanation: "Học đi đôi với hành, thực hành giao tiếp thường xuyên sẽ giúp con tiến bộ vượt bậc!",
+        },
+        speechText: "We practice English every single day with our teacher.",
+      };
+
+      setResult(fallback);
+      setHistory((prev) => [{ q, ans: fallback }, ...prev.filter((h) => h.q !== q).slice(0, 7)]);
+      playSound("star");
+
+      const { updatedProgress } = addXpAndRecord("grammar", 15, true);
+      onUpdateProgress(updatedProgress);
     } finally {
       setIsLoading(false);
     }
@@ -97,7 +147,13 @@ export const AiAssistantModule: React.FC<AiAssistantModuleProps> = ({
 
   const handleToggleVoice = () => {
     if (isRecording) {
+      if (recognizerRef.current) {
+        recognizerRef.current.stop();
+      }
       setIsRecording(false);
+      if (query.trim().length > 1) {
+        handleAsk(query);
+      }
       return;
     }
 
@@ -105,8 +161,10 @@ export const AiAssistantModule: React.FC<AiAssistantModuleProps> = ({
     setIsRecording(true);
     const recognizer = createSpeechRecognizer(
       (text, isFinal) => {
-        setQuery(text);
-        if (isFinal && text.trim().length > 3) {
+        if (text) {
+          setQuery(text);
+        }
+        if (isFinal && text.trim().length > 1) {
           setIsRecording(false);
           handleAsk(text);
         }
@@ -114,8 +172,10 @@ export const AiAssistantModule: React.FC<AiAssistantModuleProps> = ({
       (listening) => setIsRecording(listening),
       (err) => {
         setIsRecording(false);
-      }
+      },
+      voiceLang
     );
+    recognizerRef.current = recognizer;
     recognizer.start();
   };
 
@@ -231,11 +291,24 @@ export const AiAssistantModule: React.FC<AiAssistantModuleProps> = ({
           />
 
           <div className="absolute right-2 flex items-center gap-1.5">
+            {/* Language Selector for Voice */}
+            <button
+              type="button"
+              onClick={() => {
+                playSound("click");
+                setVoiceLang((prev) => (prev === "vi-VN" ? "en-US" : "vi-VN"));
+              }}
+              className="px-2 py-1.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-[11px] font-black text-slate-700 transition-all"
+              title="Chuyển đổi ngôn ngữ giọng nói: Tiếng Việt / Tiếng Anh"
+            >
+              {voiceLang === "vi-VN" ? "🇻🇳 VI" : "🇬🇧 EN"}
+            </button>
+
             {/* Microphone Button */}
             <button
               type="button"
               onClick={handleToggleVoice}
-              title={isRecording ? "Dừng ghi âm" : "Nói câu hỏi bằng giọng nói"}
+              title={isRecording ? "Dừng ghi âm và giải đáp" : `Nói câu hỏi bằng giọng nói (${voiceLang === "vi-VN" ? "Tiếng Việt" : "Tiếng Anh"})`}
               className={`p-2.5 rounded-xl font-bold transition-all ${
                 isRecording
                   ? "bg-rose-500 text-white animate-pulse"
