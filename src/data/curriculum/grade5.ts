@@ -1,344 +1,3457 @@
 import { GlobalSuccessUnit } from "../../types";
 
 export const GRADE_5_UNITS: GlobalSuccessUnit[] = [
+  // ==========================================
+  // SEMESTER 1 (UNITS 1 - 10) - GLOBAL SUCCESS 5 (GDPT 2018)
+  // ==========================================
   {
-    grade: 5, unitNumber: 1, unitTitle: "All About Me", unitTitleVi: "Tất cả về mình", theme: "Addresses, Hometown & Personal Info", icon: "🏙️", semester: 1,
+    grade: 5,
+    unitNumber: 1,
+    unitTitle: "All about me!",
+    unitTitleVi: "Tất cả về mình!",
+    theme: "Me and My Friends",
+    icon: "👦",
+    semester: 1,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Addresses & Living Locations", focus: "vocabulary_phonics", phonicsSound: "Sounds /str/ (street) & /vl/ (village)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Introducing Yourself (Class & Living Area)",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/s/ in city vs /k/ in countryside",
         vocabulary: [
-          { id: "g5-u1-address", word: "address", clue: "The particulars of the place where someone lives.", vietnameseMeaning: "địa chỉ", phonics: "/əˈdres/", emoji: "📍", grade: 5, unit: 1, topic: "Identity", exampleSentence: "What's your address in Hanoi?", distractors: ["lane", "tower", "city"] },
-          { id: "g5-u1-lane", word: "lane", clue: "A narrow road or alley in a neighborhood.", vietnameseMeaning: "ngõ / hẻm", phonics: "/leɪn/", emoji: "🛣️", grade: 5, unit: 1, topic: "Addresses", exampleSentence: "I live in Lane 81, Tran Hung Dao Street.", distractors: ["road", "street", "tower"] },
-          { id: "g5-u1-floor", word: "floor", clue: "A level in a multi-storey building.", vietnameseMeaning: "tầng nhà", phonics: "/flɔːr/", emoji: "🏢", grade: 5, unit: 1, topic: "Addresses", exampleSentence: "My flat is on the tenth floor.", distractors: ["lane", "street", "village"] },
-          { id: "g5-u1-hometown", word: "hometown", clue: "The town or city where one was born or grew up.", vietnameseMeaning: "quê hương", phonics: "/ˈhəʊm.taʊn/", emoji: "🏡", grade: 5, unit: 1, topic: "Identity", exampleSentence: "Da Nang is my coastal hometown.", distractors: ["address", "lane", "tower"] },
+          {
+            id: "g5-u1-l1-v1",
+            word: "city",
+            clue: "A large and busy town with tall buildings and many vehicles",
+            vietnameseMeaning: "thành phố",
+            phonics: "/ˈsɪti/",
+            emoji: "🏙️",
+            grade: 5,
+            unit: 1,
+            topic: "Living Areas",
+            exampleSentence: "I live in a busy and modern city.",
+            distractors: ["river", "forest", "desert"]
+          },
+          {
+            id: "g5-u1-l1-v2",
+            word: "countryside",
+            clue: "Land outside towns and cities with green fields and farms",
+            vietnameseMeaning: "vùng nông thôn, quê",
+            phonics: "/ˈkʌntrisaɪd/",
+            emoji: "🌾",
+            grade: 5,
+            unit: 1,
+            topic: "Living Areas",
+            exampleSentence: "My grandparents live in the peaceful countryside.",
+            distractors: ["airport", "supermarket", "stadium"]
+          },
+          {
+            id: "g5-u1-l1-v3",
+            word: "class",
+            clue: "A group of students who meet together to study a subject",
+            vietnameseMeaning: "lớp học",
+            phonics: "/klɑːs/",
+            emoji: "🏫",
+            grade: 5,
+            unit: 1,
+            topic: "School Life",
+            exampleSentence: "I am in Class 5A at Nguyen Du Primary School.",
+            distractors: ["hotel", "hospital", "cinema"]
+          },
+          {
+            id: "g5-u1-l1-v4",
+            word: "tell",
+            clue: "To speak to someone to give them information",
+            vietnameseMeaning: "kể, nói cho biết",
+            phonics: "/tel/",
+            emoji: "🗣️",
+            grade: 5,
+            unit: 1,
+            topic: "Communication",
+            exampleSentence: "Can you tell me about yourself?",
+            distractors: ["listen", "watch", "sleep"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What's your address? ➔ It's [Number, Street / Flat, Tower]. / What's your hometown like? ➔ It's [Adjective].", vietnameseMeaning: "Địa chỉ của bạn là gì? ➔ Là [Số, Đường / Căn hộ, Tòa nhà]. / Quê hương bạn như thế nào? ➔ Rất [Tính từ].", sampleDialogue: [{ speaker: "Mai", text: "What's your address, Linda?", textVi: "Địa chỉ của bạn ở đâu thế Linda?" }, { speaker: "Linda", text: "It's Flat 8, second floor, City Tower in Hanoi.", textVi: "Ở Căn hộ số 8, tầng 2, Tòa nhà City Tower tại Hà Nội." }] }],
+        sentenceStructures: [
+          {
+            pattern: "Can you tell me about yourself? - I'm in Class [name]. I live in the [city / countryside].",
+            vietnameseMeaning: "Bạn có thể kể cho mình nghe về bạn không? - Mình học lớp [tên lớp]. Mình sống ở [thành phố / nông thôn].",
+            sampleDialogue: [
+              { speaker: "Mary", text: "Can you tell me about yourself, An?", textVi: "Bạn có thể kể cho mình về bạn được không, An?" },
+              { speaker: "An", text: "I'm in Class 5A. I live in the city with my parents.", textVi: "Mình học lớp 5A. Mình sống ở thành phố cùng bố mẹ." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Describing Neighborhoods", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "What is your town like? ➔ It's busy, modern, and beautiful.", vietnameseMeaning: "Thị trấn của bạn như thế nào? ➔ Rất nhộn nhịp, hiện đại và tươi đẹp.", sampleDialogue: [{ speaker: "Tony", text: "What's your hometown like, Nam?", textVi: "Quê hương bạn như thế nào thế Nam?" }, { speaker: "Nam", text: "It's a peaceful coastal town with sandy beaches.", textVi: "Đó là một thị trấn ven biển thanh bình với những bãi cát dài." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Our Diverse Homes Story", focus: "reading_communication", readingMiniStory: { title: "Friends from Different Places", text: "In Grade 5A, pupils come from different vibrant places. Trung lives in a tall apartment in Hanoi, Mai grew up in ancient Hue city, and Linda moved from sunny Sydney. We love sharing stories about our hometowns.", translationVi: "Ở lớp 5A, các bạn học sinh đến từ nhiều vùng đất tươi đẹp khác nhau. Trung sống trong một căn hộ cao tầng ở Hà Nội, Mai lớn lên ở cố đô Huế cổ kính và Linda chuyển đến từ thành phố Sydney đầy nắng. Chúng mình rất thích kể chuyện về quê hương của mình." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: Talking about Favourite Things",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u1-l2-v1",
+            word: "dolphin",
+            clue: "A friendly and highly intelligent sea mammal that jumps above waves",
+            vietnameseMeaning: "con cá heo",
+            phonics: "/ˈdɒlfɪn/",
+            emoji: "🐬",
+            grade: 5,
+            unit: 1,
+            topic: "Favourite Animals",
+            exampleSentence: "My favourite sea animal is the dolphin.",
+            distractors: ["crocodile", "snake", "spider"]
+          },
+          {
+            id: "g5-u1-l2-v2",
+            word: "table tennis",
+            clue: "An indoor game played with small bats and a lightweight ball over a table",
+            vietnameseMeaning: "môn bóng bàn",
+            phonics: "/ˈteɪbl tenɪs/",
+            emoji: "🏓",
+            grade: 5,
+            unit: 1,
+            topic: "Sports & Hobbies",
+            exampleSentence: "What's your favourite sport? - It's table tennis.",
+            distractors: ["chess", "boxing", "surfing"]
+          },
+          {
+            id: "g5-u1-l2-v3",
+            word: "sandwich",
+            clue: "Two slices of bread with meat, cheese, or salad between them",
+            vietnameseMeaning: "bánh mì kẹp",
+            phonics: "/ˈsænwɪtʃ/",
+            emoji: "🥪",
+            grade: 5,
+            unit: 1,
+            topic: "Food & Drinks",
+            exampleSentence: "I usually have a delicious chicken sandwich for breakfast.",
+            distractors: ["soup", "tea", "candy"]
+          },
+          {
+            id: "g5-u1-l2-v4",
+            word: "pink",
+            clue: "A gentle pale red colour",
+            vietnameseMeaning: "màu hồng",
+            phonics: "/pɪŋk/",
+            emoji: "🩷",
+            grade: 5,
+            unit: 1,
+            topic: "Colours",
+            exampleSentence: "Her favourite colour is pink.",
+            distractors: ["black", "grey", "brown"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "What's your favourite [colour / sport / food / animal]? - It's [item]. / I like [item].",
+            vietnameseMeaning: "[Màu sắc / môn thể thao / đồ ăn / động vật] yêu thích của bạn là gì? - Đó là [món/con vật].",
+            sampleDialogue: [
+              { speaker: "Ben", text: "What's your favourite sport, Nam?", textVi: "Môn thể thao yêu thích của cậu là gì hả Nam?" },
+              { speaker: "Nam", text: "It's table tennis. I play it with my brother every afternoon.", textVi: "Đó là bóng bàn. Mình chơi với anh trai mỗi buổi chiều." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: An's Self-Introduction",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "I'm [Name]. I'm in Class [5A]. My favourite [thing] is [item].",
+            vietnameseMeaning: "Mình tên là [Tên]. Mình học lớp [5A]. [Thứ] yêu thích của mình là [đồ vật/môn].",
+            sampleDialogue: [
+              { speaker: "Teacher", text: "Please introduce yourself to the class, An.", textVi: "Mời em An giới thiệu bản thân trước lớp nào." },
+              { speaker: "An", text: "Hello everyone! I'm An. I'm ten years old and I love dolphins and table tennis.", textVi: "Xin chào mọi người! Mình là An. Mình 10 tuổi và rất thích cá heo cùng môn bóng bàn." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "All About An",
+          text: "Hello! My name is An. I am ten years old. I am in Class 5A at Hoa Binh Primary School. I live in the vibrant city of Da Nang with my family. My favourite sport is table tennis and my favourite animal is the clever dolphin. At weekends, I enjoy eating tasty tuna sandwiches by the Han River. I am excited to make many new friends in Grade 5!",
+          translationVi: "Xin chào! Mình tên là An. Năm nay mình mười tuổi. Mình học lớp 5A trường Tiểu học Hòa Bình. Mình sống ở thành phố Đà Nẵng sôi động cùng gia đình. Môn thể thao yêu thích của mình là bóng bàn và loài vật yêu thích là những chú cá heo thông minh. Cuối tuần, mình thích ăn bánh mì kẹp cá ngừ ngon lành bên bờ sông Hàn. Mình rất háo hức được kết bạn với nhiều bạn mới trong năm học lớp 5 này!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 2, unitTitle: "Our Free-Time Activities", unitTitleVi: "Các hoạt động lúc rảnh rỗi của chúng mình", theme: "Habits & Frequency", icon: "🛹", semester: 1,
+    grade: 5,
+    unitNumber: 2,
+    unitTitle: "Our homes",
+    unitTitleVi: "Ngôi nhà của chúng mình",
+    theme: "Me and My Friends",
+    icon: "🏠",
+    semester: 1,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Frequency & Routine Actions", focus: "vocabulary_phonics", phonicsSound: "Sounds /ɔːl/ (always) & /ɒf/ (often)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Asking and Answering about Addresses & Numbers",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/θ/ in thirty-eight vs /eɪt/ in eighty",
         vocabulary: [
-          { id: "g5-u2-always", word: "always", clue: "At all times; on all occasions (100%).", vietnameseMeaning: "luôn luôn", phonics: "/ˈɔːl.weɪz/", emoji: "🔄", grade: 5, unit: 2, topic: "Frequency", exampleSentence: "I always do morning exercises.", distractors: ["never", "sometimes", "seldom"] },
-          { id: "g5-u2-usually", word: "usually", clue: "Under normal conditions; generally (80%).", vietnameseMeaning: "thường thường", phonics: "/ˈjuː.ʒu.ə.li/", emoji: "🔁", grade: 5, unit: 2, topic: "Frequency", exampleSentence: "I usually ride my bike to school.", distractors: ["never", "rarely", "always"] },
-          { id: "g5-u2-often", word: "often", clue: "Frequently; many times (60%).", vietnameseMeaning: "thường xuyên", phonics: "/ˈɒf.ən/", emoji: "⏳", grade: 5, unit: 2, topic: "Frequency", exampleSentence: "We often play chess at break time.", distractors: ["never", "always", "seldom"] },
-          { id: "g5-u2-sometimes", word: "sometimes", clue: "Occasionally; at times (30%).", vietnameseMeaning: "thỉnh thoảng", phonics: "/ˈsʌm.taɪmz/", emoji: "🔀", grade: 5, unit: 2, topic: "Frequency", exampleSentence: "I sometimes go camping with family.", distractors: ["always", "usually", "never"] },
+          {
+            id: "g5-u2-l1-v1",
+            word: "twenty-three",
+            clue: "The number 23",
+            vietnameseMeaning: "hai mươi ba (số 23)",
+            phonics: "/ˈtwenti θriː/",
+            emoji: "2️⃣3️⃣",
+            grade: 5,
+            unit: 2,
+            topic: "Numbers & Addresses",
+            exampleSentence: "My house is at number twenty-three Cau Giay Street.",
+            distractors: ["thirty-three", "twenty-two", "twelve"]
+          },
+          {
+            id: "g5-u2-l1-v2",
+            word: "thirty-eight",
+            clue: "The number 38",
+            vietnameseMeaning: "ba mươi tám (số 38)",
+            phonics: "/ˈθɜːti eɪt/",
+            emoji: "3️⃣8️⃣",
+            grade: 5,
+            unit: 2,
+            topic: "Numbers & Addresses",
+            exampleSentence: "She lives at thirty-eight Quang Trung Road.",
+            distractors: ["forty-eight", "twenty-eight", "eighteen"]
+          },
+          {
+            id: "g5-u2-l1-v3",
+            word: "ninety-three",
+            clue: "The number 93",
+            vietnameseMeaning: "chín mươi ba (số 93)",
+            phonics: "/ˈnaɪnti θriː/",
+            emoji: "9️⃣3️⃣",
+            grade: 5,
+            unit: 2,
+            topic: "Numbers & Addresses",
+            exampleSentence: "His address is ninety-three Tran Phu Street.",
+            distractors: ["eighty-three", "nineteen", "thirty-nine"]
+          },
+          {
+            id: "g5-u2-l1-v4",
+            word: "one hundred and sixteen",
+            clue: "The number 116",
+            vietnameseMeaning: "một trăm mười sáu (số 116)",
+            phonics: "/wʌn ˈhʌndrəd ənd sɪkˈstiːn/",
+            emoji: "🔢",
+            grade: 5,
+            unit: 2,
+            topic: "Numbers & Addresses",
+            exampleSentence: "Our school is at one hundred and sixteen Nguyen Trai Street.",
+            distractors: ["one hundred and sixty", "sixteen", "one hundred and six"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What do you do in the morning? ➔ I always/usually [Action]. / How often do you [Action]? ➔ [Frequency].", vietnameseMeaning: "Bạn làm gì vào buổi sáng? ➔ Mình luôn luôn/thường [Làm gì]. / Bạn có thường xuyên [Làm gì] không? ➔ [Tần suất].", sampleDialogue: [{ speaker: "Tony", text: "How often do you go to the library, Mai?", textVi: "Bạn có thường đến thư viện không hả Mai?" }, { speaker: "Mai", text: "I go there twice a week to read science magazines.", textVi: "Mình đến đó hai lần một tuần để đọc tạp chí khoa học." }] }],
+        sentenceStructures: [
+          {
+            pattern: "What's your address? - It's [house number + street name].",
+            vietnameseMeaning: "Địa chỉ của bạn là gì? - Đó là số [số nhà] đường [tên đường].",
+            sampleDialogue: [
+              { speaker: "Mai", text: "What's your address, Linda?", textVi: "Địa chỉ nhà bạn là gì thế Linda?" },
+              { speaker: "Linda", text: "It's 130 Cau Giay Street.", textVi: "Đó là số 130 đường Cầu Giấy." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Daily Life Patterns", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "How often does he/she [Action]? ➔ He/She [Action]s every day / once a week.", vietnameseMeaning: "Anh/cô ấy [Làm gì] với tần suất thế nào? ➔ Hằng ngày / Một lần một tuần.", sampleDialogue: [{ speaker: "Nam", text: "How often does your brother practice swimming?", textVi: "Anh trai bạn tập bơi mấy lần một tuần?" }, { speaker: "Peter", text: "He swims three times a week at the community pool.", textVi: "Anh ấy bơi 3 lần một tuần tại bể bơi cộng đồng." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Healthy Habits Story", focus: "reading_communication", readingMiniStory: { title: "Healthy Routines for Active Kids", text: "Maintaining good daily routines helps us stay healthy and energetic. Quan always jogs at 6 a.m., Mai usually practices the piano after school, and they often play badminton together before dinner.", translationVi: "Duy trì những thói quen sinh hoạt tốt giúp chúng mình luôn khỏe mạnh và tràn đầy năng lượng. Quân luôn chạy bộ lúc 6 giờ sáng, Mai thường luyện đàn piano sau giờ học và các bạn thường cùng nhau đánh cầu lông trước bữa tối." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: Do you live in this/that house or building?",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u2-l2-v1",
+            word: "building",
+            clue: "A structure with a roof and walls, such as a school or block of flats",
+            vietnameseMeaning: "tòa nhà",
+            phonics: "/ˈbɪldɪŋ/",
+            emoji: "🏢",
+            grade: 5,
+            unit: 2,
+            topic: "Types of Dwellings",
+            exampleSentence: "Do you live in that tall white building?",
+            distractors: ["park", "garden", "bridge"]
+          },
+          {
+            id: "g5-u2-l2-v2",
+            word: "flat",
+            clue: "A set of rooms for living in, usually on one floor of a big building",
+            vietnameseMeaning: "căn hộ",
+            phonics: "/flæt/",
+            emoji: "🚪",
+            grade: 5,
+            unit: 2,
+            topic: "Types of Dwellings",
+            exampleSentence: "I live in a comfortable flat on the fifth floor.",
+            distractors: ["field", "lake", "tent"]
+          },
+          {
+            id: "g5-u2-l2-v3",
+            word: "tower",
+            clue: "A very tall building that rises high into the skyline",
+            vietnameseMeaning: "tòa tháp, cao ốc",
+            phonics: "/ˈtaʊər/",
+            emoji: "🗼",
+            grade: 5,
+            unit: 2,
+            topic: "Types of Dwellings",
+            exampleSentence: "Does your uncle live in that modern tower?",
+            distractors: ["boat", "tunnel", "car"]
+          },
+          {
+            id: "g5-u2-l2-v4",
+            word: "house",
+            clue: "A building for people, usually one family, to live in",
+            vietnameseMeaning: "ngôi nhà",
+            phonics: "/haʊs/",
+            emoji: "🏡",
+            grade: 5,
+            unit: 2,
+            topic: "Types of Dwellings",
+            exampleSentence: "We live in a nice yellow house with a flower garden.",
+            distractors: ["shop", "station", "stadium"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "Do you live in this/that [house / flat / building / tower]? - Yes, I do. / No, I don't.",
+            vietnameseMeaning: "Bạn sống ở [ngôi nhà / căn hộ / tòa nhà / tòa tháp] này/kia phải không? - Vâng, đúng vậy. / Không phải.",
+            sampleDialogue: [
+              { speaker: "Peter", text: "Do you live in that new building, Tony?", textVi: "Bạn sống ở tòa nhà mới kia phải không Tony?" },
+              { speaker: "Tony", text: "No, I don't. I live in that green house over there.", textVi: "Không phải đâu. Mình sống trong ngôi nhà màu xanh lá đằng kia." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Our Homes Across the Town",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "My friend lives at [address]. It is a [modern flat / cozy house].",
+            vietnameseMeaning: "Bạn mình sống tại [địa chỉ]. Đó là một [căn hộ hiện đại / ngôi nhà ấm cúng].",
+            sampleDialogue: [
+              { speaker: "Lan", text: "Where does Nam live?", textVi: "Nam sống ở đâu vậy?" },
+              { speaker: "Mai", text: "He lives at 45 Nguyen Hue Street in a sunny flat.", textVi: "Cậu ấy sống tại số 45 đường Nguyễn Huệ trong một căn hộ tràn ngập ánh nắng." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Visiting My Classmates' Homes",
+          text: "Today, our English study group visited each other's homes. Phong lives at 38 Le Loi Street in a bright house with lots of red roses. Lucy lives at 93 Hoang Hoa Tham Road in Flat 12 of a tall tower. My address is 116 Tran Phu Street. Although our homes look different, they are all warm, cozy, and filled with love!",
+          translationVi: "Hôm nay, nhóm học tiếng Anh của chúng mình đã ghé thăm nhà nhau. Phong sống ở số 38 đường Lê Lợi trong một ngôi nhà rực rỡ với rất nhiều hoa hồng đỏ. Lucy sống ở số 93 đường Hoàng Hoa Thám trong Căn hộ 12 của một tòa tháp cao. Địa chỉ của mình là số 116 đường Trần Phú. Dù nhà của mỗi bạn trông khác nhau, nhưng tất cả đều ấm cúng và ngập tràn tình yêu thương!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 3, unitTitle: "My Foreign Friends", unitTitleVi: "Những người bạn nước ngoài của mình", theme: "Penpals & Global Connections", icon: "🌐", semester: 1,
+    grade: 5,
+    unitNumber: 3,
+    unitTitle: "My foreign friends",
+    unitTitleVi: "Những người bạn nước ngoài của mình",
+    theme: "Me and My Friends",
+    icon: "🌏",
+    semester: 1,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: International Friends & Nationalities", focus: "vocabulary_phonics", phonicsSound: "Sounds /iː/ (Japanese) & /eɪ/ (Australian)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Countries & Nationalities",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/ʃ/ in British vs /tʃ/ in Chinese",
         vocabulary: [
-          { id: "g5-u3-penpal", word: "penpal", clue: "A friend with whom you exchange letters or emails across countries.", vietnameseMeaning: "bạn qua thư", phonics: "/ˈpen.pæl/", emoji: "✉️", grade: 5, unit: 3, topic: "Friends", exampleSentence: "I write emails to my American penpal.", distractors: ["teacher", "neighbor", "classmate"] },
-          { id: "g5-u3-japanese", word: "Japanese", clue: "Relating to Japan, its people, or language.", vietnameseMeaning: "người/tiếng Nhật Bản", phonics: "/ˌdʒæp.ənˈiːz/", emoji: "🇯🇵", grade: 5, unit: 3, topic: "Nationalities", exampleSentence: "Akiko is Japanese.", distractors: ["Vietnamese", "British", "American"] },
-          { id: "g5-u3-australian", word: "Australian", clue: "Relating to Australia and its citizens.", vietnameseMeaning: "người Úc", phonics: "/ɒsˈtreɪ.li.ən/", emoji: "🇦🇺", grade: 5, unit: 3, topic: "Nationalities", exampleSentence: "Sam is Australian.", distractors: ["English", "Malaysian", "Japanese"] },
-          { id: "g5-u3-british", word: "British", clue: "Relating to Great Britain.", vietnameseMeaning: "người Anh", phonics: "/ˈbrɪt.ɪʃ/", emoji: "🇬🇧", grade: 5, unit: 3, topic: "Nationalities", exampleSentence: "David is British.", distractors: ["American", "Australian", "Vietnamese"] },
+          {
+            id: "g5-u3-l1-v1",
+            word: "Australia",
+            clue: "A large island continent country famous for kangaroos and Sydney Opera House",
+            vietnameseMeaning: "nước Úc",
+            phonics: "/ɒˈstreɪliə/",
+            emoji: "🇦🇺",
+            grade: 5,
+            unit: 3,
+            topic: "Countries",
+            exampleSentence: "Where is he from? - He is from Australia. He is Australian.",
+            distractors: ["Japan", "Vietnam", "Britain"]
+          },
+          {
+            id: "g5-u3-l1-v2",
+            word: "America",
+            clue: "The United States of America (USA)",
+            vietnameseMeaning: "nước Mỹ, Hoa Kỳ",
+            phonics: "/əˈmerɪkə/",
+            emoji: "🇺🇸",
+            grade: 5,
+            unit: 3,
+            topic: "Countries",
+            exampleSentence: "David is from America. He is American.",
+            distractors: ["Malaysia", "India", "China"]
+          },
+          {
+            id: "g5-u3-l1-v3",
+            word: "Britain",
+            clue: "The United Kingdom (UK), containing England, Scotland, and Wales",
+            vietnameseMeaning: "nước Anh (Vương quốc Anh)",
+            phonics: "/ˈbrɪtn/",
+            emoji: "🇬🇧",
+            grade: 5,
+            unit: 3,
+            topic: "Countries",
+            exampleSentence: "Tony is from Britain. His nationality is British.",
+            distractors: ["Australia", "Japan", "America"]
+          },
+          {
+            id: "g5-u3-l1-v4",
+            word: "Japan",
+            clue: "An Asian island country famous for cherry blossoms and Mount Fuji",
+            vietnameseMeaning: "nước Nhật Bản",
+            phonics: "/dʒəˈpæn/",
+            emoji: "🇯🇵",
+            grade: 5,
+            unit: 3,
+            topic: "Countries",
+            exampleSentence: "Akiko comes from Japan. She is Japanese.",
+            distractors: ["Malaysia", "Britain", "Vietnam"]
+          },
+          {
+            id: "g5-u3-l1-v5",
+            word: "Malaysia",
+            clue: "A Southeast Asian country with the capital Kuala Lumpur",
+            vietnameseMeaning: "nước Ma-lai-xi-a",
+            phonics: "/məˈleɪʒə/",
+            emoji: "🇲🇾",
+            grade: 5,
+            unit: 3,
+            topic: "Countries",
+            exampleSentence: "Zack is from Malaysia. He is Malaysian.",
+            distractors: ["America", "Australia", "Japan"]
+          }
         ],
-        sentenceStructures: [{ pattern: "Where is your penpal from? ➔ He's/She's from [Country]. He's/She's [Nationality].", vietnameseMeaning: "Bạn qua thư của bạn đến từ đâu? ➔ Bạn ấy đến từ [Quốc gia]. Bạn ấy là người [Quốc tịch].", sampleDialogue: [{ speaker: "Mai", text: "Who are you sending an email to, Nam?", textVi: "Bạn đang gửi email cho ai thế Nam?" }, { speaker: "Nam", text: "To my penpal Kenji. He is from Tokyo, Japan.", textVi: "Cho bạn qua thư Kenji của mình. Cậu ấy đến từ Tokyo, Nhật Bản." }] }],
+        sentenceStructures: [
+          {
+            pattern: "Where is he/she from? - He/She is from [Country]. What nationality is he/she? - He/She is [Nationality].",
+            vietnameseMeaning: "Cậu ấy/Cô ấy đến từ đâu? - Cậu ấy/Cô ấy đến từ [Đất nước]. Cậu ấy/Cô ấy mang quốc tịch gì? - Cậu ấy/Cô ấy là người [Quốc tịch].",
+            sampleDialogue: [
+              { speaker: "Nam", text: "Where is your penfriend from, Mai?", textVi: "Bạn qua thư của cậu đến từ đâu vậy Mai?" },
+              { speaker: "Mai", text: "She is from Australia. She is Australian.", textVi: "Bạn ấy đến từ nước Úc. Bạn ấy là người Úc." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Cultural Exchanges", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "What language does he/she speak? ➔ He/She speaks [Language] and English.", vietnameseMeaning: "Bạn ấy nói ngôn ngữ nào? ➔ Bạn ấy nói [Ngôn ngữ] và tiếng Anh.", sampleDialogue: [{ speaker: "Linda", text: "What language does Akiko speak?", textVi: "Akiko nói ngôn ngữ gì?" }, { speaker: "Mai", text: "She speaks Japanese and fluent English.", textVi: "Bạn ấy nói tiếng Nhật và tiếng Anh rất lưu loát." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Global Penpal Network Story", focus: "reading_communication", readingMiniStory: { title: "Letters Across the Continents", text: "Our school connects with student penpals around the globe. We write letters about Vietnamese traditional festivals like Tet, and our foreign friends share stories of their holidays and customs.", translationVi: "Trường chúng mình kết nối với các bạn học sinh qua thư trên toàn cầu. Chúng mình viết thư giới thiệu về các lễ hội truyền thống Việt Nam như ngày Tết, còn các bạn quốc tế chia sẻ những câu chuyện về ngày lễ và phong tục quê hương họ." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: What is he/she like? (Personality)",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u3-l2-v1",
+            word: "friendly",
+            clue: "Behaving kindly and pleasantly towards people",
+            vietnameseMeaning: "thân thiện, cởi mở",
+            phonics: "/ˈfrendli/",
+            emoji: "😊",
+            grade: 5,
+            unit: 3,
+            topic: "Personality",
+            exampleSentence: "What is she like? - She is very friendly and cheerful.",
+            distractors: ["angry", "lazy", "cold"]
+          },
+          {
+            id: "g5-u3-l2-v2",
+            word: "helpful",
+            clue: "Willing to help other people with warmth",
+            vietnameseMeaning: "tốt bụng, hay giúp đỡ",
+            phonics: "/ˈhelpfl/",
+            emoji: "🤝",
+            grade: 5,
+            unit: 3,
+            topic: "Personality",
+            exampleSentence: "Tom is helpful; he always assists classmates with English.",
+            distractors: ["careless", "selfish", "sleepy"]
+          },
+          {
+            id: "g5-u3-l2-v3",
+            word: "clever",
+            clue: "Quick at understanding and learning things; smart",
+            vietnameseMeaning: "thông minh, nhanh dạ",
+            phonics: "/ˈklevər/",
+            emoji: "🧠",
+            grade: 5,
+            unit: 3,
+            topic: "Personality",
+            exampleSentence: "Mary is clever; she solves maths riddles quickly.",
+            distractors: ["clumsy", "dull", "slow"]
+          },
+          {
+            id: "g5-u3-l2-v4",
+            word: "active",
+            clue: "Energetic and lively, taking part in many physical activities",
+            vietnameseMeaning: "năng động, hoạt bát",
+            phonics: "/ˈæktɪv/",
+            emoji: "🏃",
+            grade: 5,
+            unit: 3,
+            topic: "Personality",
+            exampleSentence: "Ken is active; he plays football and swims every week.",
+            distractors: ["tired", "shy", "quiet"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "What is he/she like? - He/She is [friendly / helpful / clever / active].",
+            vietnameseMeaning: "Cậu ấy/Cô ấy là người như thế nào? - Cậu ấy/Cô ấy rất [thân thiện / tốt bụng / thông minh / năng động].",
+            sampleDialogue: [
+              { speaker: "Tony", text: "What is Zack like?", textVi: "Zack là người như thế nào?" },
+              { speaker: "Phong", text: "He is very clever and helpful.", textVi: "Cậu ấy rất thông minh và nhiệt tình giúp đỡ bạn bè." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Friends from Different Lands",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "I have a foreign friend named [Name]. He/She is [Nationality] and [adjective].",
+            vietnameseMeaning: "Mình có một người bạn nước ngoài tên là [Tên]. Bạn ấy là người [Quốc tịch] và rất [tính từ].",
+            sampleDialogue: [
+              { speaker: "Akiko", text: "Do you have friends from other countries?", textVi: "Bạn có bạn bè từ các nước khác không?" },
+              { speaker: "Nam", text: "Yes, I chat online with Emma from Australia every Sunday.", textVi: "Có chứ, mình trò chuyện trực tuyến với bạn Emma người Úc vào mỗi Chủ Nhật." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Penfriends Around the World",
+          text: "In our international school club, we have friends from many countries. David is American; he is active and plays basketball skillfully. Mary is British; she is cheerful and extremely helpful in our language workshops. Kenji is Japanese; he is quiet but very clever at origami art. We share our local cultures and learn together with joy!",
+          translationVi: "Tại câu lạc bộ trường quốc tế của chúng mình, chúng mình có bạn bè từ rất nhiều quốc gia. David là người Mỹ; cậu ấy năng động và chơi bóng rổ rất giỏi. Mary là người Anh; cô bạn vui tươi và cực kỳ nhiệt tình trong các buổi học ngôn ngữ. Kenji là người Nhật; bạn ấy ít nói nhưng gấp giấy origami siêu thông minh. Chúng mình chia sẻ văn hóa quê hương và cùng nhau học tập thật vui vẻ!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 4, unitTitle: "Our Free-Time Stories", unitTitleVi: "Những câu chuyện lúc rảnh rỗi của chúng mình", theme: "Folk Tales & Fables", icon: "📚", semester: 1,
+    grade: 5,
+    unitNumber: 4,
+    unitTitle: "Our free-time activities",
+    unitTitleVi: "Các hoạt động lúc rảnh rỗi của chúng mình",
+    theme: "Me and My Friends",
+    icon: "🎨",
+    semester: 1,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Classic Story Characters", focus: "vocabulary_phonics", phonicsSound: "Sounds /f/ (fox) & /kr/ (crow)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: What do you like doing in your free time?",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/aɪ/ in violin vs /ɜː/ in surf",
         vocabulary: [
-          { id: "g5-u4-folk-tale", word: "folk tale", clue: "Traditional story passed down through generations.", vietnameseMeaning: "truyện dân gian", phonics: "/ˈfəʊk ˌteɪl/", emoji: "📖", grade: 5, unit: 4, topic: "Literature", exampleSentence: "I love reading Vietnamese folk tales.", distractors: ["comic", "dictionary", "newspaper"] },
-          { id: "g5-u4-fox", word: "fox", clue: "Clever wild animal with red bushy tail.", vietnameseMeaning: "con cáo", phonics: "/fɒks/", emoji: "🦊", grade: 5, unit: 4, topic: "Characters", exampleSentence: "The cunning fox tricked the crow.", distractors: ["crow", "hare", "tortoise"] },
-          { id: "g5-u4-crow", word: "crow", clue: "Large black bird with loud cawing cry.", vietnameseMeaning: "con quạ", phonics: "/krəʊ/", emoji: "🐦‍⬛", grade: 5, unit: 4, topic: "Characters", exampleSentence: "The crow held a piece of cheese.", distractors: ["fox", "hare", "lion"] },
-          { id: "g5-u4-clever", word: "clever", clue: "Quick at learning and understanding.", vietnameseMeaning: "thông minh / khôn khéo", phonics: "/ˈklev.ər/", emoji: "💡", grade: 5, unit: 4, topic: "Traits", exampleSentence: "Tam is kind and clever.", distractors: ["greedy", "lazy", "foolish"] },
+          {
+            id: "g5-u4-l1-v1",
+            word: "play the violin",
+            clue: "To make music by playing a four-stringed wooden instrument with a bow",
+            vietnameseMeaning: "chơi đàn vĩ cầm (violin)",
+            phonics: "/pleɪ ðə ˌvaɪəˈlɪn/",
+            emoji: "🎻",
+            grade: 5,
+            unit: 4,
+            topic: "Free-time Activities",
+            exampleSentence: "I like playing the violin in my free time.",
+            distractors: ["ride horse", "wash dishes", "cut grass"]
+          },
+          {
+            id: "g5-u4-l1-v2",
+            word: "surf the Internet",
+            clue: "To look at various websites on the internet for fun or learning",
+            vietnameseMeaning: "lướt mạng Internet",
+            phonics: "/sɜːf ði ˈɪntənet/",
+            emoji: "🌐",
+            grade: 5,
+            unit: 4,
+            topic: "Free-time Activities",
+            exampleSentence: "She likes surfing the Internet to find English podcasts.",
+            distractors: ["sleep all day", "wash car", "fix doors"]
+          },
+          {
+            id: "g5-u4-l1-v3",
+            word: "go for a walk",
+            clue: "To take a relaxing stroll outdoors for fresh air and light exercise",
+            vietnameseMeaning: "đi dạo",
+            phonics: "/ɡəʊ fər ə wɔːk/",
+            emoji: "🚶",
+            grade: 5,
+            unit: 4,
+            topic: "Free-time Activities",
+            exampleSentence: "My grandfather and I go for a walk in the park every morning.",
+            distractors: ["climb trees", "drive train", "cook meals"]
+          },
+          {
+            id: "g5-u4-l1-v4",
+            word: "water the flowers",
+            clue: "To pour water on plants and flowers in the garden",
+            vietnameseMeaning: "tưới hoa",
+            phonics: "/ˈwɔːtər ðə ˈflaʊəz/",
+            emoji: "🚿",
+            grade: 5,
+            unit: 4,
+            topic: "Free-time Activities",
+            exampleSentence: "My sister likes watering the flowers in our sunny balcony.",
+            distractors: ["burn paper", "break pots", "catch mice"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What are you reading? ➔ I'm reading [Story Title]. / What is the main character like? ➔ He/She is [Personality trait].", vietnameseMeaning: "Bạn đang đọc truyện gì thế? ➔ Mình đang đọc [Tên truyện]. / Nhân vật chính là người thế nào? ➔ Bạn ấy rất [Đặc điểm tính cách].", sampleDialogue: [{ speaker: "Mai", text: "What are you reading, Quan?", textVi: "Bạn đang đọc truyện gì thế hả Quân?" }, { speaker: "Quan", text: "I'm reading The Story of Tam and Cam. Tam is very gentle and hardworking.", textVi: "Mình đang đọc truyện Tấm Cám. Cô Tấm rất hiền dịu và chăm chỉ." }] }],
+        sentenceStructures: [
+          {
+            pattern: "What do you like doing in your free time? - I like + V-ing [playing the violin / surfing the Internet].",
+            vietnameseMeaning: "Bạn thích làm gì trong thời gian rảnh? - Mình thích [chơi đàn violin / lướt mạng].",
+            sampleDialogue: [
+              { speaker: "Tony", text: "What do you like doing in your free time, Mai?", textVi: "Cậu thích làm gì lúc rảnh rỗi hả Mai?" },
+              { speaker: "Mai", text: "I like playing the violin and watering the flowers.", textVi: "Mình thích chơi đàn violin và tưới hoa." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Moral of the Story", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "What did you learn from the story? ➔ I learned to be honest and kind.", vietnameseMeaning: "Bạn học được bài học gì từ câu chuyện? ➔ Mình học được cách sống trung thực và tốt bụng.", sampleDialogue: [{ speaker: "Teacher", text: "What lesson does The Tortoise and the Hare teach us?", textVi: "Truyện Rùa và Thỏ dạy chúng ta bài học gì?" }, { speaker: "Nam", text: "Slow and steady wins the race!", textVi: "Chậm mà kiên trì ắt sẽ thành công ạ!" }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: The Magic Watermelon Story", focus: "reading_communication", readingMiniStory: { title: "The Legend of Mai An Tiem", text: "Exiled on a deserted island, Mai An Tiem discovered mysterious black seeds dropped by birds. He cultivated juicy sweet watermelons with sheer dedication and hard work, winning his family's honor back.", translationVi: "Bị đày ra đảo hoang, Mai An Tiêm phát hiện những hạt đen kỳ lạ do chim nhả xuống. Chàng đã gieo trồng nên những trái dưa hấu ngọt lành mọng nước bằng sự cần cù và nỗ lực phi thường, lấy lại danh dự cho gia đình." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: What do you do at the weekend? (Frequency)",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u4-l2-v1",
+            word: "read stories",
+            clue: "To read interesting tales, fairy stories, or comic books",
+            vietnameseMeaning: "đọc truyện",
+            phonics: "/riːd ˈstɔːriz/",
+            emoji: "📚",
+            grade: 5,
+            unit: 4,
+            topic: "Weekend Pastimes",
+            exampleSentence: "I always read stories in the school library at the weekend.",
+            distractors: ["throw rocks", "break toys", "shout loud"]
+          },
+          {
+            id: "g5-u4-l2-v2",
+            word: "ride my bike",
+            clue: "To pedal a bicycle around the streets or park",
+            vietnameseMeaning: "đạp xe đạp của mình",
+            phonics: "/raɪd maɪ baɪk/",
+            emoji: "🚴",
+            grade: 5,
+            unit: 4,
+            topic: "Weekend Pastimes",
+            exampleSentence: "I often ride my bike around West Lake on Saturdays.",
+            distractors: ["fly plane", "sail ship", "drive bus"]
+          },
+          {
+            id: "g5-u4-l2-v3",
+            word: "watch cartoons",
+            clue: "To watch animated animated films or shows on television",
+            vietnameseMeaning: "xem phim hoạt hình",
+            phonics: "/wɒtʃ kɑːˈtuːnz/",
+            emoji: "📺",
+            grade: 5,
+            unit: 4,
+            topic: "Weekend Pastimes",
+            exampleSentence: "My little brother sometimes watches cartoons on Sunday mornings.",
+            distractors: ["wash clothes", "iron shirts", "paint walls"]
+          },
+          {
+            id: "g5-u4-l2-v4",
+            word: "always",
+            clue: "At all times; 100% of the time",
+            vietnameseMeaning: "luôn luôn",
+            phonics: "/ˈɔːlweɪz/",
+            emoji: "💯",
+            grade: 5,
+            unit: 4,
+            topic: "Adverbs of Frequency",
+            exampleSentence: "I always wash my hands before eating.",
+            distractors: ["never", "rarely", "hardly"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "What do you do at the weekend? - I [always / usually / often / sometimes] [activity].",
+            vietnameseMeaning: "Bạn làm gì vào cuối tuần? - Mình [luôn luôn / thường xuyên / thỉnh thoảng] [hoạt động].",
+            sampleDialogue: [
+              { speaker: "Peter", text: "What do you do at the weekend, Quan?", textVi: "Cậu làm gì vào cuối tuần hả Quân?" },
+              { speaker: "Quan", text: "I often ride my bike and sometimes read stories.", textVi: "Mình thường đạp xe và thỉnh thoảng đọc truyện." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Joyful Weekends of Class 5B",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "At the weekend, I like [activity] because it helps me relax.",
+            vietnameseMeaning: "Vào cuối tuần, mình thích [hoạt động] bởi vì nó giúp mình thư giãn.",
+            sampleDialogue: [
+              { speaker: "Linda", text: "How do you spend your Sunday afternoons?", textVi: "Bạn dành buổi chiều Chủ Nhật làm gì?" },
+              { speaker: "Hoa", text: "I like going for a walk with my mother and watering our garden flowers.", textVi: "Mình thích đi dạo cùng mẹ và tưới hoa trong vườn." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "How We Relax at the Weekend",
+          text: "After a busy school week, students in Class 5B have wonderful ways to spend their free time. Minh likes playing the violin in the school music room. Lan loves watering the flowers and going for a walk around the green lake. Quan usually rides his bike with friends, while Linh often curls up on the sofa reading Vietnamese folk stories. Meaningful hobbies make our weekends bright and relaxing!",
+          translationVi: "Sau một tuần học tập bận rộn, các bạn học sinh lớp 5B có những cách tuyệt vời để tận hưởng thời gian rảnh rỗi. Minh thích chơi đàn violin tại phòng âm nhạc của trường. Lan thích tưới hoa và đi dạo quanh hồ nước xanh mát. Quân thường đạp xe cùng bạn bè, còn Linh thích nằm cuộn tròn trên ghế sofa đọc truyện dân gian Việt Nam. Những sở thích ý nghĩa giúp ngày cuối tuần của chúng mình luôn rạng rỡ và thư thái!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 5, unitTitle: "Our Study Habits", unitTitleVi: "Thói quen học tập của chúng mình", theme: "Language Learning Strategies", icon: "🧠", semester: 1,
+    grade: 5,
+    unitNumber: 5,
+    unitTitle: "My future job",
+    unitTitleVi: "Nghề nghiệp tương lai của mình",
+    theme: "Me and My Friends",
+    icon: "💼",
+    semester: 1,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Learning English Skills", focus: "vocabulary_phonics", phonicsSound: "Sounds /sp/ (speaking) & /pr/ (practice)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: What would you like to be in the future?",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/f/ in firefighter vs /r/ in reporter",
         vocabulary: [
-          { id: "g5-u5-speak-english", word: "speak English", clue: "Communicate vocally in English language.", vietnameseMeaning: "nói tiếng Anh", phonics: "/spiːk ˈɪŋ.ɡlɪʃ/", emoji: "🗣️", grade: 5, unit: 5, topic: "Skills", exampleSentence: "I practice speaking English every day.", distractors: ["write notes", "read silently", "sleep"] },
-          { id: "g5-u5-listen-dialogues", word: "listen to dialogues", clue: "Pay attention to spoken conversations.", vietnameseMeaning: "nghe các đoạn hội thoại", phonics: "/ˈlɪs.ən tuː ˈdaɪ.ə.lɒɡz/", emoji: "🎧", grade: 5, unit: 5, topic: "Skills", exampleSentence: "Listen to native speakers' audio.", distractors: ["draw pictures", "play games", "run"] },
-          { id: "g5-u5-read-stories", word: "read comic books", clue: "Enjoy illustrated short stories in English.", vietnameseMeaning: "đọc truyện tranh tiếng Anh", phonics: "/riːd ˈkɒm.ɪk bʊks/", emoji: "📚", grade: 5, unit: 5, topic: "Skills", exampleSentence: "I expand vocabulary by reading comics.", distractors: ["watch news", "sleep", "sing"] },
-          { id: "g5-u5-write-emails", word: "write emails", clue: "Compose digital letters to practice grammar.", vietnameseMeaning: "viết thư điện tử", phonics: "/raɪt ˈiː.meɪlz/", emoji: "📧", grade: 5, unit: 5, topic: "Skills", exampleSentence: "Write emails to foreign friends.", distractors: ["listen audio", "speak loud", "cook"] },
+          {
+            id: "g5-u5-l1-v1",
+            word: "firefighter",
+            clue: "A brave person whose job is to put out fires and rescue people",
+            vietnameseMeaning: "lính cứu hỏa",
+            phonics: "/ˈfaɪəfaɪtər/",
+            emoji: "👨‍🚒",
+            grade: 5,
+            unit: 5,
+            topic: "Occupations",
+            exampleSentence: "What would you like to be? - I'd like to be a firefighter.",
+            distractors: ["gardener", "reporter", "writer"]
+          },
+          {
+            id: "g5-u5-l1-v2",
+            word: "reporter",
+            clue: "A person whose job is to investigate news and report on TV or in newspapers",
+            vietnameseMeaning: "phóng viên, nhà báo",
+            phonics: "/rɪˈpɔːtər/",
+            emoji: "🎤",
+            grade: 5,
+            unit: 5,
+            topic: "Occupations",
+            exampleSentence: "She wants to be a reporter to interview famous athletes.",
+            distractors: ["firefighter", "dentist", "pilot"]
+          },
+          {
+            id: "g5-u5-l1-v3",
+            word: "gardener",
+            clue: "A person whose job is to take care of plants, trees, and flowers in a garden",
+            vietnameseMeaning: "người làm vườn",
+            phonics: "/ˈɡɑːdnər/",
+            emoji: "🧑‍🌾",
+            grade: 5,
+            unit: 5,
+            topic: "Occupations",
+            exampleSentence: "My grandfather is a skilled gardener in Da Lat.",
+            distractors: ["architect", "astronaut", "pilot"]
+          },
+          {
+            id: "g5-u5-l1-v4",
+            word: "writer",
+            clue: "A person who writes books, novels, or articles",
+            vietnameseMeaning: "nhà văn",
+            phonics: "/ˈraɪtər/",
+            emoji: "✍️",
+            grade: 5,
+            unit: 5,
+            topic: "Occupations",
+            exampleSentence: "He'd like to be a writer to create thrilling adventure stories.",
+            distractors: ["vet", "builder", "hairdresser"]
+          }
         ],
-        sentenceStructures: [{ pattern: "How do you practice [Skill]? ➔ I [Learning method]. / Why do you learn English? ➔ Because I want to [Goal].", vietnameseMeaning: "Bạn luyện tập [Kỹ năng] như thế nào? ➔ Mình [Phương pháp học]. / Tại sao bạn học tiếng Anh? ➔ Bởi vì mình muốn [Mục tiêu].", sampleDialogue: [{ speaker: "Tony", text: "How do you practice speaking English, Mai?", textVi: "Bạn luyện nói tiếng Anh bằng cách nào thế Mai?" }, { speaker: "Mai", text: "I speak English with foreign tourists and record my voice with AI feedback!", textVi: "Mình nói tiếng Anh với du khách nước ngoài và ghi âm giọng nói với nhận xét AI!" }] }],
+        sentenceStructures: [
+          {
+            pattern: "What would you like to be in the future? - I'd like to be a/an [firefighter / reporter / gardener / writer].",
+            vietnameseMeaning: "Bạn muốn trở thành người làm nghề gì trong tương lai? - Mình muốn trở thành một [lính cứu hỏa / phóng viên / người làm vườn / nhà văn].",
+            sampleDialogue: [
+              { speaker: "Tony", text: "What would you like to be in the future, Nam?", textVi: "Cậu muốn làm nghề gì trong tương lai thế Nam?" },
+              { speaker: "Nam", text: "I'd like to be a firefighter to help people.", textVi: "Mình muốn trở thành lính cứu hỏa để giúp đỡ mọi người." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Vocabulary Strategies", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "How do you learn new words? ➔ I write them in my notebook and stick notes on the wall.", vietnameseMeaning: "Bạn học từ mới như thế nào? ➔ Mình viết vào vở và dán giấy nhớ lên tường.", sampleDialogue: [{ speaker: "Peter", text: "How do you memorize so many words?", textVi: "Làm thế nào bạn nhớ được nhiều từ vựng thế?" }, { speaker: "Nam", text: "I read English stories and use digital flashcards.", textVi: "Mình đọc truyện tiếng Anh và dùng thẻ từ kỹ thuật số." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Master of English Story", focus: "reading_communication", readingMiniStory: { title: "The Secret to English Fluency", text: "Linh is the top English learner in Grade 5. She listens to BBC English podcasts every morning, chats with international penpals, and reads illustrated science encyclopedias every weekend.", translationVi: "Linh là học sinh giỏi tiếng Anh hàng đầu khối lớp 5. Bạn nghe bản tin tiếng Anh mỗi sáng, trò chuyện với bạn bè quốc tế qua thư và đọc bách khoa toàn thư khoa học có hình minh họa mỗi cuối tuần." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: Why would you like to do that job?",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u5-l2-v1",
+            word: "report the news",
+            clue: "To gather and broadcast daily events to the public",
+            vietnameseMeaning: "đưa tin tức, phát tin",
+            phonics: "/rɪˈpɔːt ðə njuːz/",
+            emoji: "📰",
+            grade: 5,
+            unit: 5,
+            topic: "Job Responsibilities",
+            exampleSentence: "Why would you like to be a reporter? - Because I'd like to report the news.",
+            distractors: ["cook dinner", "fly kites", "paint chairs"]
+          },
+          {
+            id: "g5-u5-l2-v2",
+            word: "grow flowers",
+            clue: "To plant and nurture blooming flowers in an orchard or park",
+            vietnameseMeaning: "trồng hoa",
+            phonics: "/ɡrəʊ ˈflaʊəz/",
+            emoji: "🌻",
+            grade: 5,
+            unit: 5,
+            topic: "Job Responsibilities",
+            exampleSentence: "Because I'd like to grow flowers and make our town colourful.",
+            distractors: ["catch fish", "repair bikes", "build fences"]
+          },
+          {
+            id: "g5-u5-l2-v3",
+            word: "write stories",
+            clue: "To imagine and put into words exciting tales for children",
+            vietnameseMeaning: "viết truyện",
+            phonics: "/raɪt ˈstɔːriz/",
+            emoji: "📖",
+            grade: 5,
+            unit: 5,
+            topic: "Job Responsibilities",
+            exampleSentence: "Why would she like to be a writer? - Because she'd like to write stories for children.",
+            distractors: ["cut hair", "drive trains", "pull weeds"]
+          },
+          {
+            id: "g5-u5-l2-v4",
+            word: "help people",
+            clue: "To assist individuals who are in danger, need, or difficulty",
+            vietnameseMeaning: "giúp đỡ mọi người",
+            phonics: "/help ˈpiːpl/",
+            emoji: "🦸",
+            grade: 5,
+            unit: 5,
+            topic: "Job Responsibilities",
+            exampleSentence: "Firefighters bravely risk their lives to help people.",
+            distractors: ["watch movies", "eat snacks", "play games"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "Why would you like to be a/an [job]? - Because I'd like to [action].",
+            vietnameseMeaning: "Tại sao bạn muốn làm [nghề nghiệp]? - Bởi vì mình muốn [hành động].",
+            sampleDialogue: [
+              { speaker: "Mai", text: "Why would you like to be a reporter?", textVi: "Vì sao bạn muốn trở thành phóng viên?" },
+              { speaker: "Hoa", text: "Because I'd like to report the news and travel everywhere.", textVi: "Bởi vì mình muốn đưa tin tức và được đi du lịch khắp nơi." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Our Big Dreams for the Future",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "I study hard every day to become a great [profession] in the future.",
+            vietnameseMeaning: "Mình học tập chăm chỉ mỗi ngày để trở thành một [nghề nghiệp] xuất sắc trong tương lai.",
+            sampleDialogue: [
+              { speaker: "Teacher", text: "What do you do to pursue your dream?", textVi: "Em làm gì để theo đuổi ước mơ của mình?" },
+              { speaker: "Duc", text: "I read books and practice writing stories every evening.", textVi: "Em đọc sách và luyện viết truyện vào mỗi buổi tối ạ." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Dreaming Big in Grade 5",
+          text: "In our English project, we talked about what we would like to be in the future. Binh dreams of becoming a firefighter because he wants to help people in emergencies. Ngoc would like to be a passionate gardener in Da Lat to grow sweet-smelling flowers. Lam wants to be a television reporter to report interesting news to everyone. Whatever our dreams are, we study diligently to achieve them!",
+          translationVi: "Trong dự án tiếng Anh, chúng mình đã thảo luận về nghề nghiệp tương lai mơ ước. Bình ước mơ làm lính cứu hỏa vì cậu ấy muốn giúp đỡ mọi người trong cơn nguy cấp. Ngọc muốn trở thành một người làm vườn tâm huyết tại Đà Lạt để trồng những bông hoa thơm ngát. Lâm muốn làm phóng viên truyền hình để đưa những bản tin thú vị đến mọi người. Dù ước mơ là gì, chúng mình đều chăm chỉ học hành để vươn tới tương lai!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 6, unitTitle: "Our School Trips", unitTitleVi: "Những chuyến dã ngoại trường học", theme: "Travel Experiences & Past Adventures", icon: "🚌", semester: 1,
+    grade: 5,
+    unitNumber: 6,
+    unitTitle: "Our school rooms",
+    unitTitleVi: "Các phòng học ở trường của chúng mình",
+    theme: "Me and My School",
+    icon: "🏫",
+    semester: 1,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Historic Places & Transportation", focus: "vocabulary_phonics", phonicsSound: "Sounds /tr/ (train) & /b/ (bus)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Rooms & Floors in Our School",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/st/ in first vs /nd/ in second",
         vocabulary: [
-          { id: "g5-u6-ancient-town", word: "Hoi An Ancient Town", clue: "Historic trading port with lantern-lit streets.", vietnameseMeaning: "Phố cổ Hội An", phonics: "/hɔɪ ɑːn ˈeɪn.ʃənt taʊn/", emoji: "🏮", grade: 5, unit: 6, topic: "Heritage", exampleSentence: "We visited Hoi An Ancient Town.", distractors: ["Ha Long Bay", "Imperial City", "Ba Dinh"] },
-          { id: "g5-u6-imperial-city", word: "Hue Imperial City", clue: "Ancient royal capital with palaces and tombs.", vietnameseMeaning: "Đại Nội Huế", phonics: "/hweɪ ɪmˈpɪə.ri.əl ˈsɪt.i/", emoji: "🏯", grade: 5, unit: 6, topic: "Heritage", exampleSentence: "Hue Imperial City is magnificent.", distractors: ["Hoi An", "Phong Nha", "Sa Pa"] },
-          { id: "g5-u6-by-underground", word: "by underground", clue: "Traveling on subterranean metro trains.", vietnameseMeaning: "bằng tàu điện ngầm", phonics: "/baɪ ˈʌn.də.ɡraʊnd/", emoji: "🚇", grade: 5, unit: 6, topic: "Transport", exampleSentence: "Travel across London by underground.", distractors: ["by coach", "by ferry", "by bike"] },
-          { id: "g5-u6-by-coach", word: "by coach", clue: "Traveling on a long-distance touring bus.", vietnameseMeaning: "bằng xe khách đường dài", phonics: "/baɪ kəʊtʃ/", emoji: "🚌", grade: 5, unit: 6, topic: "Transport", exampleSentence: "We went to Ba Vi by coach.", distractors: ["by train", "by plane", "by ship"] },
+          {
+            id: "g5-u6-l1-v1",
+            word: "music room",
+            clue: "A special room where students sing songs and play musical instruments",
+            vietnameseMeaning: "phòng âm nhạc",
+            phonics: "/ˈmjuːzɪk ruːm/",
+            emoji: "🎵",
+            grade: 5,
+            unit: 6,
+            topic: "School Rooms",
+            exampleSentence: "Where's the music room? - It's on the first floor.",
+            distractors: ["stadium", "canteen", "garden"]
+          },
+          {
+            id: "g5-u6-l1-v2",
+            word: "computer room",
+            clue: "A modern room equipped with desktop computers for IT lessons",
+            vietnameseMeaning: "phòng máy tính, tin học",
+            phonics: "/kəmˈpjuːtər ruːm/",
+            emoji: "💻",
+            grade: 5,
+            unit: 6,
+            topic: "School Rooms",
+            exampleSentence: "Our computer room is on the second floor.",
+            distractors: ["bedroom", "playground", "garage"]
+          },
+          {
+            id: "g5-u6-l1-v3",
+            word: "library",
+            clue: "A quiet room containing shelves of books for reading and borrowing",
+            vietnameseMeaning: "thư viện",
+            phonics: "/ˈlaɪbrəri/",
+            emoji: "📖",
+            grade: 5,
+            unit: 6,
+            topic: "School Rooms",
+            exampleSentence: "We read science books in the library at break time.",
+            distractors: ["kitchen", "gym", "yard"]
+          },
+          {
+            id: "g5-u6-l1-v4",
+            word: "ground floor",
+            clue: "The floor of a building that is level with the ground outside",
+            vietnameseMeaning: "tầng trệt",
+            phonics: "/ɡraʊnd flɔːr/",
+            emoji: "1️⃣",
+            grade: 5,
+            unit: 6,
+            topic: "Building Floors",
+            exampleSentence: "The principal's office is on the ground floor.",
+            distractors: ["roof", "cellar", "balcony"]
+          }
         ],
-        sentenceStructures: [{ pattern: "Where did you go on your school trip? ➔ I went to [Destination]. / How did you get there? ➔ I went by [Transport].", vietnameseMeaning: "Bạn đã đi đâu trong chuyến dã ngoại? ➔ Mình đã đi [Điểm đến]. / Bạn đến đó bằng phương tiện gì? ➔ Mình đi bằng [Phương tiện].", sampleDialogue: [{ speaker: "Tony", text: "Where did you go last weekend, Mai?", textVi: "Cuối tuần trước bạn đã đi đâu thế Mai?" }, { speaker: "Mai", text: "I went to Hoi An Ancient Town with my class. We went by plane to Da Nang, then took a coach.", textVi: "Mình đi Phố cổ Hội An cùng lớp. Chúng mình đi máy bay đến Đà Nẵng, rồi đi xe khách tới nơi." }] }],
+        sentenceStructures: [
+          {
+            pattern: "Where's the [school room]? - It's on the [ground / first / second / third] floor.",
+            vietnameseMeaning: "[Phòng học] ở đâu vậy? - Nó ở trên tầng [trệt / 1 / 2 / 3].",
+            sampleDialogue: [
+              { speaker: "Ben", text: "Where's the computer room?", textVi: "Phòng máy tính ở đâu thế bạn?" },
+              { speaker: "Mai", text: "It's on the second floor, next to the art room.", textVi: "Nó ở trên tầng hai, cạnh phòng mỹ thuật." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Describing Trip Experiences", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "What was the trip like? ➔ It was wonderful and educational.", vietnameseMeaning: "Chuyến đi như thế nào? ➔ Thật tuyệt vời và bổ ích.", sampleDialogue: [{ speaker: "Nam", text: "What was the trip to Hue like?", textVi: "Chuyến đi Huế thế nào hả bạn?" }, { speaker: "Peter", text: "It was awesome! The ancient architecture was astonishing.", textVi: "Tuyệt vời lắm! Kiến trúc cổ kính làm mình vô cùng kinh ngạc." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Heritage Discovery Story", focus: "reading_communication", readingMiniStory: { title: "A Magical Night in Hoi An", text: "During our school heritage trip, we visited Hoi An. At night, colorful silk lanterns illuminated the Hoai River. We released floating paper candles, made wishes, and tasted Cao Lau noodles.", translationVi: "Trong chuyến dã ngoại di sản trường học, chúng mình đã ghé thăm Hội An. Về đêm, những chiếc đèn lồng lụa rực rỡ thắp sáng dòng sông Hoài. Chúng mình thả hoa đăng, ước nguyện những điều tốt lành và thưởng thức món mì Cao Lầu thơm ngon." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: Asking for and Giving Directions in School",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u6-l2-v1",
+            word: "go upstairs",
+            clue: "To walk up the flight of stairs to a higher floor",
+            vietnameseMeaning: "đi lên lầu, lên tầng trên",
+            phonics: "/ɡəʊ ˌʌpˈsteəz/",
+            emoji: "🆙",
+            grade: 5,
+            unit: 6,
+            topic: "Directions",
+            exampleSentence: "Go upstairs and turn left to find the science room.",
+            distractors: ["fall down", "sit quietly", "close door"]
+          },
+          {
+            id: "g5-u6-l2-v2",
+            word: "go along the corridor",
+            clue: "To walk straight down the long hallway connecting school rooms",
+            vietnameseMeaning: "đi dọc theo hành lang",
+            phonics: "/ɡəʊ əˈlɒŋ ðə ˈkɒrɪdɔːr/",
+            emoji: "🚶‍♂️",
+            grade: 5,
+            unit: 6,
+            topic: "Directions",
+            exampleSentence: "Go along the corridor and it is on your right.",
+            distractors: ["jump over fence", "dig hole", "open window"]
+          },
+          {
+            id: "g5-u6-l2-v3",
+            word: "turn left",
+            clue: "To change direction towards the left side",
+            vietnameseMeaning: "rẽ trái",
+            phonics: "/tɜːn left/",
+            emoji: "⬅️",
+            grade: 5,
+            unit: 6,
+            topic: "Directions",
+            exampleSentence: "Turn left after the library and you will see the music room.",
+            distractors: ["run fast", "turn right", "stop immediately"]
+          },
+          {
+            id: "g5-u6-l2-v4",
+            word: "turn right",
+            clue: "To change direction towards the right side",
+            vietnameseMeaning: "rẽ phải",
+            phonics: "/tɜːn raɪt/",
+            emoji: "➡️",
+            grade: 5,
+            unit: 6,
+            topic: "Directions",
+            exampleSentence: "Turn right at the end of the hallway.",
+            distractors: ["turn left", "sit down", "go back"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "Could you tell me the way to the [room], please? - [Go upstairs / Go along the corridor / Turn left / Turn right].",
+            vietnameseMeaning: "Bạn làm ơn chỉ giúp mình đường đến [phòng học] được không? - [Đi lên tầng / Đi dọc hành lang / Rẽ trái / Rẽ phải].",
+            sampleDialogue: [
+              { speaker: "Visitor", text: "Could you tell me the way to the art room, please?", textVi: "Cháu làm ơn chỉ giúp cô đường đến phòng mỹ thuật được không?" },
+              { speaker: "Nam", text: "Go upstairs, go along the corridor, and turn right.", textVi: "Cô đi lên tầng, đi dọc theo hành lang rồi rẽ phải ạ." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: A Guided Tour of Our School",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "Our school has [number] floors. On the [first floor], there is [room].",
+            vietnameseMeaning: "Trường chúng mình có [số] tầng. Ở [tầng một], có [phòng học].",
+            sampleDialogue: [
+              { speaker: "Student", text: "Welcome to our bright primary school!", textVi: "Chào mừng các bạn đến với ngôi trường tiểu học khang trang của chúng mình!" },
+              { speaker: "Guest", text: "Your school is very modern and easy to navigate.", textVi: "Trường các em rất hiện đại và dễ tìm đường đi." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Navigating Nguyen Trai Primary School",
+          text: "Welcome to Nguyen Trai Primary School! Our school has three large floors. On the ground floor, you can find the principal's office, the canteen, and a medical room. If you go upstairs to the first floor, you will see our colorful art room and the spacious library. The computer room and the music room are on the second floor. Big signs along the corridors make it easy for everyone to find their way!",
+          translationVi: "Chào mừng bạn đến với Trường Tiểu học Nguyễn Trãi! Trường chúng mình gồm ba tầng khang trang. Ở tầng trệt có phòng hiệu trưởng, nhà ăn và phòng y tế. Nếu đi lên tầng một, bạn sẽ thấy phòng mỹ thuật rực rỡ sắc màu và thư viện rộng rãi. Phòng máy tính và phòng âm nhạc nằm trên tầng hai. Những biển chỉ dẫn lớn dọc theo các hành lang giúp mọi người dễ dàng tìm được đường đi!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 7, unitTitle: "Our School Events", unitTitleVi: "Các sự kiện của trường học", theme: "School Celebrations & Festivals", icon: "🎉", semester: 1,
+    grade: 5,
+    unitNumber: 7,
+    unitTitle: "Our favourite school activities",
+    unitTitleVi: "Các hoạt động trường học yêu thích",
+    theme: "Me and My School",
+    icon: "⚽",
+    semester: 1,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Festivals & Celebrations", focus: "vocabulary_phonics", phonicsSound: "Sounds /tʃ/ (Children's Day) & /t/ (Teachers' Day)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: What school activity do you like?",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/pr/ in project vs /pl/ in play",
         vocabulary: [
-          { id: "g5-u7-teachers-day", word: "Teachers' Day", clue: "Celebration honoring educators on 20th November in Vietnam.", vietnameseMeaning: "Ngày Nhà giáo Việt Nam", phonics: "/ˈtiː.tʃəz ˌdeɪ/", emoji: "💐", grade: 5, unit: 7, topic: "Events", exampleSentence: "We present flowers on Teachers' Day.", distractors: ["Children's Day", "Sports Day", "Independence Day"] },
-          { id: "g5-u7-childrens-day", word: "Children's Day", clue: "Joyful celebration for kids on 1st June.", vietnameseMeaning: "Ngày Quốc tế Thiếu nhi", phonics: "/ˈtʃɪl.drənz ˌdeɪ/", emoji: "🎈", grade: 5, unit: 7, topic: "Events", exampleSentence: "Games and gifts on Children's Day.", distractors: ["Teachers' Day", "New Year", "Christmas"] },
-          { id: "g5-u7-singing-contest", word: "singing contest", clue: "Vocal competition among talented students.", vietnameseMeaning: "cuộc thi hát", phonics: "/ˈsɪŋ.ɪŋ ˌkɒn.test/", emoji: "🎤", grade: 5, unit: 7, topic: "Activities", exampleSentence: "Our choir won the singing contest.", distractors: ["drawing exhibition", "running race", "chess tournament"] },
-          { id: "g5-u7-art-exhibition", word: "art exhibition", clue: "Public display of student paintings.", vietnameseMeaning: "triển lãm mỹ thuật", phonics: "/ɑːt ˌek.sɪˈbɪʃ.ən/", emoji: "🖼️", grade: 5, unit: 7, topic: "Activities", exampleSentence: "Visit the school art exhibition.", distractors: ["sports match", "singing contest", "book fair"] },
+          {
+            id: "g5-u7-l1-v1",
+            word: "do projects",
+            clue: "To work together in groups researching and making presentations",
+            vietnameseMeaning: "làm các dự án học tập",
+            phonics: "/duː ˈprɒdʒekts/",
+            emoji: "📋",
+            grade: 5,
+            unit: 7,
+            topic: "School Activities",
+            exampleSentence: "What school activity do you like? - I like doing projects.",
+            distractors: ["sleep in class", "break rules", "shout loud"]
+          },
+          {
+            id: "g5-u7-l1-v2",
+            word: "solve maths problems",
+            clue: "To calculate and find correct answers to numerical questions",
+            vietnameseMeaning: "giải bài toán",
+            phonics: "/sɒlv mæθs ˈprɒbləmz/",
+            emoji: "🔢",
+            grade: 5,
+            unit: 7,
+            topic: "School Activities",
+            exampleSentence: "Minh is clever and likes solving maths problems.",
+            distractors: ["sing songs", "water plants", "wash dishes"]
+          },
+          {
+            id: "g5-u7-l1-v3",
+            word: "play games",
+            clue: "To participate in fun learning or playground games with classmates",
+            vietnameseMeaning: "chơi trò chơi",
+            phonics: "/pleɪ ɡeɪmz/",
+            emoji: "🎲",
+            grade: 5,
+            unit: 7,
+            topic: "School Activities",
+            exampleSentence: "We like playing English word games at the start of class.",
+            distractors: ["clean floor", "erase board", "close windows"]
+          },
+          {
+            id: "g5-u7-l1-v4",
+            word: "read books",
+            clue: "To look at written words in storybooks or textbooks",
+            vietnameseMeaning: "đọc sách",
+            phonics: "/riːd bʊks/",
+            emoji: "📚",
+            grade: 5,
+            unit: 7,
+            topic: "School Activities",
+            exampleSentence: "She likes reading books in the peaceful library.",
+            distractors: ["run fast", "throw balls", "jump rope"]
+          }
         ],
-        sentenceStructures: [{ pattern: "When is [Event]? ➔ It's on the [Date] of [Month]. / What are you going to do for [Event]? ➔ I'm going to [Action].", vietnameseMeaning: "Khi nào là [Sự kiện]? ➔ Vào ngày [Ngày] của [Tháng]. / Bạn dự định làm gì cho [Sự kiện]? ➔ Mình dự định [Hành động].", sampleDialogue: [{ speaker: "Tony", text: "When is Vietnamese Teachers' Day?", textVi: "Khi nào là Ngày Nhà giáo Việt Nam thế?" }, { speaker: "Mai", text: "It's on the twentieth of November. We are going to perform a musical play to thank our teachers!", textVi: "Vào ngày 20 tháng 11. Chúng mình sẽ biểu diễn một vở nhạc kịch để tri ân thầy cô!" }] }],
+        sentenceStructures: [
+          {
+            pattern: "What school activity do you like? - I like + V-ing [doing projects / solving maths problems / playing games / reading books].",
+            vietnameseMeaning: "Bạn thích hoạt động trường học nào? - Mình thích [làm dự án / giải toán / chơi trò chơi / đọc sách].",
+            sampleDialogue: [
+              { speaker: "Tony", text: "What school activity do you like, Mai?", textVi: "Cậu thích hoạt động trường học nào hả Mai?" },
+              { speaker: "Mai", text: "I like doing science projects with my friends.", textVi: "Mình thích làm dự án khoa học cùng các bạn." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Festival Preparations", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "Are you ready for the [Festival]? ➔ Yes, we are rehearsing hard.", vietnameseMeaning: "Các bạn đã sẵn sàng cho [Lễ hội] chưa? ➔ Rồi, chúng mình đang tích cực tập luyện.", sampleDialogue: [{ speaker: "Nam", text: "Are you ready for the singing contest?", textVi: "Bạn đã sẵn sàng cho cuộc thi hát chưa?" }, { speaker: "Linda", text: "Yes! Our class choir is practicing every afternoon.", textVi: "Sẵn sàng rồi! Dàn đồng ca lớp mình đang tập luyện mỗi buổi chiều." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Teachers' Day Tribute Story", focus: "reading_communication", readingMiniStory: { title: "Honoring Our Beloved Teachers", text: "On Vietnamese Teachers' Day, the entire schoolyard overflows with fresh blossoms and cheerful cards. Grade 5 students present a heartfelt choral performance that brings joyful tears to our teachers' eyes.", translationVi: "Vào Ngày Nhà giáo Việt Nam, toàn bộ sân trường ngập tràn hoa tươi thắm và những cánh thiệp rực rỡ. Học sinh khối 5 trình bày một tiết mục hợp xướng đong đầy cảm xúc làm các thầy cô xúc động mỉm cười rạng rỡ." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: Why do you like that activity?",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u7-l2-v1",
+            word: "interesting",
+            clue: "Attracting your attention and curiosity; engaging",
+            vietnameseMeaning: "thú vị, hấp dẫn",
+            phonics: "/ˈɪntrəstɪŋ/",
+            emoji: "✨",
+            grade: 5,
+            unit: 7,
+            topic: "Adjectives",
+            exampleSentence: "Why do you like solving maths problems? - Because I think it's interesting.",
+            distractors: ["boring", "tiring", "sad"]
+          },
+          {
+            id: "g5-u7-l2-v2",
+            word: "useful",
+            clue: "Helping you to do or get what you want; practical",
+            vietnameseMeaning: "hữu ích, bổ ích",
+            phonics: "/ˈjuːsfəl/",
+            emoji: "💡",
+            grade: 5,
+            unit: 7,
+            topic: "Adjectives",
+            exampleSentence: "Reading science books is very useful for our knowledge.",
+            distractors: ["useless", "dull", "harmful"]
+          },
+          {
+            id: "g5-u7-l2-v3",
+            word: "fun",
+            clue: "Enjoyable and amusing",
+            vietnameseMeaning: "vui nhộn, vui vẻ",
+            phonics: "/fʌn/",
+            emoji: "🎉",
+            grade: 5,
+            unit: 7,
+            topic: "Adjectives",
+            exampleSentence: "Playing English language games is always great fun.",
+            distractors: ["scary", "difficult", "heavy"]
+          },
+          {
+            id: "g5-u7-l2-v4",
+            word: "group work",
+            clue: "Working cooperatively as a team on assigned tasks",
+            vietnameseMeaning: "làm việc nhóm",
+            phonics: "/ɡruːp wɜːk/",
+            emoji: "👥",
+            grade: 5,
+            unit: 7,
+            topic: "Learning Styles",
+            exampleSentence: "Group work teaches us how to listen and cooperate.",
+            distractors: ["solo study", "punishment", "homework test"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "Why do you like [activity / V-ing]? - Because I think it's [interesting / useful / fun].",
+            vietnameseMeaning: "Tại sao bạn thích [hoạt động]? - Bởi vì mình nghĩ nó [thú vị / hữu ích / vui vẻ].",
+            sampleDialogue: [
+              { speaker: "Peter", text: "Why do you like doing projects?", textVi: "Vì sao bạn thích làm dự án?" },
+              { speaker: "Linda", text: "Because I think it's useful and promotes good teamwork.", textVi: "Bởi vì mình nghĩ nó rất bổ ích và rèn luyện kỹ năng làm việc nhóm." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Project Day in Class 5C",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "We love [school activity] because it makes learning [exciting / memorable].",
+            vietnameseMeaning: "Chúng mình yêu thích [hoạt động học tập] vì nó khiến việc học trở nên [hào hứng / đáng nhớ].",
+            sampleDialogue: [
+              { speaker: "Nam", text: "Which activity did you enjoy most today?", textVi: "Hôm nay cậu thích hoạt động nào nhất?" },
+              { speaker: "Hoa", text: "The English trivia game! It was super fun and engaging.", textVi: "Trò chơi đố vui tiếng Anh! Nó siêu vui và lôi cuốn." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Our Exciting Project Exhibition",
+          text: "Friday is always the most anticipated day at our school. In Class 5C, we presented our science projects about environmental protection. Phong's team made a model windmill, while Lan's group solved challenging maths puzzles about recycling. We love doing projects because it is useful and exciting. Learning by doing brings genuine smiles to everyone's faces!",
+          translationVi: "Thứ Sáu luôn là ngày được mong chờ nhất ở trường chúng mình. Tại lớp 5C, chúng mình đã thuyết trình các dự án khoa học về bảo vệ môi trường. Nhóm của Phong đã làm một mô hình cối xay gió, trong khi nhóm của Lan giải những câu đố toán hóc búa về tái chế rác thải. Chúng mình rất thích làm dự án vì hoạt động này vừa bổ ích vừa hào hứng. Học qua thực hành mang lại nụ cười rạng rỡ cho tất cả mọi người!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 8, unitTitle: "Our School Projects", unitTitleVi: "Các dự án học tập của trường", theme: "STEM, Environment & Science", icon: "🌱", semester: 1,
+    grade: 5,
+    unitNumber: 8,
+    unitTitle: "In our classroom",
+    unitTitleVi: "Trong phòng học của chúng mình",
+    theme: "Me and My School",
+    icon: "🎒",
+    semester: 1,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Green Projects & Innovations", focus: "vocabulary_phonics", phonicsSound: "Sounds /pl/ (plant) & /pr/ (project)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Classroom Supplies & Locations",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/skw/ in set square vs /kr/ in crayon",
         vocabulary: [
-          { id: "g5-u8-plant-trees", word: "plant trees", clue: "Put saplings into ground to grow.", vietnameseMeaning: "trồng cây xanh", phonics: "/plɑːnt triːz/", emoji: "🌳", grade: 5, unit: 8, topic: "Environment", exampleSentence: "We plant trees around school.", distractors: ["recycle paper", "save water", "clean floor"] },
-          { id: "g5-u8-recycle-bottles", word: "recycle plastic bottles", clue: "Process used bottles for new purposes.", vietnameseMeaning: "tái chế chai nhựa", phonics: "/ˌriːˈsaɪ.kəl ˈplæs.tɪk ˈbɒt.əlz/", emoji: "♻️", grade: 5, unit: 8, topic: "Environment", exampleSentence: "Turn plastic bottles into flower pots.", distractors: ["throw away", "burn trash", "plant trees"] },
-          { id: "g5-u8-solar-model", word: "solar energy model", clue: "Miniature setup demonstrating power from sun.", vietnameseMeaning: "mô hình năng lượng mặt trời", phonics: "/ˈsəʊ.lər ˈen.ə.dʒi ˈmɒd.əl/", emoji: "☀️", grade: 5, unit: 8, topic: "STEM", exampleSentence: "Build a solar energy car model.", distractors: ["water filter", "paper plane", "clay pot"] },
-          { id: "g5-u8-water-filter", word: "clean water filter", clue: "Apparatus that purifies dirty liquid.", vietnameseMeaning: "bộ lọc nước sạch", phonics: "/kliːn ˈwɔː.tər ˈfɪl.tər/", emoji: "💧", grade: 5, unit: 8, topic: "STEM", exampleSentence: "Test the sand water filter.", distractors: ["solar model", "tree pot", "plastic box"] },
+          {
+            id: "g5-u8-l1-v1",
+            word: "crayon",
+            clue: "A stick of colored wax used for drawing pictures",
+            vietnameseMeaning: "bút sáp màu",
+            phonics: "/ˈkreɪən/",
+            emoji: "🖍️",
+            grade: 5,
+            unit: 8,
+            topic: "Classroom Supplies",
+            exampleSentence: "Where are the crayons? - They are on the teacher's desk.",
+            distractors: ["ruler", "rubber", "notebook"]
+          },
+          {
+            id: "g5-u8-l1-v2",
+            word: "glue stick",
+            clue: "A small tube of solid adhesive used for sticking craft paper",
+            vietnameseMeaning: "lọ keo khô, hồ dán",
+            phonics: "/ɡluː stɪk/",
+            emoji: "🧴",
+            grade: 5,
+            unit: 8,
+            topic: "Classroom Supplies",
+            exampleSentence: "Where is the glue stick? - It is in the craft box.",
+            distractors: ["scissors", "pencil", "pen"]
+          },
+          {
+            id: "g5-u8-l1-v3",
+            word: "pencil sharpener",
+            clue: "A small tool used to sharpen pencils to a point",
+            vietnameseMeaning: "cái gọt bút chì",
+            phonics: "/ˈpensl ʃɑːpnər/",
+            emoji: "✏️",
+            grade: 5,
+            unit: 8,
+            topic: "Classroom Supplies",
+            exampleSentence: "Can I borrow your pencil sharpener, please?",
+            distractors: ["sharp knife", "stapler", "folder"]
+          },
+          {
+            id: "g5-u8-l1-v4",
+            word: "set square",
+            clue: "A triangular plastic ruler used for drawing straight lines and right angles",
+            vietnameseMeaning: "thước ê-ke hình tam giác",
+            phonics: "/ˈset skweər/",
+            emoji: "📐",
+            grade: 5,
+            unit: 8,
+            topic: "Classroom Supplies",
+            exampleSentence: "We use a set square in geometry lessons to draw right angles.",
+            distractors: ["compass", "calculator", "tape"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What is your school project about? ➔ It's about [Topic]. / What are you going to do? ➔ We are going to [Action].", vietnameseMeaning: "Dự án học tập của bạn về chủ đề gì? ➔ Về [Chủ đề]. / Các bạn dự định sẽ làm gì? ➔ Chúng mình dự định [Hành động].", sampleDialogue: [{ speaker: "Linda", text: "What is your Science project about, Quan?", textVi: "Dự án Khoa học của nhóm bạn về chủ đề gì thế Quân?" }, { speaker: "Quan", text: "It's about renewable energy. We are making a working solar windmill!", textVi: "Về năng lượng tái tạo. Nhóm mình đang chế tạo một cối xay gió chạy bằng năng lượng mặt trời!" }] }],
+        sentenceStructures: [
+          {
+            pattern: "Where is/are the [stationery]? - It is / They are [on / under / beside / in front of] the [table/shelf].",
+            vietnameseMeaning: "[Đồ dùng học tập] ở đâu? - Nó/Chúng ở [trên / dưới / bên cạnh / phía trước] [bàn/kệ].",
+            sampleDialogue: [
+              { speaker: "Lan", text: "Where are the colorful crayons?", textVi: "Những chiếc bút sáp màu ở đâu thế?" },
+              { speaker: "Minh", text: "They are in the drawer under the teacher's table.", textVi: "Chúng ở trong ngăn kéo dưới bàn giáo viên." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Presentation & Teamwork", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "How does your model work? ➔ It absorbs sunlight and turns it into clean electricity.", vietnameseMeaning: "Mô hình của bạn hoạt động như thế nào? ➔ Nó hấp thụ ánh sáng mặt trời và chuyển hóa thành điện sạch.", sampleDialogue: [{ speaker: "Judge", text: "How does this water filter work?", textVi: "Bộ lọc nước này hoạt động thế nào?" }, { speaker: "Mai", text: "Layers of charcoal, sand, and pebbles purify murky water into clear droplets.", textVi: "Các lớp than hoạt tính, cát và sỏi lọc nước đục thành những giọt nước trong vắt." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Young Inventors Story", focus: "reading_communication", readingMiniStory: { title: "Green Planet STEM Fair", text: "At our annual STEM Science Fair, Grade 5 teams showcase creative eco-inventions. Team Green builds automatic drip-irrigation systems, while Team Solar races mini cars powered purely by solar panels!", translationVi: "Tại Hội chợ Khoa học STEM thường niên, các đội khối lớp 5 trình diễn những sáng kiến sinh thái đầy sáng tạo. Đội Xanh chế tạo hệ thống tưới nhỏ giọt tự động, trong khi Đội Mặt Trời cho đua những chiếc xe mini chạy hoàn toàn bằng pin quang điện!" }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: Whose is this? (Asking about Ownership)",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u8-l2-v1",
+            word: "above",
+            clue: "In a higher position than something else",
+            vietnameseMeaning: "ở phía trên",
+            phonics: "/əˈbʌv/",
+            emoji: "⬆️",
+            grade: 5,
+            unit: 8,
+            topic: "Prepositions",
+            exampleSentence: "The wall clock hangs above the whiteboard.",
+            distractors: ["under", "behind", "below"]
+          },
+          {
+            id: "g5-u8-l2-v2",
+            word: "beside",
+            clue: "At the side of; next to",
+            vietnameseMeaning: "bên cạnh",
+            phonics: "/bɪˈsaɪd/",
+            emoji: "↔️",
+            grade: 5,
+            unit: 8,
+            topic: "Prepositions",
+            exampleSentence: "My backpack is beside Nam's desk.",
+            distractors: ["far", "across", "inside"]
+          },
+          {
+            id: "g5-u8-l2-v3",
+            word: "in front of",
+            clue: "Directly ahead of someone or something",
+            vietnameseMeaning: "ở phía trước",
+            phonics: "/ɪn frʌnt əv/",
+            emoji: "🔽",
+            grade: 5,
+            unit: 8,
+            topic: "Prepositions",
+            exampleSentence: "The teacher stands in front of the classroom.",
+            distractors: ["behind", "under", "outside"]
+          },
+          {
+            id: "g5-u8-l2-v4",
+            word: "under",
+            clue: "Below the surface of something; beneath",
+            vietnameseMeaning: "ở phía dưới, bên dưới",
+            phonics: "/ˈʌndər/",
+            emoji: "⬇️",
+            grade: 5,
+            unit: 8,
+            topic: "Prepositions",
+            exampleSentence: "The set square dropped under the wooden chair.",
+            distractors: ["above", "on top", "high up"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "Whose [object] is this? - It's [Name]'s / It's my [object].",
+            vietnameseMeaning: "[Đồ vật] này là của ai? - Đó là của [Tên] / Đó là [đồ vật] của mình.",
+            sampleDialogue: [
+              { speaker: "Teacher", text: "Whose pencil sharpener is this on the floor?", textVi: "Cái gọt bút chì dưới sàn này là của ai vậy?" },
+              { speaker: "Nam", text: "It's mine, teacher! Thank you for picking it up.", textVi: "Dạ của em thưa cô! Em cảm ơn cô đã nhặt giúp em." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: A Tidy and Caring Classroom",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "We always keep our classroom [tidy / clean / organized] after every lesson.",
+            vietnameseMeaning: "Chúng mình luôn giữ phòng học [ngăn nắp / sạch sẽ / gọn gàng] sau mỗi tiết học.",
+            sampleDialogue: [
+              { speaker: "Monitor", text: "Whose set square is still on the art table?", textVi: "Thước ê-ke của ai vẫn còn trên bàn mỹ thuật thế?" },
+              { speaker: "Linh", text: "It's Quan's. I will put it into his backpack.", textVi: "Của bạn Quân đấy. Mình sẽ cất vào ba lô cho bạn ấy." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "The Classroom Lost and Found Box",
+          text: "At the back of Class 5A, beside the book corner, stands a lovely wooden box labeled 'Lost and Found'. Whenever students spot a lost crayon, a glue stick, or a set square dropped under a chair, they gently place it inside. At the end of the day, class monitor Lan checks the items and returns them to their owners. Everyone in our class learns to take care of our learning tools!",
+          translationVi: "Ở phía cuối lớp 5A, bên cạnh góc đọc sách, có một chiếc hộp gỗ xinh xắn đề biển 'Đồ thất lạc'. Mỗi khi các bạn nhìn thấy một chiếc bút sáp màu, một lọ keo khô hay một chiếc thước ê-ke rơi dưới gầm ghế, các bạn đều nhẹ nhàng cất vào trong hộp. Cuối ngày, lớp trưởng Lan kiểm tra và trả lại đúng đồ cho các bạn. Tất cả mọi người trong lớp đều học được cách giữ gìn đồ dùng học tập!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 9, unitTitle: "Our Outdoor Activities", unitTitleVi: "Các hoạt động ngoài trời của chúng mình", theme: "Nature Exploration & Camping", icon: "🏕️", semester: 1,
+    grade: 5,
+    unitNumber: 9,
+    unitTitle: "Our outdoor activities",
+    unitTitleVi: "Các hoạt động ngoài trời của chúng mình",
+    theme: "Me and My School",
+    icon: "🏕️",
+    semester: 1,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Camping & Adventure Activities", focus: "vocabulary_phonics", phonicsSound: "Sounds /k/ (camp) & /haɪk/ (hike)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Outdoor Locations & Were you at the...?",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/eə/ in campsite vs /ɪə/ in theatre",
         vocabulary: [
-          { id: "g5-u9-pitch-tent", word: "pitch a tent", clue: "Set up a canvas shelter with poles and pegs.", vietnameseMeaning: "dựng lều bạt", phonics: "/pɪtʃ ə tent/", emoji: "⛺", grade: 5, unit: 9, topic: "Camping", exampleSentence: "We pitch a tent near the stream.", distractors: ["build fire", "cook dinner", "swim"] },
-          { id: "g5-u9-build-campfire", word: "build a campfire", clue: "Light an outdoor fire for warmth and cooking.", vietnameseMeaning: "đốt lửa trại", phonics: "/bɪld ə ˈkæmp.faɪər/", emoji: "🔥", grade: 5, unit: 9, topic: "Camping", exampleSentence: "Sing around the warm campfire.", distractors: ["pitch tent", "hike trail", "climb tree"] },
-          { id: "g5-u9-hike-trail", word: "hike along forest trails", clue: "Walk long scenic paths in the woods.", vietnameseMeaning: "đi bộ đường dài trong rừng", phonics: "/haɪk əˈlɒŋ ˈfɒr.ɪst treɪlz/", emoji: "🥾", grade: 5, unit: 9, topic: "Adventures", exampleSentence: "Hike along trails to see birds.", distractors: ["pitch tent", "watch TV", "sleep"] },
-          { id: "g5-u5-observe-wildlife", word: "observe wildlife", clue: "Watch wild birds and animals quietly.", vietnameseMeaning: "quan sát động vật hoang dã", phonics: "/əbˈzɜːv ˈwaɪld.laɪf/", emoji: "🦉", grade: 5, unit: 9, topic: "Nature", exampleSentence: "Observe rare birds with binoculars.", distractors: ["cook food", "pitch tent", "swim"] },
+          {
+            id: "g5-u9-l1-v1",
+            word: "campsite",
+            clue: "A designated outdoor place where people pitch tents to camp",
+            vietnameseMeaning: "khu cắm trại, địa điểm cắm trại",
+            phonics: "/ˈkæmpsaɪt/",
+            emoji: "⛺",
+            grade: 5,
+            unit: 9,
+            topic: "Outdoor Places",
+            exampleSentence: "Were you at the campsite last weekend? - Yes, I was.",
+            distractors: ["airport", "supermarket", "bank"]
+          },
+          {
+            id: "g5-u9-l1-v2",
+            word: "aquarium",
+            clue: "A large public facility where aquatic animals and fish are kept for viewing",
+            vietnameseMeaning: "thủy cung, viện hải dương học",
+            phonics: "/əˈkweəriəm/",
+            emoji: "🐟",
+            grade: 5,
+            unit: 9,
+            topic: "Outdoor Places",
+            exampleSentence: "We saw colorful sea turtles and sharks at the aquarium.",
+            distractors: ["library", "hospital", "pharmacy"]
+          },
+          {
+            id: "g5-u9-l1-v3",
+            word: "funfair",
+            clue: "An outdoor event with amusement rides, fairground games, and food stalls",
+            vietnameseMeaning: "hội chợ vui chơi giải trí",
+            phonics: "/ˈfʌnfeər/",
+            emoji: "🎡",
+            grade: 5,
+            unit: 9,
+            topic: "Outdoor Places",
+            exampleSentence: "Children rode the merry-go-round at the weekend funfair.",
+            distractors: ["post office", "factory", "stadium"]
+          },
+          {
+            id: "g5-u9-l1-v4",
+            word: "theatre",
+            clue: "A building or outdoor stage where plays and performances are given",
+            vietnameseMeaning: "nhà hát, rạp kịch",
+            phonics: "/ˈθɪətər/",
+            emoji: "🎭",
+            grade: 5,
+            unit: 9,
+            topic: "Outdoor Places",
+            exampleSentence: "We watched a magical water puppet show at the theatre.",
+            distractors: ["bakery", "clinic", "garage"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What outdoor activities do you like? ➔ I love [Activity] because [Reason]. / What should we bring? ➔ We should bring [Gear].", vietnameseMeaning: "Bạn thích hoạt động ngoài trời nào? ➔ Mình thích [Hoạt động] vì [Lý do]. / Chúng ta nên mang theo gì? ➔ Chúng ta nên mang [Dụng cụ].", sampleDialogue: [{ speaker: "Tony", text: "What do you like doing in the national park, Nam?", textVi: "Bạn thích làm gì trong vườn quốc gia thế Nam?" }, { speaker: "Nam", text: "I love hiking along pine trails and pitching tents by the campfire.", textVi: "Mình thích đi bộ dọc những rặng thông và dựng lều bên đống lửa trại." }] }],
+        sentenceStructures: [
+          {
+            pattern: "Were you at the [campsite / aquarium / funfair / theatre] last weekend? - Yes, I was. / No, I wasn't.",
+            vietnameseMeaning: "Bạn có ở [khu cắm trại / thủy cung / hội chợ / nhà hát] cuối tuần trước không? - Vâng, đúng vậy. / Không phải.",
+            sampleDialogue: [
+              { speaker: "Tony", text: "Were you at the campsite last weekend, Nam?", textVi: "Cuối tuần trước cậu có ở khu cắm trại không Nam?" },
+              { speaker: "Nam", text: "Yes, I was! We had a brilliant campout by the lake.", textVi: "Có chứ! Tụi mình đã có một chuyến cắm trại tuyệt vời bên hồ." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Outdoor Safety Rules", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "You shouldn't [Dangerous Action] when camping.", vietnameseMeaning: "Bạn không nên [Hành động nguy hiểm] khi cắm trại.", sampleDialogue: [{ speaker: "Guide", text: "Remember: Do not touch unknown wild mushrooms!", textVi: "Hãy nhớ: Tuyệt đối không chạm vào nấm rừng lạ!" }, { speaker: "Students", text: "Yes, sir! We will stay on marked paths.", textVi: "Vâng ạ! Chúng em sẽ đi đúng lối mòn quy định." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Night in Cuc Phuong Forest Story", focus: "reading_communication", readingMiniStory: { title: "Adventures in Cuc Phuong Primeval Forest", text: "Our class spends a night in Cuc Phuong National Park. We hike under thousand-year-old trees, spot glowing fireflies dancing in the twilight, and fall asleep to the gentle lullaby of forest crickets.", translationVi: "Lớp chúng mình trải qua một đêm tại Vườn quốc gia Cúc Phương. Chúng mình đi bộ dưới tán những cây cổ thụ ngàn năm, ngắm nhìn đàn đom đóm phát sáng nhảy múa trong bóng hoàng hôn và chìm vào giấc ngủ trong tiếng ru êm đềm của côn trùng rừng đêm." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: What did you do there? (Past Simple)",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u9-l2-v1",
+            word: "dance around the campfire",
+            clue: "To dance hand-in-hand in a circle around an outdoor blazing campfire",
+            vietnameseMeaning: "nhảy múa quanh đống lửa trại",
+            phonics: "/dɑːns əˈraʊnd ðə ˈkæmpfaɪər/",
+            emoji: "🔥",
+            grade: 5,
+            unit: 9,
+            topic: "Outdoor Activities",
+            exampleSentence: "At the campsite, we danced around the campfire and sang songs.",
+            distractors: ["wash floors", "type computer", "write essays"]
+          },
+          {
+            id: "g5-u9-l2-v2",
+            word: "watch the fish",
+            clue: "To look at exotic swimming fish through transparent glass tanks",
+            vietnameseMeaning: "ngắm cá bơi",
+            phonics: "/wɒtʃ ðə fɪʃ/",
+            emoji: "🐠",
+            grade: 5,
+            unit: 9,
+            topic: "Outdoor Activities",
+            exampleSentence: "What did you do at the aquarium? - We watched the fish.",
+            distractors: ["climb mountains", "bake cakes", "sleep in bed"]
+          },
+          {
+            id: "g5-u9-l2-v3",
+            word: "listen to music",
+            clue: "To hear melodic songs played live on stage or through earphones",
+            vietnameseMeaning: "nghe nhạc",
+            phonics: "/ˈlɪsn tuː ˈmjuːzɪk/",
+            emoji: "🎶",
+            grade: 5,
+            unit: 9,
+            topic: "Outdoor Activities",
+            exampleSentence: "We listened to joyful folk music at the cultural fair.",
+            distractors: ["cut hair", "repair watches", "wash shoes"]
+          },
+          {
+            id: "g5-u9-l2-v4",
+            word: "play chess",
+            clue: "To play a strategic board game of knights, rooks, and kings",
+            vietnameseMeaning: "chơi cờ vua",
+            phonics: "/pleɪ tʃes/",
+            emoji: "♟️",
+            grade: 5,
+            unit: 9,
+            topic: "Outdoor Activities",
+            exampleSentence: "Under the shady banyan tree, the boys played chess calmly.",
+            distractors: ["drive tractors", "fly helicopters", "row boats"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "What did you do there? - We [danced around the campfire / watched the fish / listened to music].",
+            vietnameseMeaning: "Các bạn đã làm gì ở đó? - Chúng mình đã [nhảy múa quanh lửa trại / ngắm cá / nghe nhạc].",
+            sampleDialogue: [
+              { speaker: "Linda", text: "What did you do at the funfair?", textVi: "Các bạn đã làm gì ở hội chợ vui chơi?" },
+              { speaker: "Mai", text: "We played chess, listened to lively music, and rode the carousel.", textVi: "Chúng mình chơi cờ, nghe nhạc sôi động và đi vòng quay ngựa gỗ." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: A Sunny Saturday Out",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "Last weekend was memorable. We visited [place] and had so much fun [activity].",
+            vietnameseMeaning: "Cuối tuần trước thật đáng nhớ. Chúng mình đã đến thăm [địa điểm] và rất vui khi [hoạt động].",
+            sampleDialogue: [
+              { speaker: "Peter", text: "Did you enjoy the outdoor trip?", textVi: "Bạn có thích chuyến đi ngoài trời không?" },
+              { speaker: "Phong", text: "Yes, immensely! Watching glowing jellyfish at the aquarium was wonderful.", textVi: "Có chứ, tuyệt lắm! Được ngắm những con sứa phát sáng ở thủy cung thật kỳ diệu." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Saturday at Pine Tree Campsite",
+          text: "Last Saturday, our scout team traveled to Pine Tree Campsite in the suburbs. The weather was breezy and sunny. We pitched our sturdy green tents on the grass. In the afternoon, we played chess and sang cheerful campfire songs. When darkness fell, we lit the campfire, danced together, and roasted sweet corn. It was our most thrilling outdoor experience this term!",
+          translationVi: "Thứ Bảy tuần trước, đội hướng đạo sinh của chúng mình đã đến Khu cắm trại Rừng Thông ở ngoại ô. Thời tiết nhiều gió mát và nắng ấm. Chúng mình cùng nhau dựng những chiếc lều xanh chắc chắn trên bãi cỏ. Buổi chiều, cả đội chơi cờ và cất cao các bài ca lửa trại vui nhộn. Khi trời tối, chúng mình nhóm lửa, cùng nhau nhảy múa và nướng ngô ngọt. Đó là trải nghiệm ngoài trời thú vị nhất của tụi mình trong học kỳ này!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 10, unitTitle: "Our School Breaks", unitTitleVi: "Những kỳ nghỉ học của chúng mình", theme: "Seasonal Vacations & Traditions", icon: "🏖️", semester: 1,
+    grade: 5,
+    unitNumber: 10,
+    unitTitle: "Our school trip",
+    unitTitleVi: "Chuyến đi dã ngoại của trường",
+    theme: "Me and My School",
+    icon: "🚌",
+    semester: 1,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Vacation Activities & Traditions", focus: "vocabulary_phonics", phonicsSound: "Sounds /tet/ (Tet) & /sʌm/ (Summer)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Famous Trip Destinations (Were you at...?)",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/eɪ/ in lake vs /ɪ/ in hill",
         vocabulary: [
-          { id: "g5-u10-tet-holiday", word: "Tet holiday", clue: "Vietnamese Lunar New Year festival.", vietnameseMeaning: "kỳ nghỉ Tết Nguyên Đán", phonics: "/tet ˈhɒl.ə.deɪ/", emoji: "🧧", grade: 5, unit: 10, topic: "Holidays", exampleSentence: "We make Chung cake at Tet.", distractors: ["Mid-Autumn", "Summer break", "Christmas"] },
-          { id: "g5-u10-mid-autumn", word: "Mid-Autumn Festival", clue: "Harvest full-moon festival with lanterns and mooncakes.", vietnameseMeaning: "Tết Trung Thu", phonics: "/ˌmɪd ˈɔː.təm ˈfes.tɪ.vəl/", emoji: "🥮", grade: 5, unit: 10, topic: "Holidays", exampleSentence: "Carry star lanterns at Mid-Autumn.", distractors: ["Tet holiday", "Summer", "Halloween"] },
-          { id: "g5-u10-summer-break", word: "summer vacation", clue: "Three-month school break in sunny summer.", vietnameseMeaning: "kỳ nghỉ hè", phonics: "/ˈsʌm.ər vəˈkeɪ.ʃən/", emoji: "🏖️", grade: 5, unit: 10, topic: "Holidays", exampleSentence: "We swim during summer vacation.", distractors: ["winter break", "Tet", "weekend"] },
-          { id: "g5-u10-chung-cake", word: "square sticky rice cake", clue: "Traditional green wrapped cake with mung bean and pork for Tet.", vietnameseMeaning: "bánh chưng", phonics: "/skweər ˈstɪk.i raɪs keɪk/", emoji: "🟩", grade: 5, unit: 10, topic: "Traditions", exampleSentence: "Boil square sticky rice cake all night.", distractors: ["mooncake", "bread", "noodles"] },
+          {
+            id: "g5-u10-l1-v1",
+            word: "hill",
+            clue: "An area of land that is naturally raised higher than the land around it",
+            vietnameseMeaning: "ngọn đồi",
+            phonics: "/hɪl/",
+            emoji: "⛰️",
+            grade: 5,
+            unit: 10,
+            topic: "Trip Destinations",
+            exampleSentence: "Were you at Ba Na Hills on your school trip? - Yes, I was.",
+            distractors: ["valley", "beach", "tunnel"]
+          },
+          {
+            id: "g5-u10-l1-v2",
+            word: "lake",
+            clue: "A large body of water surrounded completely by land",
+            vietnameseMeaning: "hồ nước",
+            phonics: "/leɪk/",
+            emoji: "🏞️",
+            grade: 5,
+            unit: 10,
+            topic: "Trip Destinations",
+            exampleSentence: "We strolled peacefully around Hoan Kiem Lake in Hanoi.",
+            distractors: ["desert", "volcano", "motorway"]
+          },
+          {
+            id: "g5-u10-l1-v3",
+            word: "pagoda",
+            clue: "A Buddhist temple or sacred building with a tiered tower",
+            vietnameseMeaning: "ngôi chùa",
+            phonics: "/pəˈɡəʊdə/",
+            emoji: "⛩️",
+            grade: 5,
+            unit: 10,
+            topic: "Trip Destinations",
+            exampleSentence: "Our class visited Bai Dinh Pagoda in Ninh Binh.",
+            distractors: ["cinema", "hotel", "supermarket"]
+          },
+          {
+            id: "g5-u10-l1-v4",
+            word: "theme park",
+            clue: "A large amusement park with themed rides, roller coasters, and shows",
+            vietnameseMeaning: "công viên giải trí theo chủ đề",
+            phonics: "/ˈθiːm pɑːk/",
+            emoji: "🎡",
+            grade: 5,
+            unit: 10,
+            topic: "Trip Destinations",
+            exampleSentence: "Students had a wonderful adventure at Suoi Tien Theme Park.",
+            distractors: ["hospital", "post office", "factory"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What do you usually do during [Holiday]? ➔ I [Action] and [Action]. / Where did you go last [Holiday]? ➔ I went to [Place].", vietnameseMeaning: "Bạn thường làm gì vào dịp [Kỳ nghỉ]? ➔ Mình [Làm việc 1] và [Làm việc 2]. / Bạn đã đi đâu vào [Kỳ nghỉ] trước? ➔ Mình đã đến [Địa điểm].", sampleDialogue: [{ speaker: "Tony", text: "What do Vietnamese people do during Tet holiday, Mai?", textVi: "Người Việt Nam thường làm gì trong dịp Tết thế Mai?" }, { speaker: "Mai", text: "We decorate houses with peach blossoms, wrap square sticky rice cakes, and receive lucky money envelopes!", textVi: "Chúng mình trang trí nhà bằng hoa đào, gói bánh chưng và nhận những phong bao lì xì may mắn!" }] }],
+        sentenceStructures: [
+          {
+            pattern: "Were you at [Ba Na Hills / Hoan Kiem Lake / Bai Dinh Pagoda] yesterday? - Yes, I was. / No, I wasn't.",
+            vietnameseMeaning: "Hôm qua bạn có ở [Bà Nà Hills / Hồ Hoàn Kiếm / Chùa Bái Đính] không? - Vâng, đúng vậy. / Không phải.",
+            sampleDialogue: [
+              { speaker: "Tony", text: "Were you at Ba Na Hills yesterday, Mai?", textVi: "Hôm qua cậu có ở Bà Nà Hills không Mai?" },
+              { speaker: "Mai", text: "Yes, I was! Our class took the Golden Bridge tour.", textVi: "Có chứ! Lớp mình đã đi tham quan Cầu Vàng." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Vacation Memories", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "What was your favourite part of the holiday? ➔ The family reunion dinner was my favourite.", vietnameseMeaning: "Phần yêu thích nhất của kỳ nghỉ là gì? ➔ Bữa cơm tất niên sum họp gia đình là điều mình thích nhất.", sampleDialogue: [{ speaker: "Peter", text: "Did you enjoy your summer vacation in Nha Trang?", textVi: "Bạn có thích kỳ nghỉ hè ở Nha Trang không?" }, { speaker: "Nam", text: "Yes! Scuba diving to see coral reefs was unforgettable.", textVi: "Có chứ! Lặn biển ngắm rạn san hô là trải nghiệm không thể nào quên." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Warm Tet Reunion Story", focus: "reading_communication", readingMiniStory: { title: "A Warm Tet in the Countryside", text: "During the Tet break, our family travels back to our ancestral village in Nam Dinh. Grandparents smile warmly by the boiling pot of Chung cakes while cousins play folk games in the flower-scented courtyard.", translationVi: "Vào kỳ nghỉ Tết, gia đình mình về lại làng quê tổ tiên ở Nam Định. Ông bà mỉm cười đôn hậu bên nồi bánh chưng nghi ngút khói trong khi các anh chị em họ cùng chơi những trò chơi dân gian ngoài sân thơm ngát hương hoa." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: What did you do on your school trip?",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u10-l2-v1",
+            word: "visit the old buildings",
+            clue: "To explore historical architecture and ancient traditional houses",
+            vietnameseMeaning: "thăm các tòa nhà cổ / di tích cổ",
+            phonics: "/ˈvɪzɪt ði əʊld ˈbɪldɪŋz/",
+            emoji: "🏛️",
+            grade: 5,
+            unit: 10,
+            topic: "Trip Activities",
+            exampleSentence: "We visited the old buildings and took many photos.",
+            distractors: ["paint walls", "break windows", "clean carpets"]
+          },
+          {
+            id: "g5-u10-l2-v2",
+            word: "walk around the lake",
+            clue: "To walk around the scenic shore of a body of fresh water",
+            vietnameseMeaning: "đi dạo quanh bờ hồ",
+            phonics: "/wɔːk əˈraʊnd ðə leɪk/",
+            emoji: "🚶‍♀️",
+            grade: 5,
+            unit: 10,
+            topic: "Trip Activities",
+            exampleSentence: "In the cool morning breeze, we walked around the lake.",
+            distractors: ["swim deep", "drive trucks", "sleep soundly"]
+          },
+          {
+            id: "g5-u10-l2-v3",
+            word: "plant trees",
+            clue: "To place young saplings into the soil to grow",
+            vietnameseMeaning: "trồng cây xanh",
+            phonics: "/plɑːnt triːz/",
+            emoji: "🌱",
+            grade: 5,
+            unit: 10,
+            topic: "Trip Activities",
+            exampleSentence: "At the eco-resort, our class planted green fruit trees.",
+            distractors: ["cut trees", "burn wood", "pick leaves"]
+          },
+          {
+            id: "g5-u10-l2-v4",
+            word: "famous",
+            clue: "Known and recognized by many people across regions",
+            vietnameseMeaning: "nổi tiếng",
+            phonics: "/ˈfeɪməs/",
+            emoji: "⭐",
+            grade: 5,
+            unit: 10,
+            topic: "Adjectives",
+            exampleSentence: "Bai Dinh is one of the most famous pagodas in Southeast Asia.",
+            distractors: ["secret", "lonely", "tiny"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "What did you do on your school trip? - We [visited the old buildings / walked around the lake / planted trees].",
+            vietnameseMeaning: "Các bạn đã làm gì trong chuyến dã ngoại của trường? - Chúng mình đã [thăm các tòa nhà cổ / đi dạo quanh hồ / trồng cây].",
+            sampleDialogue: [
+              { speaker: "Linda", text: "What did you do on your school trip to Ninh Binh?", textVi: "Các cậu đã làm gì trong chuyến dã ngoại đến Ninh Bình?" },
+              { speaker: "Nam", text: "We visited the ancient pagoda and planted five pine trees.", textVi: "Tụi mình thăm ngôi chùa cổ kính và trồng năm cây thông." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Memories from Our Trip to the Hills",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "The school trip was [fantastic / educational]. We learned about [culture / nature].",
+            vietnameseMeaning: "Chuyến dã ngoại thật [tuyệt vời / bổ ích]. Chúng mình đã học thêm về [văn hóa / thiên nhiên].",
+            sampleDialogue: [
+              { speaker: "Ben", text: "Did you take photos during the trip?", textVi: "Cậu có chụp ảnh trong chuyến đi không?" },
+              { speaker: "Lan", text: "Yes, our teacher helped us photograph the grand golden bridge in the mist!", textVi: "Có chứ, cô giáo đã giúp tụi mình chụp lại cây cầu vàng rực rỡ trong làn sương mù!" }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "A Day to Remember at Ba Na Hills",
+          text: "Last Thursday, all fifth graders went on a memorable school trip to Ba Na Hills. We departed by bus early at 7:00 a.m. When we arrived, the mountain air was cool and misty. First, we walked across the renowned Golden Bridge held by giant stone hands. Next, we visited ancient French architectural buildings and planted flower bushes in the garden. It was the happiest school trip ever!",
+          translationVi: "Thứ Năm tuần trước, toàn thể học sinh khối 5 đã có một chuyến dã ngoại đáng nhớ tại Bà Nà Hills. Chúng mình khởi hành bằng xe buýt từ 7:00 sáng sớm. Khi đến nơi, không khí miền núi mát lạnh và bảng lảng sương mù. Đầu tiên, chúng mình dạo bước qua Cầu Vàng nổi tiếng được nâng niu bởi đôi bàn tay đá khổng lồ. Tiếp đó, tụi mình tham quan các tòa nhà kiến trúc Pháp cổ kính và trồng những luống hoa trong vườn. Đó là chuyến tham quan hạnh phúc nhất từ trước đến nay!"
+        }
+      }
+    ]
+  },
+
+  // ==========================================
+  // SEMESTER 2 (UNITS 11 - 20) - GLOBAL SUCCESS 5 (GDPT 2018)
+  // ==========================================
+  {
+    grade: 5,
+    unitNumber: 11,
+    unitTitle: "Family time",
+    unitTitleVi: "Thời gian bên gia đình",
+    theme: "Me and My Family",
+    icon: "👨‍👩‍👧‍👦",
+    semester: 2,
+    lessons: [
+      {
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Did you swim in the sea? (Yes/No Past Questions)",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/iː/ in beach vs /ɪ/ in swim",
+        vocabulary: [
+          {
+            id: "g5-u11-l1-v1",
+            word: "swim in the sea",
+            clue: "To move through ocean water for leisure and cooling off",
+            vietnameseMeaning: "bơi ở biển, tắm biển",
+            phonics: "/swɪm ɪn ðə siː/",
+            emoji: "🏊",
+            grade: 5,
+            unit: 11,
+            topic: "Beach Activities",
+            exampleSentence: "Did you swim in the sea? - Yes, I did. The water was azure and refreshing.",
+            distractors: ["climb mountains", "bake pies", "sweep dust"]
+          },
+          {
+            id: "g5-u11-l1-v2",
+            word: "take photos",
+            clue: "To use a camera or smartphone to capture memorable snapshots",
+            vietnameseMeaning: "chụp ảnh",
+            phonics: "/teɪk ˈfəʊtəʊz/",
+            emoji: "📸",
+            grade: 5,
+            unit: 11,
+            topic: "Holiday Activities",
+            exampleSentence: "My dad took wonderful photos of the sunrise on the beach.",
+            distractors: ["break lenses", "lose tickets", "drop bags"]
+          },
+          {
+            id: "g5-u11-l1-v3",
+            word: "collect seashells",
+            clue: "To search along the sandy shore for colorful empty shells left by molluscs",
+            vietnameseMeaning: "nhặt vỏ sò, nhặt ốc biển",
+            phonics: "/kəˈlekt ˈsiːʃelz/",
+            emoji: "🐚",
+            grade: 5,
+            unit: 11,
+            topic: "Beach Activities",
+            exampleSentence: "My little sister loves collecting spiral seashells on the sand.",
+            distractors: ["throw rubbish", "dig gold", "catch crabs"]
+          },
+          {
+            id: "g5-u11-l1-v4",
+            word: "walk on the beach",
+            clue: "To take a relaxing stroll barefoot or in sandals along the water's edge",
+            vietnameseMeaning: "đi dạo trên bãi biển",
+            phonics: "/wɔːk ɒn ðə biːtʃ/",
+            emoji: "🏖️",
+            grade: 5,
+            unit: 11,
+            topic: "Beach Activities",
+            exampleSentence: "Every evening, my parents walk on the beach together.",
+            distractors: ["ride elevator", "watch television", "wash car"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "Did you [swim in the sea / take photos / collect seashells / walk on the beach]? - Yes, I did. / No, I didn't.",
+            vietnameseMeaning: "Bạn đã [bơi ở biển / chụp ảnh / nhặt vỏ sò / đi dạo trên bãi biển] phải không? - Vâng, đúng vậy. / Không phải.",
+            sampleDialogue: [
+              { speaker: "Mai", text: "Did you swim in the sea during your holiday, Tony?", textVi: "Kỳ nghỉ vừa rồi cậu có tắm biển không Tony?" },
+              { speaker: "Tony", text: "Yes, I did! We swam every morning in Da Nang.", textVi: "Có chứ! Sáng nào tụi mình cũng tắm biển ở Đà Nẵng." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: What did your family do? (Wh- Past Questions)",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u11-l2-v1",
+            word: "eat seafood",
+            clue: "To dine on delicious prawns, fish, crabs, and oysters from the sea",
+            vietnameseMeaning: "ăn hải sản tươi ngon",
+            phonics: "/iːt ˈsiːfuːd/",
+            emoji: "🦀",
+            grade: 5,
+            unit: 11,
+            topic: "Family Activities",
+            exampleSentence: "What did your family do? - We ate fresh seafood by the sea.",
+            distractors: ["burn grass", "sell vegetables", "drink ink"]
+          },
+          {
+            id: "g5-u11-l2-v2",
+            word: "take a boat trip around the bay",
+            clue: "To sail on a scenic wooden cruise ship across calm sea waters",
+            vietnameseMeaning: "đi thuyền ngắm cảnh quanh vịnh",
+            phonics: "/teɪk ə bəʊt trɪp əˈraʊnd ðə beɪ/",
+            emoji: "⛵",
+            grade: 5,
+            unit: 11,
+            topic: "Family Activities",
+            exampleSentence: "We took a wonderful boat trip around Ha Long Bay.",
+            distractors: ["fly space rocket", "dig underground", "drive racecar"]
+          },
+          {
+            id: "g5-u11-l2-v3",
+            word: "buy souvenirs",
+            clue: "To purchase small mementos or handicrafts to remember a holiday",
+            vietnameseMeaning: "mua quà lưu niệm",
+            phonics: "/baɪ ˌsuːvəˈnɪəz/",
+            emoji: "🎁",
+            grade: 5,
+            unit: 11,
+            topic: "Family Activities",
+            exampleSentence: "Mom bought beautiful shell necklaces as souvenirs for friends.",
+            distractors: ["throw coins", "lose keys", "waste tickets"]
+          },
+          {
+            id: "g5-u11-l2-v4",
+            word: "explore the cave",
+            clue: "To enter and discover rock stalactites inside an underground cavern",
+            vietnameseMeaning: "khám phá hang động",
+            phonics: "/ɪkˈsplɔːr ðə keɪv/",
+            emoji: "🔦",
+            grade: 5,
+            unit: 11,
+            topic: "Family Activities",
+            exampleSentence: "We explored Sung Sot Cave with a friendly tour guide.",
+            distractors: ["paint roof", "lock doors", "wash windows"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "What did your family do in [destination]? - We [took a boat trip / ate seafood / explored the cave / bought souvenirs].",
+            vietnameseMeaning: "Gia đình bạn đã làm gì ở [địa điểm]? - Chúng mình đã [đi thuyền / ăn hải sản / khám phá hang động / mua quà lưu niệm].",
+            sampleDialogue: [
+              { speaker: "Linda", text: "What did your family do in Ha Long Bay?", textVi: "Gia đình bạn đã làm gì ở Vịnh Hạ Long?" },
+              { speaker: "Nam", text: "We took a boat trip around the bay and ate grilled squid.", textVi: "Tụi mình đã đi thuyền quanh vịnh và ăn món mực nướng thơm lừng." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Golden Sunset in Nha Trang",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "Spending holiday time with family makes us feel [warm / happy / connected].",
+            vietnameseMeaning: "Kỳ nghỉ quây quần bên gia đình khiến chúng mình cảm thấy [ấm áp / hạnh phúc / gắn kết].",
+            sampleDialogue: [
+              { speaker: "Akiko", text: "Did your family enjoy the trip?", textVi: "Gia đình bạn có thích chuyến đi không?" },
+              { speaker: "Phong", text: "Yes! Walking together under coconut palm trees was the sweetest moment.", textVi: "Có chứ! Cùng nhau rảo bước dưới những rặng dừa xanh là khoảnh khắc ngọt ngào nhất." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Warm Family Memories by the Shore",
+          text: "Last month, Quan's family spent four sunny days in Nha Trang. In the morning, Quan and his father swam in the clear blue sea while mother walked on the beach collecting pink seashells. At noon, they ate delicious seafood at a local seaside restaurant. In the afternoon, they took a peaceful boat trip around Mun Island. Quan felt blessed for such heartwarming family time!",
+          translationVi: "Tháng trước, gia đình Quân đã có bốn ngày nắng ấm ở Nha Trang. Buổi sáng, Quân cùng bố tắm biển trong làn nước xanh trong, còn mẹ thong thả dạo bước nhặt những chiếc vỏ ốc màu hồng. Buổi trưa, cả nhà thưởng thức hải sản thơm ngon tại một nhà hàng ven biển. Chiều đến, gia đình đi thuyền ngắm cảnh quanh Đảo Mun. Quân cảm thấy thật hạnh phúc khi có khoảng thời gian ấm áp bên gia đình!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 11, unitTitle: "Family Life", unitTitleVi: "Cuộc sống gia đình", theme: "Household Roles & Responsibilities", icon: "👨‍👩‍👧‍👦", semester: 2,
+    grade: 5,
+    unitNumber: 12,
+    unitTitle: "Our Tet holiday",
+    unitTitleVi: "Dịp Tết của chúng mình",
+    theme: "Me and My Family",
+    icon: "🧧",
+    semester: 2,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Household Chores & Cooperation", focus: "vocabulary_phonics", phonicsSound: "Sounds /w/ (wash) & /f/ (fold)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Preparations for Tet (Future Simple with Will)",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/tʃ/ in peach vs /dʒ/ in jam",
         vocabulary: [
-          { id: "g5-u11-wash-dishes", word: "wash the dishes", clue: "Clean plates, bowls, and cutlery after meals.", vietnameseMeaning: "rửa chén bát", phonics: "/wɒʃ ðə ˈdɪʃ.ɪz/", emoji: "🥣", grade: 5, unit: 11, topic: "Chores", exampleSentence: "I wash the dishes after dinner.", distractors: ["cook meals", "fold clothes", "water plants"] },
-          { id: "g5-u11-fold-clothes", word: "fold the clothes", clue: "Neatly crease laundered garments for wardrobes.", vietnameseMeaning: "gấp quần áo", phonics: "/fəʊld ðə kləʊðz/", emoji: "👕", grade: 5, unit: 11, topic: "Chores", exampleSentence: "My sister helps fold the clothes.", distractors: ["wash dishes", "sweep floor", "cook"] },
-          { id: "g5-u11-water-plants", word: "water the flowers", clue: "Provide moisture to garden plants.", vietnameseMeaning: "tưới cây hoa", phonics: "/ˈwɔː.tər ðə ˈflaʊ.ərz/", emoji: "🪴", grade: 5, unit: 11, topic: "Chores", exampleSentence: "I water the flowers on the balcony.", distractors: ["fold clothes", "wash dishes", "sweep floor"] },
-          { id: "g5-u11-sweep-floor", word: "sweep the floor", clue: "Clean ground dust with a broom.", vietnameseMeaning: "quét nhà", phonics: "/swiːp ðə flɔːr/", emoji: "🧹", grade: 5, unit: 11, topic: "Chores", exampleSentence: "Keep the living room tidy.", distractors: ["cook food", "watch TV", "play game"] },
+          {
+            id: "g5-u12-l1-v1",
+            word: "buy a branch of peach blossoms",
+            clue: "Purchasing a leafy branch of pink flowers to bring spring luck into northern Vietnamese homes",
+            vietnameseMeaning: "mua một cành hoa đào",
+            phonics: "/baɪ ə brɑːntʃ əv ˈpiːtʃ ˈblɒsəmz/",
+            emoji: "🌸",
+            grade: 5,
+            unit: 12,
+            topic: "Tet Traditions",
+            exampleSentence: "Will you buy a branch of peach blossoms at Tet? - Yes, we will.",
+            distractors: ["cut grass", "burn wood", "sell stones"]
+          },
+          {
+            id: "g5-u12-l1-v2",
+            word: "decorate the house",
+            clue: "To make rooms look festive and welcoming with red banners and flower pots",
+            vietnameseMeaning: "trang hoàng nhà cửa",
+            phonics: "/ˈdekəreɪt ðə haʊs/",
+            emoji: "🏮",
+            grade: 5,
+            unit: 12,
+            topic: "Tet Preparations",
+            exampleSentence: "We will decorate the house before New Year's Eve.",
+            distractors: ["break tables", "lock doors", "paint fences black"]
+          },
+          {
+            id: "g5-u12-l1-v3",
+            word: "make banh chung",
+            clue: "To wrap traditional square sticky rice cakes with mung bean and pork in green dong leaves",
+            vietnameseMeaning: "gói bánh chưng",
+            phonics: "/meɪk bæn tʃʊŋ/",
+            emoji: "🟩",
+            grade: 5,
+            unit: 12,
+            topic: "Tet Foods",
+            exampleSentence: "My grandparents will make banh chung tomorrow evening.",
+            distractors: ["bake pizza", "fry potatoes", "boil pasta"]
+          },
+          {
+            id: "g5-u12-l1-v4",
+            word: "make spring rolls",
+            clue: "To wrap seasoned minced meat, mushrooms, and noodles in thin rice paper and fry until crispy",
+            vietnameseMeaning: "làm nem rán, chả giò",
+            phonics: "/meɪk ˈsprɪŋ rəʊlz/",
+            emoji: "🥢",
+            grade: 5,
+            unit: 12,
+            topic: "Tet Foods",
+            exampleSentence: "Mother and I will make spring rolls for our festive feast.",
+            distractors: ["make ice cream", "bake bread", "drink tea"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What household chores do you do? ➔ I [Chore 1] and [Chore 2]. / Who cooks dinner in your family? ➔ My [Family member] cooks dinner.", vietnameseMeaning: "Bạn làm việc nhà gì giúp gia đình? ➔ Mình [Việc nhà 1] và [Việc nhà 2]. / Ai nấu bữa tối trong gia đình bạn? ➔ [Thành viên] của mình nấu bữa tối.", sampleDialogue: [{ speaker: "Linda", text: "What chores do you do to help your parents, Nam?", textVi: "Bạn làm việc nhà gì giúp bố mẹ thế Nam?" }, { speaker: "Nam", text: "I sweep the living room floor and wash the dishes after dinner.", textVi: "Mình quét sàn phòng khách và rửa chén bát sau bữa tối." }] }],
+        sentenceStructures: [
+          {
+            pattern: "Will you [buy peach blossoms / decorate the house / make banh chung] at Tet? - Yes, I/we will. / No, I/we won't.",
+            vietnameseMeaning: "Bạn sẽ [mua cành đào / trang trí nhà / gói bánh chưng] vào dịp Tết chứ? - Vâng, tụi mình sẽ làm. / Không, tụi mình sẽ không.",
+            sampleDialogue: [
+              { speaker: "Tony", text: "Will you make banh chung at Tet, Mai?", textVi: "Cậu có gói bánh chưng vào dịp Tết không Mai?" },
+              { speaker: "Mai", text: "Yes, we will! We sit around the big warm pot all night.", textVi: "Có chứ! Cả nhà mình cùng thức quanh nồi bánh chưng ấm áp suốt đêm." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Sharing Responsibilities", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "How often do you help with [Chore]? ➔ I do it every day.", vietnameseMeaning: "Bạn có thường xuyên giúp [Việc nhà] không? ➔ Mình làm mỗi ngày.", sampleDialogue: [{ speaker: "Mai", text: "Do you share household chores with your brother?", textVi: "Bạn có chia sẻ việc nhà với anh trai không?" }, { speaker: "Quan", text: "Yes! He waters the balcony plants and I fold the laundry.", textVi: "Có chứ! Anh ấy tưới cây ban công còn mình gấp quần áo giặt." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Harmonious Household Story", focus: "reading_communication", readingMiniStory: { title: "Teamwork in Our Sweet Home", text: "Every Saturday morning, our family shares chores with cheerful energy. Dad mows the garden lawn, Mom prepares a fragrant lunch, my sister dusts the bookshelves, and I sweep the floors. We love working together!", translationVi: "Mỗi sáng thứ Bảy, gia đình mình cùng nhau chia sẻ việc nhà trong niềm vui tươi. Bố cắt cỏ ngoài vườn, mẹ chuẩn bị bữa trưa thơm phức, chị gái lau giá sách và mình quét sàn nhà. Cả nhà rất yêu thích cùng nhau làm việc!" }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: Where will you go and what will you do at Tet?",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u12-l2-v1",
+            word: "visit relatives",
+            clue: "Going to see extended family members, grandparents, uncles, and aunts",
+            vietnameseMeaning: "đi thăm họ hàng, chúc Tết",
+            phonics: "/ˈvɪzɪt ˈrelətɪvz/",
+            emoji: "👨‍👩‍👦",
+            grade: 5,
+            unit: 12,
+            topic: "Tet Customs",
+            exampleSentence: "Where will you go at Tet? - I will visit my relatives in the countryside.",
+            distractors: ["stay alone", "go to factory", "take school exam"]
+          },
+          {
+            id: "g5-u12-l2-v2",
+            word: "get lucky money",
+            clue: "Receiving crisp new banknotes tucked inside bright red envelopes for good health and wisdom",
+            vietnameseMeaning: "nhận tiền lì xì",
+            phonics: "/ɡet ˈlʌki ˈmʌni/",
+            emoji: "🧧",
+            grade: 5,
+            unit: 12,
+            topic: "Tet Customs",
+            exampleSentence: "Children wear new clothes and get lucky money from elders.",
+            distractors: ["pay traffic fine", "lose coins", "lend books"]
+          },
+          {
+            id: "g5-u12-l2-v3",
+            word: "wear new clothes",
+            clue: "Dressing in fresh, colorful garments symbolizing a prosperous start",
+            vietnameseMeaning: "mặc quần áo mới",
+            phonics: "/weər njuː kləʊðz/",
+            emoji: "👗",
+            grade: 5,
+            unit: 12,
+            topic: "Tet Customs",
+            exampleSentence: "On the first day of Tet, we wear traditional ao dai or new clothes.",
+            distractors: ["wear muddy boots", "wear old rags", "wear pajamas"]
+          },
+          {
+            id: "g5-u12-l2-v4",
+            word: "fireworks show",
+            clue: "A spectacular public display of colorful sparks bursting across the midnight sky",
+            vietnameseMeaning: "màn trình diễn pháo hoa",
+            phonics: "/ˈfaɪəwɜːks ʃəʊ/",
+            emoji: "🎆",
+            grade: 5,
+            unit: 12,
+            topic: "Tet Events",
+            exampleSentence: "We will watch the dazzling fireworks show on New Year's Eve.",
+            distractors: ["dust storm", "thunder rain", "foggy mist"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "Where will you go at Tet? - I will go to [destination]. What will you do? - I will [visit relatives / get lucky money].",
+            vietnameseMeaning: "Bạn sẽ đi đâu vào dịp Tết? - Mình sẽ đến [địa điểm]. Bạn sẽ làm gì? - Mình sẽ [thăm họ hàng / nhận lì xì].",
+            sampleDialogue: [
+              { speaker: "Peter", text: "Where will you go at Tet, Nam?", textVi: "Tết này cậu sẽ đi đâu thế Nam?" },
+              { speaker: "Nam", text: "I will go to my grandparents' hometown and visit my relatives.", textVi: "Mình sẽ về quê thăm ông bà và chúc Tết họ hàng." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Spring Breeze and Warm Wishes",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "I wish you a happy, healthy, and successful New Year!",
+            vietnameseMeaning: "Chúc bạn một năm mới an khang, mạnh khỏe và vạn sự như ý!",
+            sampleDialogue: [
+              { speaker: "Mai", text: "Happy New Year, David! May peace and luck be with you!", textVi: "Chúc mừng năm mới David! Chúc bạn luôn bình an và may mắn!" },
+              { speaker: "David", text: "Happy New Year! Thank you for sharing Vietnamese traditions with me!", textVi: "Chúc mừng năm mới! Cảm ơn bạn đã chia sẻ phong tục Tết Việt Nam với mình nhé!" }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "The Joy of Lunar New Year in Vietnam",
+          text: "Tet is the most beloved celebration in Vietnam. Three days before Tet, Lan's family cleaned every corner and decorated their living room with a glowing branch of peach blossoms. On the 30th evening, they wrapped and cooked twenty fragrant square banh chung. On New Year's Day, Lan put on a graceful red ao dai, wished her grandparents longevity, and joyfully received lucky money envelopes. Tet is truly a time of reunion and love!",
+          translationVi: "Tết là ngày lễ thiêng liêng và được yêu quý nhất tại Việt Nam. Ba ngày trước Tết, gia đình Lan dọn dẹp mọi ngóc ngách và trang hoàng phòng khách với một cành đào rực rỡ sắc xuân. Tối 30, cả nhà quây quần gói và nấu hai mươi chiếc bánh chưng thơm phức. Sáng mùng một, Lan diện chiếc áo dài đỏ duyên dáng, kính cẩn chúc thọ ông bà và hân hoan đón nhận những phong bao lì xì đỏ thắm. Tết thật sự là khoảng thời gian của sum vầy và yêu thương!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 12, unitTitle: "Our Future Jobs", unitTitleVi: "Nghề nghiệp tương lai của chúng mình", theme: "Dream Careers & Aspirations", icon: "🚀", semester: 2,
+    grade: 5,
+    unitNumber: 13,
+    unitTitle: "Our special days",
+    unitTitleVi: "Những ngày đặc biệt của chúng mình",
+    theme: "Me and My Family",
+    icon: "🎉",
+    semester: 2,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Dream Careers & Reasons", focus: "vocabulary_phonics", phonicsSound: "Sounds /p/ (pilot) & /ɑːk/ (architect)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Festivals & What will you do at/on...?",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/ɒn/ before Day vs /æt/ before Festivals",
         vocabulary: [
-          { id: "g5-u12-pilot", word: "pilot", clue: "A person who operates the flying controls of an aircraft.", vietnameseMeaning: "phi công", phonics: "/ˈpaɪ.lət/", emoji: "👨‍✈️", grade: 5, unit: 12, topic: "Careers", exampleSentence: "I want to be a pilot flying Boeing planes.", distractors: ["architect", "astronaut", "writer"] },
-          { id: "g5-u12-architect", word: "architect", clue: "Professional who designs modern buildings.", vietnameseMeaning: "kiến trúc sư", phonics: "/ˈɑː.kɪ.tekt/", emoji: "📐", grade: 5, unit: 12, topic: "Careers", exampleSentence: "An architect designs skyscraper towers.", distractors: ["doctor", "pilot", "astronaut"] },
-          { id: "g5-u12-astronaut", word: "astronaut", clue: "Person trained to travel in spacecraft to outer space.", vietnameseMeaning: "phi hành gia", phonics: "/ˈæs.trə.nɔːt/", emoji: "👨‍🚀", grade: 5, unit: 12, topic: "Careers", exampleSentence: "Astronauts explore the Moon and Mars.", distractors: ["pilot", "writer", "teacher"] },
-          { id: "g5-u12-writer", word: "writer", clue: "Person who writes novels, stories, and articles.", vietnameseMeaning: "nhà văn", phonics: "/ˈraɪ.tər/", emoji: "✍️", grade: 5, unit: 12, topic: "Careers", exampleSentence: "A writer creates inspiring books for children.", distractors: ["pilot", "architect", "engineer"] },
+          {
+            id: "g5-u13-l1-v1",
+            word: "Mid-Autumn Festival",
+            clue: "A harvest festival on the 15th of the 8th lunar month celebrating the full moon and children",
+            vietnameseMeaning: "Tết Trung thu",
+            phonics: "/ˌmɪd ˈɔːtəm ˈfestɪvl/",
+            emoji: "🥮",
+            grade: 5,
+            unit: 13,
+            topic: "Special Days",
+            exampleSentence: "What will you do at Mid-Autumn Festival? - We'll carry star lanterns.",
+            distractors: ["Christmas", "Easter", "Halloween"]
+          },
+          {
+            id: "g5-u13-l1-v2",
+            word: "Teachers' Day",
+            clue: "A special day on 20th November in Vietnam to honor and show gratitude to teachers",
+            vietnameseMeaning: "Ngày Nhà giáo Việt Nam (20/11)",
+            phonics: "/ˈtiːtʃəz deɪ/",
+            emoji: "💐",
+            grade: 5,
+            unit: 13,
+            topic: "Special Days",
+            exampleSentence: "On Teachers' Day, we will present red roses to our teachers.",
+            distractors: ["Sports Day", "Labour Day", "Earth Day"]
+          },
+          {
+            id: "g5-u13-l1-v3",
+            word: "Children's Day",
+            clue: "International festival celebrated on the first of June to celebrate kids",
+            vietnameseMeaning: "Ngày Quốc tế Thiếu nhi (1/6)",
+            phonics: "/ˈtʃɪldrənz deɪ/",
+            emoji: "🎈",
+            grade: 5,
+            unit: 13,
+            topic: "Special Days",
+            exampleSentence: "What will you do on Children's Day? - We will play fun games in the park.",
+            distractors: ["New Year's Day", "National Day", "Winter Break"]
+          },
+          {
+            id: "g5-u13-l1-v4",
+            word: "Sports Day",
+            clue: "A vibrant day when students compete in running races, tug-of-war, and relays",
+            vietnameseMeaning: "Ngày hội thể thao",
+            phonics: "/spɔːts deɪ/",
+            emoji: "🏃‍♂️",
+            grade: 5,
+            unit: 13,
+            topic: "Special Days",
+            exampleSentence: "On Sports Day, Quan will run in the 100-meter race.",
+            distractors: ["Book Day", "Art Fair", "Math League"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What would you like to be in the future? ➔ I'd like to be an [Profession] because I'd like to [Goal].", vietnameseMeaning: "Bạn muốn trở thành ai trong tương lai? ➔ Mình muốn trở thành [Nghề nghiệp] bởi vì mình muốn [Mục tiêu].", sampleDialogue: [{ speaker: "Tony", text: "What would you like to be in the future, Mai?", textVi: "Bạn muốn làm nghề gì trong tương lai thế Mai?" }, { speaker: "Mai", text: "I'd like to be a doctor because I want to heal sick children and protect public health.", textVi: "Mình muốn trở thành bác sĩ vì muốn chữa bệnh cho các em nhỏ và bảo vệ sức khỏe cộng đồng." }] }],
+        sentenceStructures: [
+          {
+            pattern: "What will you do [at Mid-Autumn Festival / on Teachers' Day / on Children's Day]? - We'll [action].",
+            vietnameseMeaning: "Bạn sẽ làm gì [vào dịp Tết Trung thu / ngày Nhà giáo / ngày Thiếu nhi]? - Tụi mình sẽ [hành động].",
+            sampleDialogue: [
+              { speaker: "Tony", text: "What will you do at Mid-Autumn Festival, Mai?", textVi: "Cậu sẽ làm gì vào dịp Tết Trung thu vậy Mai?" },
+              { speaker: "Mai", text: "We'll join the star lantern parade and eat sweet mooncakes.", textVi: "Tụi mình sẽ tham gia rước đèn ông sao và ăn bánh trung thu ngọt lịm." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Achieving Dreams", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "Why would you like to be an [Architect/Pilot]? ➔ Because I want to [Design buildings/Fly around the world].", vietnameseMeaning: "Tại sao bạn muốn làm [Kiến trúc sư/Phi công]? ➔ Vì mình muốn [Thiết kế công trình/Bay khắp thế giới].", sampleDialogue: [{ speaker: "Nam", text: "Why do you want to be an astronaut, Peter?", textVi: "Tại sao bạn lại muốn làm phi hành gia hả Peter?" }, { speaker: "Peter", text: "Because I want to explore distant planets and discover cosmic secrets!", textVi: "Bởi vì mình muốn khám phá những hành tinh xa xôi và giải mã bí ẩn vũ trụ!" }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Sky-High Aspirations Story", focus: "reading_communication", readingMiniStory: { title: "Our High-Flying Ambitions", text: "In our Grade 5 English workshop, students present dynamic presentations about their dream futures. Quan designs green zero-emission cities as an architect, while Mai dreams of curing diseases in modern laboratories.", translationVi: "Trong buổi hội thảo tiếng Anh lớp 5, các bạn học sinh thuyết trình sôi nổi về ước mơ tương lai. Quân thiết kế những thành phố xanh không phát thải với tư cách kiến trúc sư, còn Mai mơ ước điều chế thuốc chữa bệnh trong các phòng thí nghiệm hiện đại." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: What food and drink will you have at the party?",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u13-l2-v1",
+            word: "apple juice",
+            clue: "A delicious, sweet fruit juice pressed from ripe apples",
+            vietnameseMeaning: "nước ép táo",
+            phonics: "/ˈæpl dʒuːs/",
+            emoji: "🧃",
+            grade: 5,
+            unit: 13,
+            topic: "Party Food & Drinks",
+            exampleSentence: "What drink will you have? - I'll have some fresh apple juice.",
+            distractors: ["hot coffee", "fizzy soda", "cold soup"]
+          },
+          {
+            id: "g5-u13-l2-v2",
+            word: "lemonade",
+            clue: "A refreshing drink made from lemon juice, water, and sugar",
+            vietnameseMeaning: "nước chanh",
+            phonics: "/ˌleməˈneɪd/",
+            emoji: "🍋",
+            grade: 5,
+            unit: 13,
+            topic: "Party Food & Drinks",
+            exampleSentence: "We will make iced lemonade for our Children's Day party.",
+            distractors: ["salty brine", "warm milk", "black tea"]
+          },
+          {
+            id: "g5-u13-l2-v3",
+            word: "milk tea",
+            clue: "A popular sweetened tea mixed with rich milk and tapioca pearls",
+            vietnameseMeaning: "trà sữa",
+            phonics: "/mɪlk tiː/",
+            emoji: "🧋",
+            grade: 5,
+            unit: 13,
+            topic: "Party Food & Drinks",
+            exampleSentence: "Many students love drinking brown sugar milk tea at class parties.",
+            distractors: ["vinegar", "spicy broth", "pure oil"]
+          },
+          {
+            id: "g5-u13-l2-v4",
+            word: "pizza",
+            clue: "A round baked flatbread topped with tomato sauce, melted cheese, and toppings",
+            vietnameseMeaning: "bánh pít-za (pizza)",
+            phonics: "/ˈpiːtsə/",
+            emoji: "🍕",
+            grade: 5,
+            unit: 13,
+            topic: "Party Food & Drinks",
+            exampleSentence: "What food will you have at the celebration? - We'll have hot cheese pizza.",
+            distractors: ["plain rice", "dry crackers", "raw onions"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "What food/drink will you have at the party? - I'll / We'll have [pizza / apple juice / milk tea / lemonade].",
+            vietnameseMeaning: "Bạn sẽ dùng món ăn/đồ uống gì ở bữa tiệc? - Mình sẽ dùng [pizza / nước ép táo / trà sữa / nước chanh].",
+            sampleDialogue: [
+              { speaker: "Linda", text: "What drink will you have at the party, Quan?", textVi: "Cậu sẽ uống gì trong bữa tiệc thế Quân?" },
+              { speaker: "Quan", text: "I'll have some chilled apple juice and a slice of pizza.", textVi: "Mình sẽ uống nước ép táo mát lạnh và ăn một miếng pizza." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: A Joyful Mid-Autumn Night",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "On [special day], we celebrate together with our beloved teachers and classmates.",
+            vietnameseMeaning: "Vào [ngày lễ đặc biệt], chúng mình cùng nhau đón chào bên thầy cô và bạn bè thân yêu.",
+            sampleDialogue: [
+              { speaker: "Peter", text: "Are you ready for the lantern parade tonight?", textVi: "Tối nay các cậu đã sẵn sàng cho lễ rước đèn chưa?" },
+              { speaker: "Hoa", text: "Yes, our five-pointed star lanterns glow bright yellow and red!", textVi: "Rồi chứ, những chiếc đèn lồng ông sao năm cánh của tụi mình đang sáng rực rỡ màu vàng đỏ!" }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Full Moon Celebration in Class 5A",
+          text: "Tonight is Mid-Autumn Festival, one of our favorite special days. The school yard is decorated with hundreds of colorful star lanterns. Students gathered to watch a thrilling lion dance accompanied by pounding drums. Afterwards, our teacher shared sweet lotus-seed mooncakes, crispy chips, and cool apple juice. Everyone laughed merrily under the silvery moonlight!",
+          translationVi: "Tối nay là Tết Trung thu, một trong những ngày lễ đặc biệt mà chúng mình yêu thích nhất. Sân trường được trang hoàng với hàng trăm chiếc đèn ông sao rực rỡ sắc màu. Các bạn học sinh tụ họp reo hò xem màn múa lân sư rồng sôi động hòa cùng tiếng trống rộn rã. Sau đó, cô giáo chia cho chúng mình những chiếc bánh trung thu hạt sen ngọt ngào, khoai tây giòn rụm và nước ép táo mát lành. Ai nấy đều cười rạng rỡ dưới ánh trăng rằm sáng vằng vặc!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 13, unitTitle: "Accidents at Home", unitTitleVi: "Tai nạn tại nhà", theme: "Safety Rules & Prevention", icon: "⚠️", semester: 2,
+    grade: 5,
+    unitNumber: 14,
+    unitTitle: "Staying healthy",
+    unitTitleVi: "Giữ gìn sức khỏe",
+    theme: "Me and My Family",
+    icon: "🥗",
+    semester: 2,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Common Home Hazards & Warnings", focus: "vocabulary_phonics", phonicsSound: "Sounds /dʒ/ (danger) & /b/ (burn)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: How do you stay healthy? (Habits)",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/eə/ in exercise vs /əʊ/ in yoga",
         vocabulary: [
-          { id: "g5-u13-play-matches", word: "play with matches", clue: "Ignite wooden fire sticks dangerously.", vietnameseMeaning: "nghịch diêm quẹt", phonics: "/pleɪ wɪð ˈmætʃ.ɪz/", emoji: "🔥", grade: 5, unit: 13, topic: "Safety", exampleSentence: "Don't play with matches! You may get a burn.", distractors: ["ride bike", "climb tree", "run down stairs"] },
-          { id: "g5-u13-ride-fast", word: "ride your bike too fast", clue: "Pedal bicycle at excessive dangerous speed.", vietnameseMeaning: "đạp xe quá nhanh", phonics: "/raɪd jɔː baɪk tuː fɑːst/", emoji: "🚴", grade: 5, unit: 13, topic: "Safety", exampleSentence: "Don't ride your bike too fast down the slope.", distractors: ["play matches", "touch stove", "cut fruit"] },
-          { id: "g5-u13-climb-tree", word: "climb the tree", clue: "Scramble up branches at height.", vietnameseMeaning: "trèo cây", phonics: "/klaɪm ðə triː/", emoji: "🌳", grade: 5, unit: 13, topic: "Safety", exampleSentence: "Don't climb the tree! You may fall.", distractors: ["play matches", "cut fruit", "open door"] },
-          { id: "g5-u13-touch-stove", word: "touch the hot stove", clue: "Place bare hands on hot cooking burner.", vietnameseMeaning: "chạm vào bếp lò nóng", phonics: "/tʌtʃ ðə hɒt stəʊv/", emoji: "🍳", grade: 5, unit: 13, topic: "Safety", exampleSentence: "Don't touch the stove.", distractors: ["wash hands", "eat dinner", "open window"] },
+          {
+            id: "g5-u14-l1-v1",
+            word: "do morning exercise",
+            clue: "To stretch and move your body each morning to wake up muscles",
+            vietnameseMeaning: "tập thể dục buổi sáng",
+            phonics: "/duː ˈmɔːnɪŋ ˈeksəsaɪz/",
+            emoji: "🤸",
+            grade: 5,
+            unit: 14,
+            topic: "Healthy Living",
+            exampleSentence: "How do you stay healthy? - I do morning exercise every day.",
+            distractors: ["sleep late", "eat chips", "watch phone"]
+          },
+          {
+            id: "g5-u14-l1-v2",
+            word: "do yoga",
+            clue: "A Hindu spiritual and physical discipline of postures, breathing, and meditation",
+            vietnameseMeaning: "tập yoga",
+            phonics: "/duː ˈjəʊɡə/",
+            emoji: "🧘",
+            grade: 5,
+            unit: 14,
+            topic: "Healthy Living",
+            exampleSentence: "How does your mother stay healthy? - She does yoga twice a week.",
+            distractors: ["fight enemies", "lift cars", "run in mud"]
+          },
+          {
+            id: "g5-u14-l1-v3",
+            word: "do judo",
+            clue: "A Japanese martial art emphasizing throws and balance",
+            vietnameseMeaning: "tập võ judo",
+            phonics: "/duː ˈdʒuːdəʊ/",
+            emoji: "🥋",
+            grade: 5,
+            unit: 14,
+            topic: "Healthy Living",
+            exampleSentence: "Phong stays fit and strong because he does judo three times a week.",
+            distractors: ["eat sweets", "stay indoors", "read comics in bed"]
+          },
+          {
+            id: "g5-u14-l1-v4",
+            word: "eat healthy food",
+            clue: "Nutritious balanced meals with fresh vegetables, fruit, fish, and clean water",
+            vietnameseMeaning: "ăn thức ăn lành mạnh, bổ dưỡng",
+            phonics: "/iːt ˈhelθi fuːd/",
+            emoji: "🥦",
+            grade: 5,
+            unit: 14,
+            topic: "Healthy Living",
+            exampleSentence: "You should eat healthy food like green vegetables and fresh eggs.",
+            distractors: ["eat too many candies", "drink salty soda", "skip breakfast"]
+          }
         ],
-        sentenceStructures: [{ pattern: "Don't [Dangerous action]! ➔ OK, I won't. / Why shouldn't I [Action]? ➔ Because you may [Consequence: get a burn / fall / break your arm].", vietnameseMeaning: "Đừng [Hành động nguy hiểm]! ➔ Được rồi, mình sẽ không làm vậy. / Tại sao mình không nên [Hành động]? ➔ Vì bạn có thể [Hậu quả: bị bỏng / ngã / gãy tay].", sampleDialogue: [{ speaker: "Mother", text: "Don't play with matches, Tom!", textVi: "Đừng nghịch bao diêm con nhé Tom!" }, { speaker: "Tom", text: "Why shouldn't I play with them, Mom?", textVi: "Tại sao con không nên chơi với chúng hả mẹ?" }, { speaker: "Mother", text: "Because you may get a serious burn or start a fire!", textVi: "Vì con có thể bị bỏng nặng hoặc gây hỏa hoạn đấy!" }] }],
+        sentenceStructures: [
+          {
+            pattern: "How do/does [you / he / she] stay healthy? - [I / He / She] [do/does morning exercise / do/does yoga / play/plays sports].",
+            vietnameseMeaning: "Làm thế nào để [bạn / cậu ấy / cô ấy] giữ gìn sức khỏe? - [Mình / Cậu ấy / Cô ấy] [tập thể dục buổi sáng / tập yoga / chơi thể thao].",
+            sampleDialogue: [
+              { speaker: "Doctor", text: "How do you stay healthy, Nam?", textVi: "Cháu rèn luyện sức khỏe như thế nào vậy Nam?" },
+              { speaker: "Nam", text: "I do morning exercise every day and play badminton after school.", textVi: "Cháu tập thể dục buổi sáng mỗi ngày và chơi cầu lông sau giờ học ạ." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: First Aid Awareness", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "What should you do if someone gets hurt? ➔ Call for adult help immediately and apply first aid.", vietnameseMeaning: "Bạn nên làm gì khi có người bị thương? ➔ Hãy gọi người lớn giúp đỡ ngay và sơ cứu vết thương.", sampleDialogue: [{ speaker: "Teacher", text: "What should you do if you burn your finger on a pan?", textVi: "Em nên làm gì nếu bị bỏng ngón tay vào chảo?" }, { speaker: "Nam", text: "Run cold clean tap water over it for 10 minutes!", textVi: "Xả nước mát sạch lên ngón tay trong 10 phút ạ!" }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Home Safety Champions Story", focus: "reading_communication", readingMiniStory: { title: "Safety Rules for Smart Children", text: "Home is where we feel safe, but hazards exist. Smart pupils follow golden rules: never play with sharp knives, never touch hot stoves or electrical sockets, and always wear helmets when cycling.", translationVi: "Ngôi nhà là nơi chúng ta cảm thấy an toàn, nhưng vẫn tiềm ẩn những nguy hiểm. Các bạn học sinh thông thái luôn tuân thủ nguyên tắc vàng: không bao giờ nghịch dao sắc, không chạm vào bếp nóng hay ổ cắm điện và luôn đội mũ bảo hiểm khi đi xe đạp." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: How often do you...? (Frequency Expressions)",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u14-l2-v1",
+            word: "drink fresh juice",
+            clue: "Drinking freshly squeezed juice from oranges, watermelons, or carrots",
+            vietnameseMeaning: "uống nước ép trái cây tươi",
+            phonics: "/drɪŋk freʃ dʒuːs/",
+            emoji: "🍹",
+            grade: 5,
+            unit: 14,
+            topic: "Healthy Habits",
+            exampleSentence: "How often does he drink fresh juice? - He drinks it every day.",
+            distractors: ["drink boiling oil", "drink dirty water", "skip fluids"]
+          },
+          {
+            id: "g5-u14-l2-v2",
+            word: "eat vegetables",
+            clue: "Consuming greens like spinach, carrots, cabbage, and broccoli",
+            vietnameseMeaning: "ăn rau củ quả",
+            phonics: "/iːt ˈvedʒtəblz/",
+            emoji: "🥕",
+            grade: 5,
+            unit: 14,
+            topic: "Healthy Habits",
+            exampleSentence: "Eating vegetables every day provides vital vitamins and fiber.",
+            distractors: ["eat plastic bags", "eat sugar cubes", "eat spoiled bread"]
+          },
+          {
+            id: "g5-u14-l2-v3",
+            word: "every day",
+            clue: "Each day without skipping; daily",
+            vietnameseMeaning: "mỗi ngày, hằng ngày",
+            phonics: "/ˈevri deɪ/",
+            emoji: "📅",
+            grade: 5,
+            unit: 14,
+            topic: "Frequency Expressions",
+            exampleSentence: "I drink two liters of pure water every day.",
+            distractors: ["once a year", "never", "hardly"]
+          },
+          {
+            id: "g5-u14-l2-v4",
+            word: "twice a week",
+            clue: "Happening two times within seven days",
+            vietnameseMeaning: "hai lần một tuần",
+            phonics: "/twaɪs ə wiːk/",
+            emoji: "✌️",
+            grade: 5,
+            unit: 14,
+            topic: "Frequency Expressions",
+            exampleSentence: "She practices swimming twice a week at the community pool.",
+            distractors: ["ten times an hour", "never", "every second"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "How often do/does [subject] [habit]? - [Subject] [action] [every day / twice a week / three times a week].",
+            vietnameseMeaning: "[Ai đó] có thường [làm thói quen] không? - [Ai đó] làm việc đó [mỗi ngày / hai lần một tuần / ba lần một tuần].",
+            sampleDialogue: [
+              { speaker: "Peter", text: "How often do you drink fresh orange juice?", textVi: "Bạn có thường uống nước cam ép tươi không?" },
+              { speaker: "Mai", text: "I drink it three times a week after my sports practice.", textVi: "Mình uống ba lần một tuần sau khi luyện tập thể thao." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: A Daily Plan for Health and Energy",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "Maintaining regular exercise and healthy food gives us boundless energy to study well.",
+            vietnameseMeaning: "Duy trì tập thể dục đều đặn và ăn uống lành mạnh mang lại năng lượng tràn đầy để học tốt.",
+            sampleDialogue: [
+              { speaker: "Teacher", text: "Why is physical health important for fifth graders?", textVi: "Tại sao sức khỏe thể chất lại quan trọng với học sinh lớp 5?" },
+              { speaker: "An", text: "Because a healthy body keeps our mind clear, active, and cheerful!", textVi: "Bởi vì một cơ thể khỏe mạnh giúp trí óc chúng em minh mẫn, năng động và vui tươi!" }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Minh's Secrets to an Energetic Day",
+          text: "Minh is known as the most active boy in Class 5A. When asked how he stays healthy, Minh smiles: 'I start every morning with fifteen minutes of exercise. I drink fresh carrot juice every day and eat lots of green vegetables at lunch. In the afternoon, I do judo twice a week with my instructor. Regular habits keep me strong, happy, and ready for any challenge!'",
+          translationVi: "Minh được biết đến là cậu bạn năng động nhất lớp 5A. Khi được hỏi làm thế nào để luôn giữ gìn sức khỏe, Minh mỉm cười: 'Mỗi sáng tớ đều bắt đầu bằng mười lăm phút tập thể dục. Tớ uống nước ép cà rốt tươi mỗi ngày và ăn thật nhiều rau xanh vào bữa trưa. Buổi chiều, tớ tập võ judo hai lần một tuần cùng thầy giáo. Những thói quen điều độ giúp tớ khỏe mạnh, vui vẻ và sẵn sàng đón nhận mọi thử thách!'"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 14, unitTitle: "Stories for Children", unitTitleVi: "Những câu chuyện dành cho thiếu nhi", theme: "Character Analysis & Fables", icon: "📖", semester: 2,
+    grade: 5,
+    unitNumber: 15,
+    unitTitle: "Our health",
+    unitTitleVi: "Sức khỏe của chúng mình",
+    theme: "Me and My Family",
+    icon: "🩺",
+    semester: 2,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Moral Character Adjectives", focus: "vocabulary_phonics", phonicsSound: "Sounds /ɡ/ (generous) & /k/ (kind)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Common Ailments & What's the matter with you?",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/eɪk/ in toothache, headache, stomachache",
         vocabulary: [
-          { id: "g5-u14-generous", word: "generous", clue: "Willing to give more help or money than expected.", vietnameseMeaning: "hào phóng / rộng lượng", phonics: "/ˈdʒen.ər.əs/", emoji: "🎁", grade: 5, unit: 14, topic: "Personality", exampleSentence: "The kind prince was generous to the poor.", distractors: ["greedy", "cruel", "lazy"] },
-          { id: "g5-u14-greedy", word: "greedy", clue: "Having an excessive desire for wealth or food.", vietnameseMeaning: "tham lam", phonics: "/ˈɡriː.di/", emoji: "🤑", grade: 5, unit: 14, topic: "Personality", exampleSentence: "The older brother in The Starfruit Tree was greedy.", distractors: ["generous", "kind", "honest"] },
-          { id: "g5-u14-hardworking", word: "hardworking", clue: "Putting great effort and care into work.", vietnameseMeaning: "chăm chỉ / cần cù", phonics: "/ˌhɑːdˈwɜː.kɪŋ/", emoji: "🐝", grade: 5, unit: 14, topic: "Personality", exampleSentence: "Tam is very hardworking.", distractors: ["lazy", "cruel", "selfish"] },
-          { id: "g5-u14-honest", word: "honest", clue: "Free of deceit and untruthfulness; sincere.", vietnameseMeaning: "thành thật / trung thực", phonics: "/ˈɒn.ɪst/", emoji: "⭐", grade: 5, unit: 14, topic: "Personality", exampleSentence: "An honest boy who told the truth.", distractors: ["cunning", "greedy", "cruel"] },
+          {
+            id: "g5-u15-l1-v1",
+            word: "toothache",
+            clue: "A sharp or throbbing pain located in a tooth or jaw",
+            vietnameseMeaning: "bệnh đau răng",
+            phonics: "/ˈtuːθeɪk/",
+            emoji: "🦷",
+            grade: 5,
+            unit: 15,
+            topic: "Health Problems",
+            exampleSentence: "What's the matter with you? - I have a bad toothache.",
+            distractors: ["fever", "cut", "cough"]
+          },
+          {
+            id: "g5-u15-l1-v2",
+            word: "headache",
+            clue: "A continuous pain in your head",
+            vietnameseMeaning: "đau đầu, nhức đầu",
+            phonics: "/ˈhedeɪk/",
+            emoji: "🤕",
+            grade: 5,
+            unit: 15,
+            topic: "Health Problems",
+            exampleSentence: "He worked on the computer for hours and now has a headache.",
+            distractors: ["broken arm", "sore throat", "bruise"]
+          },
+          {
+            id: "g5-u15-l1-v3",
+            word: "sore throat",
+            clue: "A painful and irritated feeling in the throat when swallowing",
+            vietnameseMeaning: "viêm họng, rát họng",
+            phonics: "/sɔː θrəʊt/",
+            emoji: "🗣️",
+            grade: 5,
+            unit: 15,
+            topic: "Health Problems",
+            exampleSentence: "She has a sore throat, so she cannot sing today.",
+            distractors: ["toothache", "stomachache", "sprain"]
+          },
+          {
+            id: "g5-u15-l1-v4",
+            word: "stomachache",
+            clue: "Pain in your stomach or abdomen, often caused by indigestion",
+            vietnameseMeaning: "đau bụng, đau dạ dày",
+            phonics: "/ˈstʌmək eɪk/",
+            emoji: "🤢",
+            grade: 5,
+            unit: 15,
+            topic: "Health Problems",
+            exampleSentence: "Phong has a stomachache because he ate unripe green mangoes.",
+            distractors: ["headache", "cold", "flu"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What do you think of [Character]? ➔ I think he/she is [Adjective]. / What happened in the end? ➔ In the end, [Resolution].", vietnameseMeaning: "Bạn nghĩ gì về [Nhân vật]? ➔ Mình nghĩ anh/cô ấy rất [Tính từ]. / Điều gì xảy ra ở đoạn kết? ➔ Cuối cùng, [Kết quả].", sampleDialogue: [{ speaker: "Linda", text: "What do you think of the younger brother in The Golden Starfruit Tree?", textVi: "Bạn nghĩ gì về người em trong truyện Cây Khế?" }, { speaker: "Nam", text: "I think he is honest, kind, and hardworking.", textVi: "Mình nghĩ người em rất trung thực, tốt bụng và chăm chỉ." }] }],
+        sentenceStructures: [
+          {
+            pattern: "What's the matter with you / him / her? - I / He / She have/has a [toothache / headache / sore throat / stomachache].",
+            vietnameseMeaning: "Có chuyện gì với [bạn / cậu ấy / cô ấy] vậy? - [Tôi / Cậu ấy / Cô ấy] bị [đau răng / đau đầu / đau họng / đau bụng].",
+            sampleDialogue: [
+              { speaker: "Tony", text: "What's the matter with you, Quan?", textVi: "Cậu bị làm sao thế Quân?" },
+              { speaker: "Quan", text: "I have a sore throat and feel quite tired.", textVi: "Mình bị đau rát họng và thấy người khá mệt." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Analyzing Conflicts & Lessons", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "Why did the older brother lose everything? ➔ Because he was too greedy and selfish.", vietnameseMeaning: "Tại sao người anh lại mất tất cả? ➔ Bởi vì anh ta quá tham lam và ích kỷ.", sampleDialogue: [{ speaker: "Teacher", text: "What is the moral of The Golden Starfruit Tree?", textVi: "Bài học rút ra từ truyện Cây Khế là gì?" }, { speaker: "Mai", text: "Greed leads to downfall; kindness brings true happiness.", textVi: "Lòng tham sẽ dẫn đến thất bại; lòng tốt mang lại hạnh phúc đích thực ạ." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: The Golden Starfruit Tree Story", focus: "reading_communication", readingMiniStory: { title: "The Giant Raven and the Golden Starfruit Tree", text: "A gigantic magical raven flew from the sea to eat golden starfruits. In return, it instructed the honest younger brother to sew a small bag to carry gold from a mystery island, rewarding his pure heart.", translationVi: "Một con chim phượng hoàng khổng lồ bay từ biển đến ăn những trái khế chín vàng. Để đền ơn, chim bảo người em trai thật thà may một chiếc túi ba gang để chở vàng từ hòn đảo kỳ bí, đền đáp tấm lòng lương thiện của chàng." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: Giving Advice with Should and Shouldn't",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u15-l2-v1",
+            word: "go to the dentist",
+            clue: "Visiting a licensed dental practitioner to treat tooth decay or pain",
+            vietnameseMeaning: "đi khám nha sĩ",
+            phonics: "/ɡəʊ tuː ðə ˈdentɪst/",
+            emoji: "🥼",
+            grade: 5,
+            unit: 15,
+            topic: "Health Advice",
+            exampleSentence: "You have a toothache; you should go to the dentist.",
+            distractors: ["eat candies", "drink icy cola", "bite bones"]
+          },
+          {
+            id: "g5-u15-l2-v2",
+            word: "have a rest",
+            clue: "To stop working and lie down in a quiet room to recover",
+            vietnameseMeaning: "nghỉ ngơi tĩnh dưỡng",
+            phonics: "/hæv ə rest/",
+            emoji: "🛌",
+            grade: 5,
+            unit: 15,
+            topic: "Health Advice",
+            exampleSentence: "You look exhausted; you should have a rest.",
+            distractors: ["run a marathon", "lift heavy boxes", "dance all night"]
+          },
+          {
+            id: "g5-u15-l2-v3",
+            word: "drink warm water",
+            clue: "Consuming warm water or herbal infusion to soothe the vocal cords",
+            vietnameseMeaning: "uống nước ấm",
+            phonics: "/drɪŋk wɔːm ˈwɔːtər/",
+            emoji: "🍵",
+            grade: 5,
+            unit: 15,
+            topic: "Health Advice",
+            exampleSentence: "When you have a sore throat, you should drink warm water.",
+            distractors: ["drink ice water", "eat spicy chili", "shout loud"]
+          },
+          {
+            id: "g5-u15-l2-v4",
+            word: "take some medicine",
+            clue: "Swallowing prescribed medicinal pills or syrup to alleviate illness",
+            vietnameseMeaning: "uống thuốc (theo chỉ dẫn)",
+            phonics: "/teɪk sʌm ˈmedsn/",
+            emoji: "💊",
+            grade: 5,
+            unit: 15,
+            topic: "Health Advice",
+            exampleSentence: "The school nurse told him to take some medicine and rest.",
+            distractors: ["eat junk food", "go swimming", "play football"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "You should [go to the dentist / have a rest / drink warm water]. You shouldn't [eat too many sweets / stay up late].",
+            vietnameseMeaning: "Bạn nên [đi khám nha sĩ / nghỉ ngơi / uống nước ấm]. Bạn không nên [ăn quá nhiều kẹo / thức khuya].",
+            sampleDialogue: [
+              { speaker: "Lan", text: "My tooth hurts terribly, teacher.", textVi: "Răng em đau buốt quá cô ơi." },
+              { speaker: "Teacher", text: "You should go to the dentist right away, and you shouldn't eat hard candy.", textVi: "Em nên đi khám nha sĩ ngay, và tuyệt đối không nên ăn kẹo cứng nhé." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: A Visit to the School Clinic",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "I hope you get well soon! Remember to follow the doctor's advice.",
+            vietnameseMeaning: "Mong bạn sớm khỏe lại nhé! Nhớ làm theo lời khuyên của bác sĩ.",
+            sampleDialogue: [
+              { speaker: "Nam", text: "How is your throat today, David?", textVi: "Họng của bạn hôm nay đỡ chưa David?" },
+              { speaker: "David", text: "Much better! I drank warm honey water and took a long rest.", textVi: "Đỡ nhiều rồi! Mình đã uống nước mật ong ấm và nghỉ ngơi thật nhiều." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Care at the School Medical Room",
+          text: "During third period, Mary felt a sharp headache and a sore throat. Her classmate helped her walk downstairs to the school clinic. Nurse Hanh warmly examined Mary and checked her temperature. 'You have caught a mild cold, Mary. You should drink this warm water and have a rest on the clinic bed. Also, you shouldn't drink iced water today.' With gentle care, Mary felt relieved and rested peacefully.",
+          translationVi: "Vào tiết học thứ ba, Mary cảm thấy đau đầu và rát họng dữ dội. Bạn cùng lớp đã dìu Mary xuống phòng y tế trường. Cô Hạnh - nhân viên y tế - ân cần thăm khám và cặp nhiệt độ cho Mary: 'Em bị cảm lạnh nhẹ rồi Mary à. Em nên uống cốc nước ấm này và nằm nghỉ trên giường y tế nhé. Ngoài ra, hôm nay em tuyệt đối không nên uống nước đá.' Nhờ sự chăm sóc dịu dàng, Mary đã cảm thấy đỡ hơn và yên tâm nghỉ ngơi."
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 15, unitTitle: "Our Health", unitTitleVi: "Sức khỏe của chúng mình", theme: "Health Conditions & Medical Advice", icon: "🩺", semester: 2,
+    grade: 5,
+    unitNumber: 16,
+    unitTitle: "Seasons and the weather",
+    unitTitleVi: "Các mùa và thời tiết",
+    theme: "The World Around Us",
+    icon: "🌦️",
+    semester: 2,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Common Ailments & Doctor Advice", focus: "vocabulary_phonics", phonicsSound: "Sounds /t/ (toothache) & /h/ (headache)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Seasons & What's the weather like in...?",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/ɔː/ in autumn vs /ɪ/ in winter",
         vocabulary: [
-          { id: "g5-u15-headache", word: "headache", clue: "Continuous throbbing pain in the head.", vietnameseMeaning: "đau đầu", phonics: "/ˈhed.eɪk/", emoji: "🤕", grade: 5, unit: 15, topic: "Health", exampleSentence: "I have a terrible headache.", distractors: ["toothache", "stomach ache", "fever"] },
-          { id: "g5-u15-toothache", word: "toothache", clue: "Pain in or around a tooth.", vietnameseMeaning: "đau răng", phonics: "/ˈtuːθ.eɪk/", emoji: "🦷", grade: 5, unit: 15, topic: "Health", exampleSentence: "Go to the dentist for a toothache.", distractors: ["headache", "earache", "backache"] },
-          { id: "g5-u15-stomach-ache", word: "stomach ache", clue: "Pain in the belly or abdomen.", vietnameseMeaning: "đau bụng / dạ dày", phonics: "/ˈstʌm.ək eɪk/", emoji: "🤢", grade: 5, unit: 15, topic: "Health", exampleSentence: "Don't eat unwashed fruit to avoid stomach ache.", distractors: ["headache", "toothache", "fever"] },
-          { id: "g5-u15-fever", word: "fever", clue: "Abnormally high body temperature.", vietnameseMeaning: "sốt cao", phonics: "/ˈfiː.vər/", emoji: "🤒", grade: 5, unit: 15, topic: "Health", exampleSentence: "Take medicine when having a high fever.", distractors: ["toothache", "cold", "pain"] },
+          {
+            id: "g5-u16-l1-v1",
+            word: "spring",
+            clue: "The fresh season between winter and summer when trees sprout new buds",
+            vietnameseMeaning: "mùa xuân",
+            phonics: "/sprɪŋ/",
+            emoji: "🌱",
+            grade: 5,
+            unit: 16,
+            topic: "Seasons",
+            exampleSentence: "What's the weather like in spring? - It's warm and humid.",
+            distractors: ["summer", "autumn", "winter"]
+          },
+          {
+            id: "g5-u16-l1-v2",
+            word: "summer",
+            clue: "The hottest season of the year with plenty of sunshine and cicada songs",
+            vietnameseMeaning: "mùa hè, mùa hạ",
+            phonics: "/ˈsʌmər/",
+            emoji: "☀️",
+            grade: 5,
+            unit: 16,
+            topic: "Seasons",
+            exampleSentence: "Summer in Central Vietnam is very hot and sunny.",
+            distractors: ["winter", "autumn", "spring"]
+          },
+          {
+            id: "g5-u16-l1-v3",
+            word: "autumn",
+            clue: "The cool romantic season when tree leaves turn amber and fall to earth",
+            vietnameseMeaning: "mùa thu",
+            phonics: "/ˈɔːtəm/",
+            emoji: "🍂",
+            grade: 5,
+            unit: 16,
+            topic: "Seasons",
+            exampleSentence: "Autumn in Hanoi is cool, breezy, and pleasant.",
+            distractors: ["spring", "summer", "snowstorm"]
+          },
+          {
+            id: "g5-u16-l1-v4",
+            word: "winter",
+            clue: "The coldest season of the year when north winds blow chilly air",
+            vietnameseMeaning: "mùa đông",
+            phonics: "/ˈwɪntər/",
+            emoji: "❄️",
+            grade: 5,
+            unit: 16,
+            topic: "Seasons",
+            exampleSentence: "In winter, people bundle up in thick woollen coats.",
+            distractors: ["summer", "hot period", "dry season"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What's the matter with you? ➔ I have a [Health issue]. / You should [Doctor advice: see a doctor / take a rest]. / You shouldn't [Negative action: eat ice cream / carry heavy bags].", vietnameseMeaning: "Bạn bị làm sao thế? ➔ Mình bị [Vấn đề sức khỏe]. / Bạn nên [Lời khuyên] / Bạn không nên [Hành động có hại].", sampleDialogue: [{ speaker: "Doctor", text: "What's the matter with you, Mai?", textVi: "Cháu bị làm sao thế Mai?" }, { speaker: "Mai", text: "I have a toothache and a slight fever.", textVi: "Cháu bị đau răng và hơi sốt nhẹ ạ." }, { speaker: "Doctor", text: "You should brush teeth twice a day and you shouldn't eat too many sweet candies.", textVi: "Cháu nên đánh răng ngày 2 lần và không nên ăn quá nhiều kẹo ngọt nhé." }] }],
+        sentenceStructures: [
+          {
+            pattern: "What's the weather like in [spring / summer / autumn / winter]? - It's [warm / hot and sunny / cool and windy / cold].",
+            vietnameseMeaning: "Thời tiết vào [mùa xuân / mùa hè / mùa thu / mùa đông] như thế nào? - Trời [ấm áp / nóng có nắng / mát mẻ có gió / giá lạnh].",
+            sampleDialogue: [
+              { speaker: "Tony", text: "What's the weather like in autumn in Hanoi, Mai?", textVi: "Thời tiết mùa thu ở Hà Nội như thế nào vậy Mai?" },
+              { speaker: "Mai", text: "It's cool, breezy, and very pleasant with golden sunshine.", textVi: "Trời mát mẻ, có gió heo may nhẹ và ánh nắng vàng hanh rất dễ chịu." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Healthy Living Habits", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "What should you do to stay healthy? ➔ Eat green vegetables, drink warm water, and sleep early.", vietnameseMeaning: "Bạn nên làm gì để giữ sức khỏe tốt? ➔ Ăn nhiều rau xanh, uống nước ấm và ngủ sớm.", sampleDialogue: [{ speaker: "Nam", text: "How do you avoid catching a cold in winter?", textVi: "Làm thế nào bạn tránh bị cảm lạnh vào mùa đông?" }, { speaker: "Tony", text: "Wear warm coats, scarves, and drink warm ginger tea.", textVi: "Mặc áo ấm, quàng khăn và uống trà gừng ấm." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Doctor's Advice Story", focus: "reading_communication", readingMiniStory: { title: "Visiting the School Clinic", text: "When Tom experienced severe stomach pain, our school doctor examined him gently. She prescribed safe digestive medicine and advised him to drink boiled water and wash hands thoroughly before all meals.", translationVi: "Khi Tom bị đau bụng dữ dội, bác sĩ phòng y tế trường đã ân cần khám cho bạn. Cô kê thuốc tiêu hóa an toàn và dặn dò Tom phải uống nước đun sôi để nguội và rửa tay sạch sẽ trước mỗi bữa ăn." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: What do you wear in...? (Weather Clothes)",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u16-l2-v1",
+            word: "coat",
+            clue: "An outer garment with sleeves worn outdoors for extra warmth",
+            vietnameseMeaning: "áo khoác ấm, áo măng-tô",
+            phonics: "/kəʊt/",
+            emoji: "🧥",
+            grade: 5,
+            unit: 16,
+            topic: "Clothes",
+            exampleSentence: "What do you wear in winter? - I wear a thick warm coat.",
+            distractors: ["swimsuit", "sandals", "sunglasses"]
+          },
+          {
+            id: "g5-u16-l2-v2",
+            word: "scarf",
+            clue: "A strip of warm wool or silk worn around the neck",
+            vietnameseMeaning: "khăn choàng cổ",
+            phonics: "/skɑːf/",
+            emoji: "🧣",
+            grade: 5,
+            unit: 16,
+            topic: "Clothes",
+            exampleSentence: "My mother knitted a lovely red scarf for me.",
+            distractors: ["belt", "goggles", "slippers"]
+          },
+          {
+            id: "g5-u16-l2-v3",
+            word: "cap",
+            clue: "A close-fitting hat with a front visor to shield eyes from the sun",
+            vietnameseMeaning: "mũ lưỡi trai",
+            phonics: "/kæp/",
+            emoji: "🧢",
+            grade: 5,
+            unit: 16,
+            topic: "Clothes",
+            exampleSentence: "When it's hot and sunny, I wear a T-shirt and a cap.",
+            distractors: ["rain boots", "thick gloves", "fur muffler"]
+          },
+          {
+            id: "g5-u16-l2-v4",
+            word: "jacket",
+            clue: "A waist- or hip-length lightweight outer coat",
+            vietnameseMeaning: "áo khoác lửng, áo jacket",
+            phonics: "/ˈdʒækɪt/",
+            emoji: "🧥",
+            grade: 5,
+            unit: 16,
+            topic: "Clothes",
+            exampleSentence: "Put on your light jacket; the autumn morning is windy.",
+            distractors: ["shorts", "swim fins", "towel"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "What do you wear in [winter / summer / cold weather]? - I wear a [coat / scarf / T-shirt and cap / jacket].",
+            vietnameseMeaning: "Bạn mặc gì vào [mùa đông / mùa hè / trời lạnh]? - Mình mặc [áo khoác / quàng khăn / áo phông và đội mũ / áo jacket].",
+            sampleDialogue: [
+              { speaker: "Peter", text: "What do you wear in winter, Quan?", textVi: "Cậu mặc gì vào mùa đông hả Quân?" },
+              { speaker: "Quan", text: "I wear a warm down jacket and a woollen scarf.", textVi: "Mình mặc áo phao ấm và quàng khăn len." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: The Changing Seasons Across Vietnam",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "Every season brings its own beauty and unique charm.",
+            vietnameseMeaning: "Mỗi mùa đều mang một vẻ đẹp và nét quyến rũ riêng.",
+            sampleDialogue: [
+              { speaker: "Lucy", text: "Which season do you like best?", textVi: "Bạn thích mùa nào nhất?" },
+              { speaker: "Hoa", text: "I love autumn best because the weather is mild and comfortable for outdoor cycling.", textVi: "Mình thích mùa thu nhất vì thời tiết mát dịu, đạp xe ngoài trời rất thích." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Four Seasons of Hanoi",
+          text: "Hanoi is renowned for having four clearly marked seasons. In spring, delicate drizzles nourish pink peach blossoms across Nhat Tan gardens. Summer arrives with bright sunlight, blooming red flamboyant flowers, and lively cicadas. In autumn, the fragrance of milky flowers fills the cool breeze. Winter turns chilly, prompting everyone to put on warm jackets and colourful scarves. Each season paints our city in poetic beauty!",
+          translationVi: "Hà Nội nổi tiếng với bốn mùa rõ rệt trong năm. Vào mùa xuân, những hạt mưa phùn nhẹ nhàng tưới mát cho những luống hoa đào Nhật Tân bung nở. Mùa hè đến cùng ánh nắng rực rỡ, sắc hoa phượng vĩ đỏ thắm và tiếng ve ngân vang. Mùa thu mang hương hoa sữa nồng nàn lan tỏa trong làn gió mát lành. Mùa đông trời chuyển rét, mọi người khoác lên mình những chiếc áo ấm và khăn quàng rực rỡ. Mỗi mùa đều tô điểm cho thủ đô vẻ đẹp thật nên thơ!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 16, unitTitle: "Weather and Seasons", unitTitleVi: "Thời tiết và các mùa trong năm", theme: "Climate, Seasons & Activities", icon: "🌤️", semester: 2,
+    grade: 5,
+    unitNumber: 17,
+    unitTitle: "Stories for children",
+    unitTitleVi: "Những câu chuyện dành cho thiếu nhi",
+    theme: "The World Around Us",
+    icon: "📖",
+    semester: 2,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Four Seasons & Weather Patterns", focus: "vocabulary_phonics", phonicsSound: "Sounds /sp/ (spring) & /w/ (winter)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Main Characters in Stories (Who are they?)",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/eə/ in hare vs /ɔː/ in tortoise",
         vocabulary: [
-          { id: "g5-u16-spring", word: "spring", clue: "First season of the year when flowers blossom.", vietnameseMeaning: "mùa xuân", phonics: "/sprɪŋ/", emoji: "🌸", grade: 5, unit: 16, topic: "Seasons", exampleSentence: "Spring is warm with peach blossoms.", distractors: ["summer", "autumn", "winter"] },
-          { id: "g5-u16-summer", word: "summer", clue: "Warmest season of sunny days and beach trips.", vietnameseMeaning: "mùa hè", phonics: "/ˈsʌm.ər/", emoji: "☀️", grade: 5, unit: 16, topic: "Seasons", exampleSentence: "Summer is hot and sunny.", distractors: ["spring", "winter", "autumn"] },
-          { id: "g5-u16-autumn", word: "autumn", clue: "Cool golden season when leaves fall.", vietnameseMeaning: "mùa thu", phonics: "/ˈɔː.təm/", emoji: "🍁", grade: 5, unit: 16, topic: "Seasons", exampleSentence: "Autumn is cool and pleasant.", distractors: ["summer", "winter", "spring"] },
-          { id: "g5-u16-winter", word: "winter", clue: "Coldest season of the year.", vietnameseMeaning: "mùa đông", phonics: "/ˈwɪn.tər/", emoji: "❄️", grade: 5, unit: 16, topic: "Seasons", exampleSentence: "Winter is chilly and windy.", distractors: ["summer", "spring", "autumn"] },
+          {
+            id: "g5-u17-l1-v1",
+            word: "hare",
+            clue: "A fast-running mammal resembling a large rabbit with long ears and strong hind legs",
+            vietnameseMeaning: "con thỏ rừng",
+            phonics: "/heər/",
+            emoji: "🐇",
+            grade: 5,
+            unit: 17,
+            topic: "Story Characters",
+            exampleSentence: "Who are the main characters in the fable? - They're the hare and the tortoise.",
+            distractors: ["bear", "lion", "tiger"]
+          },
+          {
+            id: "g5-u17-l1-v2",
+            word: "tortoise",
+            clue: "A slow-moving land reptile with a hard rounded shell",
+            vietnameseMeaning: "con rùa",
+            phonics: "/ˈtɔːtəs/",
+            emoji: "🐢",
+            grade: 5,
+            unit: 17,
+            topic: "Story Characters",
+            exampleSentence: "The tortoise walked steadily and won the race in the end.",
+            distractors: ["frog", "lizard", "snail"]
+          },
+          {
+            id: "g5-u17-l1-v3",
+            word: "ant",
+            clue: "A small, industrious insect that lives in colonies and works hard all summer",
+            vietnameseMeaning: "con kiến",
+            phonics: "/ænt/",
+            emoji: "🐜",
+            grade: 5,
+            unit: 17,
+            topic: "Story Characters",
+            exampleSentence: "The ant worked tirelessly to gather food for the winter.",
+            distractors: ["bee", "wasp", "fly"]
+          },
+          {
+            id: "g5-u17-l1-v4",
+            word: "grasshopper",
+            clue: "A plant-eating insect that sings and jumps with long hind legs",
+            vietnameseMeaning: "con châu chấu",
+            phonics: "/ˈɡrɑːshɒpər/",
+            emoji: "🦗",
+            grade: 5,
+            unit: 17,
+            topic: "Story Characters",
+            exampleSentence: "The grasshopper sang beautifully all summer but forgot to save food.",
+            distractors: ["beetle", "spider", "caterpillar"]
+          },
+          {
+            id: "g5-u17-l1-v5",
+            word: "Snow White",
+            clue: "A beloved fairy tale princess with skin as white as snow and seven little dwarf friends",
+            vietnameseMeaning: "Nàng Bạch Tuyết",
+            phonics: "/snəʊ waɪt/",
+            emoji: "👸",
+            grade: 5,
+            unit: 17,
+            topic: "Story Characters",
+            exampleSentence: "Do you like Snow White? - Yes, I do. She is gentle and kind.",
+            distractors: ["Cinderella", "Rapunzel", "Ariel"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What is [Season] like in your city? ➔ It's usually [Weather adjectives]. / What do you like doing in [Season]? ➔ I like [Action].", vietnameseMeaning: "[Mùa] ở thành phố của bạn như thế nào? ➔ Thường [Thời tiết]. / Bạn thích làm gì vào [Mùa]? ➔ Mình thích [Hoạt động].", sampleDialogue: [{ speaker: "Tony", text: "What is autumn like in Hanoi, Mai?", textVi: "Mùa thu ở Hà Nội như thế nào thế Mai?" }, { speaker: "Mai", text: "It's cool, breezy, and fragrant with milk flowers. I love cycling around Hoan Kiem Lake.", textVi: "Trời se lạnh, thoáng gió và thơm nồng hoa sữa. Mình thích đạp xe quanh Hồ Hoàn Kiếm." }] }],
+        sentenceStructures: [
+          {
+            pattern: "Who are the main characters in the story? - They're [the hare and the tortoise / Snow White and the dwarfs].",
+            vietnameseMeaning: "Ai là các nhân vật chính trong câu chuyện? - Đó là [thỏ và rùa / Bạch Tuyết và bảy chú lùn].",
+            sampleDialogue: [
+              { speaker: "Tony", text: "Who are the main characters in 'The Tortoise and the Hare'?", textVi: "Ai là những nhân vật chính trong truyện 'Rùa và Thỏ'?" },
+              { speaker: "Mai", text: "They're a proud hare and a patient tortoise.", textVi: "Đó là một chú thỏ kiêu ngạo và một bác rùa kiên trì." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Seasonal Climate Across Vietnam", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "How many seasons are there in your area? ➔ There are [Four / Two: Dry & Rainy] seasons.", vietnameseMeaning: "Khu vực của bạn có mấy mùa? ➔ Có [Bốn mùa / Hai mùa: Mùa khô & Mùa mưa].", sampleDialogue: [{ speaker: "Linda", text: "How many seasons are there in Ho Chi Minh City?", textVi: "Ở Thành phố Hồ Chí Minh có mấy mùa?" }, { speaker: "Quan", text: "There are two seasons: the dry season and the rainy season.", textVi: "Có hai mùa: mùa khô và mùa mưa." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: The Four Seasons in Vietnam Story", focus: "reading_communication", readingMiniStory: { title: "Beauty Across the Four Seasons", text: "Vietnam enjoys diverse seasonal beauty. Northern provinces experience four distinct seasons with blooming spring flowers and chilly winter mists, while southern lands are blessed with eternal warm sunshine and golden harvests.", translationVi: "Việt Nam có vẻ đẹp bốn mùa đa dạng và rực rỡ. Miền Bắc trải qua bốn mùa rõ rệt với hoa xuân khoe sắc và sương đông se lạnh, trong khi miền Nam được ưu đãi bởi ánh nắng ấm áp quanh năm và những mùa vụ bội thu." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: What is the character like? (Traits & Actions)",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u17-l2-v1",
+            word: "run fast",
+            clue: "To sprint with great speed across the track",
+            vietnameseMeaning: "chạy nhanh",
+            phonics: "/rʌn fɑːst/",
+            emoji: "💨",
+            grade: 5,
+            unit: 17,
+            topic: "Character Actions",
+            exampleSentence: "The hare can run very fast, but he was overconfident.",
+            distractors: ["walk slowly", "crawl down", "swim deep"]
+          },
+          {
+            id: "g5-u17-l2-v2",
+            word: "work hard",
+            clue: "To put diligent, persistent effort into labor without quitting",
+            vietnameseMeaning: "làm việc chăm chỉ",
+            phonics: "/wɜːk hɑːd/",
+            emoji: "💪",
+            grade: 5,
+            unit: 17,
+            topic: "Character Actions",
+            exampleSentence: "The little ant worked hard all summer long.",
+            distractors: ["sleep all day", "waste time", "play video games"]
+          },
+          {
+            id: "g5-u17-l2-v3",
+            word: "sing beautifully",
+            clue: "To produce sweet and melodious vocal songs",
+            vietnameseMeaning: "hát rất hay",
+            phonics: "/sɪŋ ˈbjuːtɪfli/",
+            emoji: "🎤",
+            grade: 5,
+            unit: 17,
+            topic: "Character Actions",
+            exampleSentence: "The grasshopper sang beautifully on sunny branches.",
+            distractors: ["cry loudly", "bark fierce", "whisper low"]
+          },
+          {
+            id: "g5-u17-l2-v4",
+            word: "cook well",
+            clue: "To prepare delicious and nourishing meals skillfully",
+            vietnameseMeaning: "nấu ăn giỏi, nấu ăn ngon",
+            phonics: "/kʊk wel/",
+            emoji: "🍳",
+            grade: 5,
+            unit: 17,
+            topic: "Character Actions",
+            exampleSentence: "Snow White cooked well for the seven friendly dwarfs.",
+            distractors: ["burn bread", "spill soup", "break plates"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "What is [character] like? - He/She/It is [hard-working / clever / kind / patient].",
+            vietnameseMeaning: "[Nhân vật] là người/con vật như thế nào? - Cậu ấy/Cô ấy/Nó rất [chăm chỉ / thông minh / tốt bụng / kiên nhẫn].",
+            sampleDialogue: [
+              { speaker: "Linda", text: "What is the tortoise like?", textVi: "Chú rùa là người như thế nào?" },
+              { speaker: "Nam", text: "It is patient, hard-working, and never gives up.", textVi: "Nó rất kiên trì, cần mẫn và không bao giờ bỏ cuộc." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: The Timeless Tale of the Race",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "The story teaches us that [slow and steady wins the race / hard work pays off].",
+            vietnameseMeaning: "Câu chuyện dạy chúng ta bài học rằng [chậm mà chắc sẽ chiến thắng / chăm chỉ ắt có thành quả].",
+            sampleDialogue: [
+              { speaker: "Teacher", text: "What moral lesson does the fable give us?", textVi: "Truyện ngụ ngôn đem đến bài học đạo đức gì cho chúng ta?" },
+              { speaker: "An", text: "We should never be arrogant, but stay humble and persistent like the tortoise!", textVi: "Chúng ta không nên kiêu ngạo, mà hãy luôn khiêm tốn và kiên định như chú rùa ạ!" }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "The Race in the Green Forest",
+          text: "Once upon a time, a proud hare laughed at a slow tortoise. The tortoise challenged the hare to a running contest through the forest. Confident of winning easily, the hare stopped to take a long nap under an oak tree. Meanwhile, the tortoise walked steadily step by step without resting. When the hare awoke, the tortoise had already crossed the finish line! All forest animals cheered for the persevering tortoise.",
+          translationVi: "Ngày xửa ngày xưa, một chú thỏ kiêu ngạo đã chế giễu bác rùa bước đi chậm chạp. Bác rùa liền thách đấu thỏ trong một cuộc chạy đua xuyên rừng. Tự tin sẽ thắng dễ dàng, thỏ đã dừng lại đánh một giấc ngủ say sưa dưới bóng cây sồi. Trong khi đó, rùa từng bước từng bước vững vàng tiến lên mà không hề nghỉ ngơi. Khi thỏ tỉnh giấc, rùa đã cán đích từ lâu! Muôn thú trong rừng reo hò chúc mừng chú rùa kiên trì bền bỉ."
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 17, unitTitle: "City and Countryside", unitTitleVi: "Thành phố và nông thôn", theme: "Urban vs Rural Comparisons", icon: "🏙️", semester: 2,
+    grade: 5,
+    unitNumber: 18,
+    unitTitle: "Means of transport",
+    unitTitleVi: "Các phương tiện giao thông",
+    theme: "The World Around Us",
+    icon: "🚆",
+    semester: 2,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Comparative Geography", focus: "vocabulary_phonics", phonicsSound: "Sounds /p/ (peaceful) & /b/ (busy)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Where do you want to visit? (Landmarks)",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/br/ in bridge vs /skw/ in square",
         vocabulary: [
-          { id: "g5-u17-peaceful", word: "peaceful", clue: "Free from disturbance; tranquil and serene.", vietnameseMeaning: "yên bình / thanh bình", phonics: "/ˈpiːs.fəl/", emoji: "🌾", grade: 5, unit: 17, topic: "Environment", exampleSentence: "The countryside is peaceful.", distractors: ["busy", "noisy", "polluted"] },
-          { id: "g5-u17-busy", word: "busy", clue: "Full of activity, traffic, and bustling crowds.", vietnameseMeaning: "nhộn nhịp / tấp nập", phonics: "/ˈbɪz.i/", emoji: "🚗", grade: 5, unit: 17, topic: "Environment", exampleSentence: "City avenues are very busy.", distractors: ["peaceful", "quiet", "calm"] },
-          { id: "g5-u17-noisy", word: "noisy", clue: "Making a lot of loud, clamorous noise.", vietnameseMeaning: "ồn ào", phonics: "/ˈnɔɪ.zi/", emoji: "📢", grade: 5, unit: 17, topic: "Environment", exampleSentence: "Construction sites are noisy.", distractors: ["quiet", "peaceful", "serene"] },
-          { id: "g5-u17-modern", word: "modern", clue: "Relating to present times with high-tech buildings.", vietnameseMeaning: "hiện đại", phonics: "/ˈmɒd.ən/", emoji: "🏢", grade: 5, unit: 17, topic: "Environment", exampleSentence: "A modern city with flyovers.", distractors: ["ancient", "old", "ruined"] },
+          {
+            id: "g5-u18-l1-v1",
+            word: "Dragon Bridge",
+            clue: "An iconic yellow steel dragon-shaped bridge in Da Nang crossing the Han River",
+            vietnameseMeaning: "Cầu Rồng (Đà Nẵng)",
+            phonics: "/ˈdræɡən brɪdʒ/",
+            emoji: "🌉",
+            grade: 5,
+            unit: 18,
+            topic: "Landmarks",
+            exampleSentence: "Where do you want to visit? - I want to visit Dragon Bridge.",
+            distractors: ["Golden Gate", "Eiffel Tower", "Big Ben"]
+          },
+          {
+            id: "g5-u18-l1-v2",
+            word: "Ha Noi Opera House",
+            clue: "A historical French architectural neoclassical opera auditorium in central Hanoi",
+            vietnameseMeaning: "Nhà hát Lớn Hà Nội",
+            phonics: "/hæ ˈnɔɪ ˈɒprə haʊs/",
+            emoji: "🏛️",
+            grade: 5,
+            unit: 18,
+            topic: "Landmarks",
+            exampleSentence: "She wants to visit Ha Noi Opera House this Sunday.",
+            distractors: ["airport", "stadium", "market"]
+          },
+          {
+            id: "g5-u18-l1-v3",
+            word: "Ngo Mon Square",
+            clue: "The grand ceremonial plaza in front of the Meridian Gate of Hue Imperial Citadel",
+            vietnameseMeaning: "Quảng trường Ngọ Môn (Huế)",
+            phonics: "/ŋɔ mɔn skweər/",
+            emoji: "🏯",
+            grade: 5,
+            unit: 18,
+            topic: "Landmarks",
+            exampleSentence: "We explored Ngo Mon Square in the ancient royal city of Hue.",
+            distractors: ["Times Square", "Trafalgar Square", "Red Square"]
+          },
+          {
+            id: "g5-u18-l1-v4",
+            word: "Ho Chi Minh City Museum",
+            clue: "A prominent historical and cultural museum housed in a majestic mansion in HCMC",
+            vietnameseMeaning: "Bảo tàng Thành phố Hồ Chí Minh",
+            phonics: "/həʊ tʃiː mɪn ˈsɪti mjuːˈziːəm/",
+            emoji: "🏛️",
+            grade: 5,
+            unit: 18,
+            topic: "Landmarks",
+            exampleSentence: "Our class toured Ho Chi Minh City Museum to study national history.",
+            distractors: ["supermarket", "water park", "cinema"]
+          }
         ],
-        sentenceStructures: [{ pattern: "Which one is [Comparative: more peaceful / busier / larger], [Place A] or [Place B]? ➔ [Place A] is [Comparative] than [Place B].", vietnameseMeaning: "Nơi nào [Tính từ hơn], [Địa điểm A] hay [Địa điểm B]? ➔ [Địa điểm A] [Tính từ hơn] [Địa điểm B].", sampleDialogue: [{ speaker: "Tony", text: "Which one is more peaceful, Life in Hanoi or life in your village, Nam?", textVi: "Cuộc sống ở Hà Nội hay ở làng bạn thanh bình hơn thế Nam?" }, { speaker: "Nam", text: "Life in my village is more peaceful than life in the city.", textVi: "Cuộc sống ở làng quê mình thanh bình hơn cuộc sống ở thành phố." }] }],
+        sentenceStructures: [
+          {
+            pattern: "Where do you want to visit? - I want to visit [Dragon Bridge / Ha Noi Opera House / Ngo Mon Square / Ho Chi Minh City Museum].",
+            vietnameseMeaning: "Bạn muốn đi tham quan nơi nào? - Mình muốn đến thăm [Cầu Rồng / Nhà hát Lớn / Quảng trường Ngọ Môn / Bảo tàng TP.HCM].",
+            sampleDialogue: [
+              { speaker: "Tony", text: "Where do you want to visit in Da Nang, Nam?", textVi: "Cậu muốn đi thăm nơi nào ở Đà Nẵng thế Nam?" },
+              { speaker: "Nam", text: "I want to visit Dragon Bridge to see it breathe fire and water.", textVi: "Mình muốn thăm Cầu Rồng để xem cầu phun lửa và nước." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Comparing Living Standards", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "Which place would you prefer to live in? ➔ I prefer the countryside because of fresh air.", vietnameseMeaning: "Bạn thích sống ở đâu hơn? ➔ Mình thích nông thôn hơn vì không khí trong lành.", sampleDialogue: [{ speaker: "Linda", text: "Which city is larger, London or Da Nang?", textVi: "Thành phố nào lớn hơn, Luân Đôn hay Đà Nẵng?" }, { speaker: "Mai", text: "London is much larger and busier than Da Nang.", textVi: "Luân Đôn lớn hơn và đông đúc hơn Đà Nẵng nhiều." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: City and Village Harmony Story", focus: "reading_communication", readingMiniStory: { title: "Two Worlds of Beauty", text: "City life offers grand skyscrapers, illuminated museums, and high-speed metro lines. Country life provides emerald rice fields, starlit night skies, and sweet bird songs. Both possess unique splendor!", translationVi: "Cuộc sống thành phố mang đến những tòa nhà chọc trời tráng lệ, các viện bảo tàng rực rỡ và những tuyến tàu điện ngầm cao tốc. Miền quê lại đem đến cánh đồng lúa ngọc bích, bầu trời đêm đầy sao và tiếng chim hót lảnh lót. Cả hai đều mang vẻ đẹp kỳ diệu riêng!" }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: How do you get there? (Means of Transport)",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u18-l2-v1",
+            word: "by train",
+            clue: "Travelling on railway passenger carriages pulled by a locomotive",
+            vietnameseMeaning: "bằng tàu hỏa, xe lửa",
+            phonics: "/baɪ treɪn/",
+            emoji: "🚆",
+            grade: 5,
+            unit: 18,
+            topic: "Means of Transport",
+            exampleSentence: "How do you get to Da Nang? - I get there by train.",
+            distractors: ["by skateboard", "by helicopter", "by parachute"]
+          },
+          {
+            id: "g5-u18-l2-v2",
+            word: "by bus",
+            clue: "Travelling by public large road vehicle with seats along urban routes",
+            vietnameseMeaning: "bằng xe buýt",
+            phonics: "/baɪ bʌs/",
+            emoji: "🚌",
+            grade: 5,
+            unit: 18,
+            topic: "Means of Transport",
+            exampleSentence: "How does she get to the museum? - She gets there by bus.",
+            distractors: ["by boat", "by plane", "on horseback"]
+          },
+          {
+            id: "g5-u18-l2-v3",
+            word: "by motorbike",
+            clue: "Riding on a two-wheeled motorized vehicle with a safety helmet",
+            vietnameseMeaning: "bằng xe máy",
+            phonics: "/baɪ ˈməʊtəbaɪk/",
+            emoji: "🛵",
+            grade: 5,
+            unit: 18,
+            topic: "Means of Transport",
+            exampleSentence: "Father took me to the opera house by motorbike.",
+            distractors: ["by submarine", "by rocket", "by tractor"]
+          },
+          {
+            id: "g5-u18-l2-v4",
+            word: "by plane",
+            clue: "Flying high through clouds in a commercial airliner",
+            vietnameseMeaning: "bằng máy bay",
+            phonics: "/baɪ pleɪn/",
+            emoji: "✈️",
+            grade: 5,
+            unit: 18,
+            topic: "Means of Transport",
+            exampleSentence: "From Hanoi to Ho Chi Minh City, we travel by plane in two hours.",
+            distractors: ["by bicycle", "on foot", "by canoe"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "How do you get to [destination]? - I get there by [train / bus / motorbike / plane / bicycle / on foot].",
+            vietnameseMeaning: "Bạn đến [địa điểm] bằng phương tiện gì? - Mình đến đó bằng [tàu hỏa / xe buýt / xe máy / máy bay / xe đạp / đi bộ].",
+            sampleDialogue: [
+              { speaker: "Linda", text: "How do you get to Dragon Bridge?", textVi: "Bạn đến Cầu Rồng bằng phương tiện gì?" },
+              { speaker: "Phong", text: "I get there by bicycle because it is close to my hotel.", textVi: "Mình đạp xe đến đó vì cầu khá gần khách sạn." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Travelling Across Heritage Cities",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "Taking a [train / open-top bus] is a fantastic way to view scenic landscapes.",
+            vietnameseMeaning: "Đi bằng [tàu hỏa / xe buýt mui trần] là cách tuyệt vời để thưởng ngoạn cảnh sắc.",
+            sampleDialogue: [
+              { speaker: "Akiko", text: "What is your favourite means of transport?", textVi: "Phương tiện giao thông yêu thích của bạn là gì?" },
+              { speaker: "Mai", text: "I love the coastal train because looking out at green mountains and blue sea is breathtaking.", textVi: "Mình thích tàu hỏa ven biển vì ngắm nhìn núi non trùng điệp và biển xanh thật ngoạn mục." }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Exploring Da Nang and Hue",
+          text: "Last summer, Peter's family took a fascinating journey to central Vietnam. First, they flew by plane from Hanoi to Da Nang. In Da Nang, they rented bicycles to ride across the impressive Dragon Bridge. Next, they boarded the scenic train through Hai Van Pass to reach Hue. In Hue, they visited Ngo Mon Square on foot. Traveling by different means of transport made their discovery trip unforgettable!",
+          translationVi: "Mùa hè năm ngoái, gia đình Peter đã có một chuyến hành trình hấp dẫn đến miền Trung Việt Nam. Đầu tiên, cả nhà bay từ Hà Nội vào Đà Nẵng bằng máy bay. Tại Đà Nẵng, họ thuê xe đạp để thong thả dạo qua Cầu Rồng ấn tượng. Tiếp đó, gia đình lên chuyến tàu hỏa ngắm cảnh qua Đèo Hải Vân để đến Huế. Ở Huế, họ đi bộ tham quan Quảng trường Ngọ Môn. Việc di chuyển bằng nhiều phương tiện khác nhau đã khiến chuyến khám phá của họ trở nên khó quên!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 18, unitTitle: "Transport and Directions", unitTitleVi: "Phương tiện giao thông và chỉ đường", theme: "Directions & Distances", icon: "🗺️", semester: 2,
+    grade: 5,
+    unitNumber: 19,
+    unitTitle: "Places of interest",
+    unitTitleVi: "Những địa danh nổi tiếng",
+    theme: "The World Around Us",
+    icon: "🏛️",
+    semester: 2,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Giving Directions & Road Signs", focus: "vocabulary_phonics", phonicsSound: "Sounds /t/ (turn) & /str/ (straight)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: What do you think of this place? (Impressions)",
+        focus: "vocabulary_phonics",
+        phonicsSound: "/f/ in fantastic vs /p/ in peaceful",
         vocabulary: [
-          { id: "g5-u18-turn-left", word: "turn left", clue: "Change direction towards the left side.", vietnameseMeaning: "rẽ trái", phonics: "/tɜːn left/", emoji: "⬅️", grade: 5, unit: 18, topic: "Directions", exampleSentence: "Turn left at the traffic lights.", distractors: ["turn right", "go straight", "stop"] },
-          { id: "g5-u18-turn-right", word: "turn right", clue: "Change direction towards the right side.", vietnameseMeaning: "rẽ phải", phonics: "/tɜːn raɪt/", emoji: "➡️", grade: 5, unit: 18, topic: "Directions", exampleSentence: "Turn right into Le Loi Street.", distractors: ["turn left", "go straight", "turn back"] },
-          { id: "g5-u18-go-straight", word: "go straight ahead", clue: "Move forward without deviating left or right.", vietnameseMeaning: "đi thẳng về phía trước", phonics: "/ɡəʊ streɪt əˈhed/", emoji: "⬆️", grade: 5, unit: 18, topic: "Directions", exampleSentence: "Go straight ahead for 200 metres.", distractors: ["turn right", "turn left", "go back"] },
-          { id: "g5-u18-traffic-lights", word: "traffic lights", clue: "Red, amber, and green signaling lights at junctions.", vietnameseMeaning: "đèn giao thông", phonics: "/ˈtræf.ɪk ˌlaɪts/", emoji: "🚦", grade: 5, unit: 18, topic: "Traffic", exampleSentence: "Stop at the red traffic lights.", distractors: ["zebra crossing", "bridge", "bus stop"] },
+          {
+            id: "g5-u19-l1-v1",
+            word: "beautiful",
+            clue: "Pleasing the senses or mind aesthetically; gorgeous",
+            vietnameseMeaning: "xinh đẹp, tươi đẹp",
+            phonics: "/ˈbjuːtɪfl/",
+            emoji: "🌸",
+            grade: 5,
+            unit: 19,
+            topic: "Descriptive Adjectives",
+            exampleSentence: "What do you think of Da Lat? - I think it's cool and beautiful.",
+            distractors: ["ugly", "dirty", "boring"]
+          },
+          {
+            id: "g5-u19-l1-v2",
+            word: "peaceful",
+            clue: "Free from disturbance; tranquil, quiet, and calm",
+            vietnameseMeaning: "yên bình, thanh tịnh",
+            phonics: "/ˈpiːsfl/",
+            emoji: "🕊️",
+            grade: 5,
+            unit: 19,
+            topic: "Descriptive Adjectives",
+            exampleSentence: "Hoi An Ancient Town is peaceful and historic in the evening.",
+            distractors: ["noisy", "crowded", "chaotic"]
+          },
+          {
+            id: "g5-u19-l1-v3",
+            word: "fantastic",
+            clue: "Extraordinarily good, attractive, or striking; wonderful",
+            vietnameseMeaning: "tuyệt vời, kỳ diệu",
+            phonics: "/fænˈtæstɪk/",
+            emoji: "✨",
+            grade: 5,
+            unit: 19,
+            topic: "Descriptive Adjectives",
+            exampleSentence: "What does she think of Ha Long Bay? - She thinks it's fantastic.",
+            distractors: ["terrible", "awful", "dull"]
+          },
+          {
+            id: "g5-u19-l1-v4",
+            word: "exciting",
+            clue: "Causing great enthusiasm and eagerness; thrilling",
+            vietnameseMeaning: "sôi động, hào hứng, náo nhiệt",
+            phonics: "/ɪkˈsaɪtɪŋ/",
+            emoji: "🤩",
+            grade: 5,
+            unit: 19,
+            topic: "Descriptive Adjectives",
+            exampleSentence: "VinWonders theme park is very exciting with high-speed rides.",
+            distractors: ["sleepy", "sad", "empty"]
+          }
         ],
-        sentenceStructures: [{ pattern: "How can I get to [Place]? ➔ Go straight ahead, then turn [Left/Right]. It's on your [Left/Right].", vietnameseMeaning: "Làm thế nào để tôi đến được [Địa điểm]? ➔ Đi thẳng về phía trước, sau đó rẽ [Trái/Phải]. Nó nằm ở bên [Trái/Phải] của bạn.", sampleDialogue: [{ speaker: "Tourist", text: "Excuse me, how can I get to the National Museum?", textVi: "Xin lỗi, làm thế nào để tôi đến Viện Bảo tàng Quốc gia?" }, { speaker: "Nam", text: "Go straight ahead for two blocks, then turn left at the pharmacy. The museum is on your right.", textVi: "Đi thẳng qua hai ngã tư, sau đó rẽ trái ở hiệu thuốc. Viện bảo tàng nằm bên tay phải bạn." }] }],
+        sentenceStructures: [
+          {
+            pattern: "What do you think of [place / Da Lat / Ha Long Bay]? - I think it's [beautiful / peaceful / fantastic / exciting / cool].",
+            vietnameseMeaning: "Bạn nghĩ gì về [địa danh]? - Mình nghĩ nơi đó [đẹp / yên bình / tuyệt vời / sôi động / mát mẻ].",
+            sampleDialogue: [
+              { speaker: "Ben", text: "What do you think of Da Lat?", textVi: "Bạn nghĩ gì về Đà Lạt?" },
+              { speaker: "Mai", text: "I think it's cool, green, and extraordinarily beautiful.", textVi: "Mình nghĩ nơi ấy mát mẻ, xanh tươi và đẹp tuyệt vời." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Distances & Travel Time", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "How far is it from [Place A] to [Place B]? ➔ It's about [Distance: 5 kilometres].", vietnameseMeaning: "Từ [Nơi A] đến [Nơi B] cách bao xa? ➔ Khoảng [Khoảng cách: 5 km].", sampleDialogue: [{ speaker: "Linda", text: "How far is it from here to Noi Bai Airport?", textVi: "Từ đây ra sân bay Nội Bài cách bao xa?" }, { speaker: "Mai", text: "It's about 25 kilometres. You can take a taxi or bus.", textVi: "Khoảng 25 km. Bạn có thể bắt taxi hoặc đi xe buýt." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: City Guide Navigator Story", focus: "reading_communication", readingMiniStory: { title: "Guiding Foreign Tourists in the Capital", text: "Nam and Mai volunteer as youth tour guides in Hanoi Old Quarter. They skillfully give directions in fluent English to tourists searching for Ngoc Son Temple, Dong Xuan Market, and the Water Puppet Theatre.", translationVi: "Nam và Mai tình nguyện làm hướng dẫn viên du lịch nhí tại Phố Cổ Hà Nội. Hai bạn chỉ đường khéo léo bằng tiếng Anh lưu loát cho các du khách đang tìm kiếm Đền Ngọc Sơn, Chợ Đồng Xuân và Nhà hát Múa rối nước." }, vocabulary: [], sentenceStructures: [] },
-    ],
+      {
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: How far is it from... to...? (Distances)",
+        focus: "sentence_patterns",
+        vocabulary: [
+          {
+            id: "g5-u19-l2-v1",
+            word: "kilometres",
+            clue: "Metric units of length equal to 1,000 metres (km)",
+            vietnameseMeaning: "ki-lô-mét (km)",
+            phonics: "/ˈkɪləmiːtəz/",
+            emoji: "🛣️",
+            grade: 5,
+            unit: 19,
+            topic: "Distance",
+            exampleSentence: "How far is it from Ha Noi to Hai Phong? - It's about 120 kilometres.",
+            distractors: ["seconds", "litres", "grams"]
+          },
+          {
+            id: "g5-u19-l2-v2",
+            word: "twenty-nine",
+            clue: "The number 29",
+            vietnameseMeaning: "hai mươi chín (29)",
+            phonics: "/ˈtwenti naɪn/",
+            emoji: "2️⃣9️⃣",
+            grade: 5,
+            unit: 19,
+            topic: "Numbers",
+            exampleSentence: "It is twenty-nine kilometres from our school to the scenic waterfall.",
+            distractors: ["nineteen", "thirty-nine", "ninety-two"]
+          },
+          {
+            id: "g5-u19-l2-v3",
+            word: "forty",
+            clue: "The number 40",
+            vietnameseMeaning: "bốn mươi (40)",
+            phonics: "/ˈfɔːti/",
+            emoji: "4️⃣0️⃣",
+            grade: 5,
+            unit: 19,
+            topic: "Numbers",
+            exampleSentence: "It is about forty kilometres from the city center to the eco-village.",
+            distractors: ["fourteen", "four", "fifty"]
+          },
+          {
+            id: "g5-u19-l2-v4",
+            word: "one hundred and twenty-nine",
+            clue: "The number 129",
+            vietnameseMeaning: "một trăm hai mươi chín (129)",
+            phonics: "/wʌn ˈhʌndrəd ənd ˈtwenti naɪn/",
+            emoji: "🔢",
+            grade: 5,
+            unit: 19,
+            topic: "Numbers",
+            exampleSentence: "It takes two hours to drive one hundred and twenty-nine kilometres.",
+            distractors: ["one hundred and twenty", "twenty-nine", "two hundred"]
+          }
+        ],
+        sentenceStructures: [
+          {
+            pattern: "How far is it from [Place A] to [Place B]? - It's (about) [number] kilometres.",
+            vietnameseMeaning: "Từ [Nơi A] đến [Nơi B] cách bao xa? - Cách khoảng [số] ki-lô-mét.",
+            sampleDialogue: [
+              { speaker: "Tony", text: "How far is it from Ha Noi to Hai Phong?", textVi: "Từ Hà Nội đến Hải Phòng cách bao xa?" },
+              { speaker: "Nam", text: "It's about 120 kilometres along the modern expressway.", textVi: "Khoảng 120 ki-lô-mét dọc theo tuyến cao tốc hiện đại." }
+            ]
+          }
+        ]
+      },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Wonders of Vietnam from North to South",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "Vietnam has countless famous places that captivate travellers from all over the world.",
+            vietnameseMeaning: "Việt Nam có vô số danh lam thắng cảnh làm say lòng du khách khắp năm châu.",
+            sampleDialogue: [
+              { speaker: "Emma", text: "Is Son Doong Cave far from Phong Nha?", textVi: "Hang Sơn Đoòng có cách xa Phong Nha không?" },
+              { speaker: "Phong", text: "It's deep inside the national park, surrounded by fantastic ancient rainforests!", textVi: "Hang nằm sâu trong vườn quốc gia, được bao bọc bởi những cánh rừng nguyên sinh kỳ vĩ!" }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Impressions of Our Homeland",
+          text: "Vietnam is gifted with breathtaking landmarks. In the north, Ha Long Bay is famous worldwide for thousands of emerald islands. In the central highlands, Da Lat is cool, peaceful, and scented with pine trees and blossoms. It is about three hundred kilometres from Ho Chi Minh City to Da Lat. Wherever you visit in our country, warm local hospitality and stunning landscapes make every journey fantastic!",
+          translationVi: "Việt Nam được thiên nhiên ưu đãi với những thắng cảnh đẹp đến nghẹt thở. Ở miền Bắc, Vịnh Hạ Long nổi tiếng khắp thế giới với hàng ngàn hòn đảo đá vôi màu ngọc bích. Trên cao nguyên miền Trung, Đà Lạt luôn mát mẻ, yên bình và ngát hương thông cùng hoa cỏ. Từ TP. Hồ Chí Minh lên Đà Lạt khoảng 300 ki-lô-mét. Dù đặt chân đến bất cứ nơi đâu trên đất nước mình, sự hiếu khách nồng hậu cùng phong cảnh tuyệt mỹ đều khiến mỗi chuyến đi trở nên diệu kỳ!"
+        }
+      }
+    ]
   },
   {
-    grade: 5, unitNumber: 19, unitTitle: "Places of Interest", unitTitleVi: "Những danh lam thắng cảnh", theme: "Tourism & World Landmarks", icon: "🏛️", semester: 2,
+    grade: 5,
+    unitNumber: 20,
+    unitTitle: "Our summer holiday",
+    unitTitleVi: "Kỳ nghỉ hè của chúng mình",
+    theme: "The World Around Us",
+    icon: "🏖️",
+    semester: 2,
     lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Famous Monuments & World Wonders", focus: "vocabulary_phonics", phonicsSound: "Sounds /p/ (pagoda) & /b/ (bridge)",
+        lessonNumber: 1,
+        lessonTitle: "Lesson 1: Where are you going to visit this summer? (Near Future)",
+        focus: "vocabulary_phonics",
+        phonicsSound: "Falling intonation in Wh-questions (Where are you going to visit?)",
         vocabulary: [
-          { id: "g5-u19-tran-quoc", word: "Tran Quoc Pagoda", clue: "Ancient sacred Buddhist pagoda by West Lake in Hanoi.", vietnameseMeaning: "Chùa Trấn Quốc", phonics: "/trɑːn kwɒk pəˈɡəʊ.də/", emoji: "⛩️", grade: 5, unit: 19, topic: "Landmarks", exampleSentence: "Tran Quoc Pagoda was built in the 6th century.", distractors: ["One Pillar Pagoda", "Bai Dinh", "Huong Pagoda"] },
-          { id: "g5-u19-dragon-bridge", word: "Dragon Bridge", clue: "Spectacular bridge in Da Nang breathing fire and water.", vietnameseMeaning: "Cầu Rồng Đà Nẵng", phonics: "/ˈdræɡ.ən brɪdʒ/", emoji: "🌉", grade: 5, unit: 19, topic: "Landmarks", exampleSentence: "The Dragon Bridge breathes fire at weekend nights.", distractors: ["Golden Bridge", "Nhat Tan Bridge", "Long Bien Bridge"] },
-          { id: "g5-u19-big-ben", word: "Big Ben Tower", clue: "Iconic historic clock tower at the Palace of Westminster in London.", vietnameseMeaning: "Tháp đồng hồ Big Ben", phonics: "/bɪɡ ben ˈtaʊ.ər/", emoji: "🕰️", grade: 5, unit: 19, topic: "Landmarks", exampleSentence: "Big Ben chimes across London.", distractors: ["Eiffel Tower", "Statue of Liberty", "Sydney Opera"] },
-          { id: "g5-u19-sydney-opera", word: "Sydney Opera House", clue: "World-famous architectural masterpiece in Australia with sail roofs.", vietnameseMeaning: "Nhà hát Opera Sydney (Nhà hát Con Sò)", phonics: "/ˈsɪd.ni ˈɒp.ər.ə haʊs/", emoji: "🎭", grade: 5, unit: 19, topic: "Landmarks", exampleSentence: "Sydney Opera House shines by the harbor.", distractors: ["Big Ben", "Colosseum", "Taj Mahal"] },
+          {
+            id: "g5-u20-l1-v1",
+            word: "Dam Sen Aquarium",
+            clue: "A famous aquatic center with glass underwater tunnel in Ho Chi Minh City",
+            vietnameseMeaning: "Thủy cung Đầm Sen",
+            phonics: "/ˈdæm sen əˈkweəriəm/",
+            emoji: "🐟",
+            grade: 5,
+            unit: 20,
+            topic: "Summer Destinations",
+            exampleSentence: "Where are you going to visit this summer? - I'm going to visit Dam Sen Aquarium.",
+            distractors: ["supermarket", "train station", "airport"]
+          },
+          {
+            id: "g5-u20-l1-v2",
+            word: "Huong River",
+            clue: "The poetic Perfume River flowing through the heart of Hue Imperial City",
+            vietnameseMeaning: "sông Hương (Huế)",
+            phonics: "/hʊəŋ ˈrɪvər/",
+            emoji: "🌊",
+            grade: 5,
+            unit: 20,
+            topic: "Summer Destinations",
+            exampleSentence: "We are going to take a dragon boat along the poetic Huong River.",
+            distractors: ["desert", "volcano", "coal mine"]
+          },
+          {
+            id: "g5-u20-l1-v3",
+            word: "Phong Nha Cave",
+            clue: "A world-renowned UNESCO limestone cave with subterranean rivers in Quang Binh",
+            vietnameseMeaning: "Động Phong Nha",
+            phonics: "/fɒŋ naː keɪv/",
+            emoji: "🏞️",
+            grade: 5,
+            unit: 20,
+            topic: "Summer Destinations",
+            exampleSentence: "Are you going to visit Phong Nha Cave this July? - Yes, I am.",
+            distractors: ["amusement park", "library", "stadium"]
+          },
+          {
+            id: "g5-u20-l1-v4",
+            word: "Phu Quoc Island",
+            clue: "Vietnam's largest island known for turquoise waters and white sandy beaches",
+            vietnameseMeaning: "Đảo Phú Quốc",
+            phonics: "/fuː kwɒk ˈaɪlənd/",
+            emoji: "🏝️",
+            grade: 5,
+            unit: 20,
+            topic: "Summer Destinations",
+            exampleSentence: "I'm going to visit Phu Quoc Island with my parents this summer.",
+            distractors: ["mountains", "subway", "factory"]
+          }
         ],
-        sentenceStructures: [{ pattern: "Which place would you like to visit, [Place A] or [Place B]? ➔ I'd like to visit [Place] because [Reason].", vietnameseMeaning: "Bạn muốn ghé thăm nơi nào hơn, [Địa điểm A] hay [Địa điểm B]? ➔ Mình muốn ghé thăm [Địa điểm] vì [Lý do].", sampleDialogue: [{ speaker: "Tony", text: "Which place would you like to visit in Vietnam, Da Nang or Ha Long Bay?", textVi: "Bạn muốn ghé thăm nơi nào ở Việt Nam hơn, Đà Nẵng hay Vịnh Hạ Long?" }, { speaker: "Mai", text: "I'd like to visit Da Nang because I want to see the Dragon Bridge breathe fire!", textVi: "Mình muốn đến Đà Nẵng vì muốn xem Cầu Rồng phun lửa!" }] }],
+        sentenceStructures: [
+          {
+            pattern: "Where are you going to visit this summer? - I'm going to visit [Phu Quoc Island / Dam Sen Aquarium / Huong River / Phong Nha Cave].",
+            vietnameseMeaning: "Mùa hè này bạn dự định đi thăm nơi nào? - Mình dự định đi thăm [Đảo Phú Quốc / Thủy cung Đầm Sen / Sông Hương / Động Phong Nha].",
+            sampleDialogue: [
+              { speaker: "Tony", text: "Where are you going to visit this summer, Mai?", textVi: "Mùa hè này cậu định đi thăm nơi nào vậy Mai?" },
+              { speaker: "Mai", text: "I'm going to visit Phu Quoc Island to swim in crystal waters.", textVi: "Mình dự định đi đảo Phú Quốc để tắm trong làn nước trong vắt." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Cultural Impressions", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "What do you think of [Landmark]? ➔ It's more attractive and historic than I expected.", vietnameseMeaning: "Bạn nghĩ gì về [Địa danh]? ➔ Nơi đó lôi cuốn và mang đậm dấu ấn lịch sử hơn mình mong đợi.", sampleDialogue: [{ speaker: "Peter", text: "What do you think of Tran Quoc Pagoda?", textVi: "Bạn nghĩ gì về Chùa Trấn Quốc?" }, { speaker: "Nam", text: "It's peaceful, serene, and steeped in thousand-year heritage.", textVi: "Thật thanh tịnh, yên bình và thấm đượm di sản ngàn năm." }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Wonders of the World Story", focus: "reading_communication", readingMiniStory: { title: "Treasures of Human Heritage", text: "Across our beautiful earth, astonishing wonders inspire humanity. In Vietnam, ancient temples stand beside emerald waters, while in Britain and Australia, historic towers and sail-shaped opera houses illuminate harbor skies.", translationVi: "Trên khắp trái đất tươi đẹp của chúng ta, những kỳ quan đáng kinh ngạc luôn truyền cảm hứng cho nhân loại. Ở Việt Nam, những ngôi chùa cổ kính tọa lạc bên làn nước ngọc bích, trong khi ở Anh và Úc, những tháp đồng hồ lịch sử và nhà hát hình cánh buồm thắp sáng bầu trời bến cảng." }, vocabulary: [], sentenceStructures: [] },
-    ],
-  },
-  {
-    grade: 5, unitNumber: 20, unitTitle: "Graduation and Future Plans", unitTitleVi: "Lễ tốt nghiệp và những kế hoạch tương lai", theme: "Graduation, Secondary School & Dreams", icon: "🎓", semester: 2,
-    lessons: [
       {
-        lessonNumber: 1, lessonTitle: "Lesson 1: Graduation Milestone & Secondary School", focus: "vocabulary_phonics", phonicsSound: "Sounds /ɡr/ (graduation) & /s/ (secondary)",
+        lessonNumber: 2,
+        lessonTitle: "Lesson 2: What are you going to do this summer? (Activities)",
+        focus: "sentence_patterns",
         vocabulary: [
-          { id: "g5-u20-graduation", word: "graduation ceremony", clue: "Formal milestone celebrating completion of primary school.", vietnameseMeaning: "lễ tốt nghiệp", phonics: "/ˌɡrædʒ.uˈeɪ.ʃən ˈser.ɪ.mə.ni/", emoji: "🎓", grade: 5, unit: 20, topic: "Milestones", exampleSentence: "We wear graduation gowns proudly.", distractors: ["opening ceremony", "sports day", "exam"] },
-          { id: "g5-u20-secondary-school", word: "secondary school", clue: "School for students from Grade 6 to Grade 9.", vietnameseMeaning: "trường trung học cơ sở (cấp 2)", phonics: "/ˈsek.ən.dri skuːl/", emoji: "🏫", grade: 5, unit: 20, topic: "Education", exampleSentence: "I will attend Chu Van An Secondary School.", distractors: ["primary school", "kindergarten", "university"] },
-          { id: "g5-u20-yearbook", word: "school yearbook", clue: "Keepsake album containing classmates' photos and wishes.", vietnameseMeaning: "kỷ yếu học đường", phonics: "/ˈskuːl ˈjɪə.bʊk/", emoji: "📖", grade: 5, unit: 20, topic: "Memories", exampleSentence: "Sign heartfelt wishes in the yearbook.", distractors: ["dictionary", "textbook", "novel"] },
-          { id: "g5-u20-farewell-party", word: "farewell party", clue: "Gathering to celebrate goodbye and friendship before moving up.", vietnameseMeaning: "bữa tiệc chia tay", phonics: "/ˈfeə.wel ˈpɑː.ti/", emoji: "🎈", grade: 5, unit: 20, topic: "Celebration", exampleSentence: "Sing friendship songs at the farewell party.", distractors: ["meeting", "test", "lesson"] },
+          {
+            id: "g5-u20-l2-v1",
+            word: "go camping",
+            clue: "Setting up a tent outdoors in nature to sleep under the stars",
+            vietnameseMeaning: "đi cắm trại",
+            phonics: "/ɡəʊ ˈkæmpɪŋ/",
+            emoji: "⛺",
+            grade: 5,
+            unit: 20,
+            topic: "Summer Activities",
+            exampleSentence: "What are you going to do this summer? - I'm going to go camping in the hills.",
+            distractors: ["wash dishes", "take exams", "paint desks"]
+          },
+          {
+            id: "g5-u20-l2-v2",
+            word: "join a music club",
+            clue: "Becoming a member of an ensemble to practice singing or instruments",
+            vietnameseMeaning: "tham gia câu lạc bộ âm nhạc",
+            phonics: "/dʒɔɪn ə ˈmjuːzɪk klʌb/",
+            emoji: "🎸",
+            grade: 5,
+            unit: 20,
+            topic: "Summer Activities",
+            exampleSentence: "I'm going to join a music club to learn how to play acoustic guitar.",
+            distractors: ["cut trees", "dig canals", "clean streets"]
+          },
+          {
+            id: "g5-u20-l2-v3",
+            word: "practise swimming",
+            clue: "Training strokes in the water to become an adept, safe swimmer",
+            vietnameseMeaning: "luyện tập bơi lội",
+            phonics: "/ˈpræktɪs ˈswɪmɪŋ/",
+            emoji: "🏊‍♂️",
+            grade: 5,
+            unit: 20,
+            topic: "Summer Activities",
+            exampleSentence: "Every summer morning, I practise swimming at the sports club.",
+            distractors: ["sleep late", "eat chips in bed", "watch scary films"]
+          },
+          {
+            id: "g5-u20-l2-v4",
+            word: "visit an eco-farm",
+            clue: "Travelling to a sustainable organic farm to pick fruits and feed farm animals",
+            vietnameseMeaning: "thăm trang trại sinh thái",
+            phonics: "/ˈvɪzɪt ən ˈiːkəʊ fɑːm/",
+            emoji: "🌾",
+            grade: 5,
+            unit: 20,
+            topic: "Summer Activities",
+            exampleSentence: "We are going to visit an eco-farm and harvest organic tomatoes.",
+            distractors: ["stay inside room", "waste paper", "burn leaves"]
+          }
         ],
-        sentenceStructures: [{ pattern: "What are your plans after graduating from primary school? ➔ I'm going to attend [Secondary School] and continue practicing English.", vietnameseMeaning: "Kế hoạch của bạn sau khi tốt nghiệp tiểu học là gì? ➔ Mình sẽ học tại [Trường THCS] và tiếp tục luyện tiếng Anh.", sampleDialogue: [{ speaker: "Mai", text: "What secondary school will you attend next school year, Tony?", textVi: "Năm học tới bạn sẽ học trường THCS nào thế Tony?" }, { speaker: "Tony", text: "I'm going to study at Thang Long Secondary School. I will join their English debate and coding clubs!", textVi: "Mình sẽ học tại Trường THCS Thăng Long. Mình sẽ tham gia câu lạc bộ tranh biện tiếng Anh và lập trình!" }] }],
+        sentenceStructures: [
+          {
+            pattern: "What are you going to do this summer? - I'm going to [go camping / join a music club / practise swimming / visit an eco-farm].",
+            vietnameseMeaning: "Mùa hè này bạn dự định sẽ làm gì? - Mình dự định sẽ [đi cắm trại / vào CLB âm nhạc / tập bơi / thăm trang trại sinh thái].",
+            sampleDialogue: [
+              { speaker: "Linda", text: "What are you going to do this summer, Quan?", textVi: "Mùa hè này bạn dự định làm gì thế Quân?" },
+              { speaker: "Quan", text: "I'm going to practise swimming and visit an eco-farm with my family.", textVi: "Mình sẽ đi tập bơi và cùng gia đình ghé thăm một trang trại sinh thái." }
+            ]
+          }
+        ]
       },
-      { lessonNumber: 2, lessonTitle: "Lesson 2: Lifelong Friendship Pledges", focus: "sentence_patterns", vocabulary: [], sentenceStructures: [{ pattern: "We will always remember our sweet primary school memories.", vietnameseMeaning: "Chúng mình sẽ luôn ghi nhớ những kỷ niệm tiểu học tươi đẹp.", sampleDialogue: [{ speaker: "Nam", text: "Will we keep in touch after graduation?", textVi: "Sau khi tốt nghiệp chúng mình vẫn giữ liên lạc chứ?" }, { speaker: "Classmates", text: "Yes! We will meet every summer reunion!", textVi: "Chắc chắn rồi! Mùa hè nào chúng mình cũng sẽ gặp lại nhau!" }] }] },
-      { lessonNumber: 3, lessonTitle: "Lesson 3: Flying High Towards New Horizons Story", focus: "reading_communication", readingMiniStory: { title: "Farewell Primary School, Hello Bright Future!", text: "Five glorious years at primary school conclude with laughter, tears of joy, and shining dreams. With solid English skills, strong moral values, and wonderful friendships, Grade 5 graduates step boldly into secondary school and beyond.", translationVi: "Năm năm tiểu học rực rỡ khép lại với tiếng cười, những giọt nước mắt hạnh phúc và những ước mơ bay cao. Với nền tảng tiếng Anh vững vàng, phẩm chất đạo đức tốt đẹp và tình bạn bè thiêng liêng, các bạn học sinh lớp 5 vững bước tiến vào cấp 2 và vươn xa tới tương lai tươi sáng." }, vocabulary: [], sentenceStructures: [] },
-    ],
-  },
+      {
+        lessonNumber: 3,
+        lessonTitle: "Lesson 3: Reading: Hello Summer, Welcome New Adventures!",
+        focus: "reading_communication",
+        vocabulary: [],
+        sentenceStructures: [
+          {
+            pattern: "We wish all students a wonderful, safe, and joy-filled summer holiday!",
+            vietnameseMeaning: "Chúc tất cả các bạn học sinh một kỳ nghỉ hè tuyệt vời, an toàn và tràn ngập niềm vui!",
+            sampleDialogue: [
+              { speaker: "Teacher", text: "Have an unforgettable summer holiday, fifth graders!", textVi: "Chúc các em học sinh khối 5 có một kỳ nghỉ hè thật đáng nhớ!" },
+              { speaker: "Students", text: "Thank you teacher! We will see you in secondary school!", textVi: "Chúng em cảm ơn cô ạ! Hẹn gặp lại cô ở cấp hai nhé!" }
+            ]
+          }
+        ],
+        readingMiniStory: {
+          title: "Exciting Summer Plans Ahead",
+          text: "The final school bell announces the arrival of summer vacation. The fifth graders of Class 5A are bubbling with excitement. Minh is going to visit Dam Sen Aquarium in Ho Chi Minh City. Lan is going to cruise along the poetic Huong River in Hue. Quan plans to go camping by Ba Vi mountain and practise swimming. A sun-drenched summer filled with discoveries and joy welcomes them all!",
+          translationVi: "Hồi chuông bế giảng vang lên rộn rã báo hiệu kỳ nghỉ hè đã tới. Các bạn học sinh lớp 5A ngập tràn niềm háo hức. Minh dự định sẽ tham quan Thủy cung Đầm Sen ở TP. Hồ Chí Minh. Lan sẽ đi thuyền trên dòng sông Hương thơ mộng ở Huế. Quân lên kế hoạch đi cắm trại ở núi Ba Vì và chăm chỉ luyện tập bơi lội. Một mùa hè tràn ngập ánh nắng, những chuyến khám phá và niềm vui đang chào đón tất cả các bạn!"
+        }
+      }
+    ]
+  }
 ];

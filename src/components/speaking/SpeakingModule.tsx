@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { SpeakingItem, SpeakingLevel, UserProgress } from "../../types";
 import { GLOBAL_SUCCESS_SPEAKING } from "../../data/globalSuccessCurriculum";
 import { TeacherSophieCoach } from "./TeacherSophieCoach";
-import { speakText, createSpeechRecognizer, stopSpeech } from "../../utils/speech";
+import { speakText, createSpeechRecognizer, stopSpeech, SpeechRecognitionController } from "../../utils/speech";
 import { playSound } from "../../utils/audioEffects";
 import { fireConfetti } from "../../utils/confetti";
 import { addXpAndRecord } from "../../utils/storage";
@@ -39,6 +39,17 @@ export const SpeakingModule: React.FC<SpeakingModuleProps> = ({
   const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
   const [evaluationResult, setEvaluationResult] = useState<any | null>(null);
 
+  const recognizerRef = useRef<SpeechRecognitionController | null>(null);
+  const latestTranscriptRef = useRef<string>("");
+
+  useEffect(() => {
+    return () => {
+      if (recognizerRef.current) {
+        recognizerRef.current.stop();
+      }
+    };
+  }, []);
+
   // Filter tasks for selected level
   const levelTasks = GLOBAL_SUCCESS_SPEAKING.filter((item) => item.level === selectedLevel);
   const currentTask: SpeakingItem | undefined = levelTasks[currentIndex] || levelTasks[0] || GLOBAL_SUCCESS_SPEAKING[0];
@@ -53,31 +64,57 @@ export const SpeakingModule: React.FC<SpeakingModuleProps> = ({
 
   const handleStartSpeaking = () => {
     if (isRecording) {
+      if (recognizerRef.current) {
+        recognizerRef.current.stop();
+      }
       setIsRecording(false);
+      const textToSubmit = (latestTranscriptRef.current || transcript).trim();
+      if (textToSubmit) {
+        handleEvaluateSpeaking(textToSubmit);
+      }
       return;
     }
 
     setTranscript("");
+    latestTranscriptRef.current = "";
     setEvaluationResult(null);
     setIsRecording(true);
     playSound("click");
 
     const recognizer = createSpeechRecognizer(
       (text, isFinal) => {
-        setTranscript(text);
+        if (text) {
+          setTranscript(text);
+          latestTranscriptRef.current = text;
+        }
+        if (isFinal && text.trim().length > 1) {
+          setIsRecording(false);
+          if (recognizerRef.current) {
+            recognizerRef.current.stop();
+          }
+          handleEvaluateSpeaking(text.trim());
+        }
       },
       (listening) => setIsRecording(listening),
       (err) => {
         setIsRecording(false);
-      }
+      },
+      "en-US"
     );
 
+    recognizerRef.current = recognizer;
     recognizer.start();
   };
 
-  const handleEvaluateSpeaking = async () => {
-    if (!transcript.trim() || !currentTask) return;
+  const handleEvaluateSpeaking = async (forcedTranscript?: string) => {
+    const textToSubmit = (typeof forcedTranscript === "string" ? forcedTranscript : transcript).trim();
+    if (!textToSubmit || !currentTask || isEvaluating) return;
 
+    if (recognizerRef.current) {
+      recognizerRef.current.stop();
+    }
+    setIsRecording(false);
+    setTranscript(textToSubmit);
     setIsEvaluating(true);
     playSound("click");
 
@@ -87,7 +124,7 @@ export const SpeakingModule: React.FC<SpeakingModuleProps> = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           promptQuestion: currentTask.prompt,
-          studentTranscript: transcript,
+          studentTranscript: textToSubmit,
           targetWordOrPattern: currentTask.sampleAnswer || currentTask.expectedKeywords?.join(", "),
           grade: progress.grade,
         }),

@@ -457,8 +457,8 @@ export function buildCurriculumSpeakingTopics(): SophieSpeakingTopic[] {
     const l2 = u.lessons?.[1];
     const l3 = u.lessons?.[2];
 
-    const allVocab = u.lessons?.flatMap((l) => l.vocabulary?.map((v) => v.word) || []) || [];
-    const suggestedKeywords = Array.from(new Set(allVocab)).slice(0, 8);
+    const allVocab: string[] = u.lessons?.flatMap((l) => (l.vocabulary?.map((v) => v.word) || []) as string[]) || [];
+    const suggestedKeywords: string[] = Array.from(new Set(allVocab)).slice(0, 8);
 
     // Default Level & Label based on Primary Grade age
     let level: "basic" | "intermediate" | "advanced" = "basic";

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { UserProgress, GradeLevel, SophieFeedbackResult, SophieHintData, SophieSpeakingTopic } from "../../types";
 import { GLOBAL_SUCCESS_SPEAKING_TOPICS, getCurriculumTopicsByGrade } from "../../data/curriculumSpeakingTopics";
 import { SOPHIE_SPEAKING_TOPICS } from "../../data/speakingTopics";
-import { speakText, createSpeechRecognizer } from "../../utils/speech";
+import { speakText, createSpeechRecognizer, SpeechRecognitionController } from "../../utils/speech";
 import { playSound } from "../../utils/audioEffects";
 import { fireConfetti } from "../../utils/confetti";
 import { addXpAndRecord } from "../../utils/storage";
@@ -99,6 +99,13 @@ export const TeacherSophieCoach: React.FC<TeacherSophieCoachProps> = ({
   const [transcript, setTranscript] = useState<string>("");
   const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
   const [evaluation, setEvaluation] = useState<SophieFeedbackResult | null>(null);
+  const [micNotice, setMicNotice] = useState<string>("");
+
+  // Refs for reliable speech recognition and auto-submit
+  const recognizerRef = useRef<SpeechRecognitionController | null>(null);
+  const repeatRecognizerRef = useRef<SpeechRecognitionController | null>(null);
+  const latestTranscriptRef = useRef<string>("");
+  const autoSubmitTimeoutRef = useRef<any>(null);
 
   // Dialogue History
   const [dialogueHistory, setDialogueHistory] = useState<DialogueTurnRecord[]>([]);
@@ -119,6 +126,21 @@ export const TeacherSophieCoach: React.FC<TeacherSophieCoachProps> = ({
 
   // Copyright modal/info toggle
   const [showCopyrightModal, setShowCopyrightModal] = useState<boolean>(false);
+
+  // Clean up speech recognition on unmount
+  useEffect(() => {
+    return () => {
+      if (recognizerRef.current) {
+        recognizerRef.current.stop();
+      }
+      if (repeatRecognizerRef.current) {
+        repeatRecognizerRef.current.stop();
+      }
+      if (autoSubmitTimeoutRef.current) {
+        clearTimeout(autoSubmitTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Speak question automatically when question changes
   useEffect(() => {
@@ -301,36 +323,93 @@ export const TeacherSophieCoach: React.FC<TeacherSophieCoachProps> = ({
     }
   };
 
-  // Start student recording
+  // Start student recording or stop with IMMEDIATE evaluation
   const handleToggleRecord = () => {
+    setMicNotice("");
+
     if (isRecording) {
+      // User clicked "Dừng Thu Âm" / Stop Recording!
+      if (recognizerRef.current) {
+        recognizerRef.current.stop();
+      }
       setIsRecording(false);
+
+      if (autoSubmitTimeoutRef.current) {
+        clearTimeout(autoSubmitTimeoutRef.current);
+        autoSubmitTimeoutRef.current = null;
+      }
+
+      // Check the latest captured transcript
+      const textToSubmit = (latestTranscriptRef.current || transcript).trim();
+      if (textToSubmit.length > 0) {
+        // Automatically evaluate spoken response!
+        handleSubmitSpokenAnswer(textToSubmit);
+      } else {
+        setMicNotice("Cô Sophie chưa nghe rõ tiếng của con. Con hãy thử bấm nút mic nói to hơn, hoặc con có thể gõ câu trả lời vào ô nhé! 🎙️");
+      }
       return;
     }
 
+    // Start recording
     playSound("click");
     setTranscript("");
+    latestTranscriptRef.current = "";
     setEvaluation(null);
     setRepeatSuccess(false);
     setIsRecording(true);
 
     const recognizer = createSpeechRecognizer(
-      (text) => {
-        setTranscript(text);
+      (text, isFinal) => {
+        if (text) {
+          setTranscript(text);
+          latestTranscriptRef.current = text;
+        }
+        // If final sentence detected, automatically submit after short natural pause
+        if (isFinal && text.trim().length > 1) {
+          if (autoSubmitTimeoutRef.current) {
+            clearTimeout(autoSubmitTimeoutRef.current);
+          }
+          autoSubmitTimeoutRef.current = setTimeout(() => {
+            setIsRecording(false);
+            if (recognizerRef.current) {
+              recognizerRef.current.stop();
+            }
+            handleSubmitSpokenAnswer(text.trim());
+          }, 900);
+        }
       },
-      (listening) => setIsRecording(listening),
-      () => {
+      (listening) => {
+        setIsRecording(listening);
+      },
+      (error) => {
         setIsRecording(false);
-      }
+        setMicNotice("Microphone chưa sẵn sàng hoặc con chưa cấp quyền micro. Con có thể gõ câu trả lời vào ô bên dưới nhé!");
+      },
+      "en-US"
     );
 
+    recognizerRef.current = recognizer;
     recognizer.start();
   };
 
   // Submit spoken answer to Teacher Sophie
-  const handleSubmitSpokenAnswer = async () => {
-    if (!transcript.trim() || isEvaluating) return;
+  const handleSubmitSpokenAnswer = async (forcedTranscript?: string) => {
+    const textToSubmit = (typeof forcedTranscript === "string" ? forcedTranscript : transcript).trim();
+    if (!textToSubmit || isEvaluating) {
+      if (!textToSubmit) {
+        setMicNotice("Con hãy nói hoặc gõ câu trả lời trước khi gửi cho Cô Sophie nhé!");
+      }
+      return;
+    }
 
+    if (recognizerRef.current) {
+      recognizerRef.current.stop();
+    }
+    setIsRecording(false);
+
+    setTranscript(textToSubmit);
+    latestTranscriptRef.current = textToSubmit;
+    setMicNotice("");
     playSound("click");
     setIsEvaluating(true);
 
@@ -341,7 +420,7 @@ export const TeacherSophieCoach: React.FC<TeacherSophieCoachProps> = ({
         body: JSON.stringify({
           topic: selectedTopic.name,
           question: currentQuestion,
-          studentTranscript: transcript,
+          studentTranscript: textToSubmit,
           grade: selectedTopic.grade || (selectedGradeFilter !== "all" ? selectedGradeFilter : 3),
           dialogueHistory,
           currentTurn,
@@ -349,7 +428,15 @@ export const TeacherSophieCoach: React.FC<TeacherSophieCoachProps> = ({
         }),
       });
 
+      if (!res.ok) {
+        throw new Error(`Server returned ${res.status}`);
+      }
+
       const data: SophieFeedbackResult = await res.json();
+      if (!data || !data.sophieComment) {
+        throw new Error("Invalid response format");
+      }
+
       setEvaluation(data);
 
       if (data.score >= 80) {
@@ -364,7 +451,7 @@ export const TeacherSophieCoach: React.FC<TeacherSophieCoachProps> = ({
         turnNumber: currentTurn,
         question: currentQuestion,
         questionVi: currentQuestionVi,
-        studentAnswer: transcript,
+        studentAnswer: textToSubmit,
         score: data.score,
         stars: data.stars,
         sophieComment: data.sophieComment,
@@ -385,19 +472,52 @@ export const TeacherSophieCoach: React.FC<TeacherSophieCoachProps> = ({
         setIsDialogueCompleted(true);
       }
 
-      // Read Sophie feedback
+      // Read Sophie feedback aloud automatically!
       speakText(data.sophieComment, { rate: 0.9 });
     } catch (e) {
-      console.error("Error submitting answer:", e);
-      setEvaluation({
+      console.warn("Using smart client fallback for Sophie speaking coach:", e);
+      const isLast = currentTurn >= totalTurns;
+      const fallbackEvaluation: SophieFeedbackResult = {
         hasError: false,
-        score: 85,
+        score: 88,
         stars: 3,
-        sophieComment: "Good effort! You spoke very clearly!",
-        sophieCommentVi: "Con phát âm rất cố gắng và tự tin!",
+        sophieComment: "Wonderful job! You spoke clearly and naturally!",
+        sophieCommentVi: `Cô Sophie rất vui khi nghe con nói: "${textToSubmit}". Con phát âm to, rõ ràng và rất tự tin!`,
+        conversationalBridge: "That sounds awesome! I really like hearing from you.",
         needsRepeatPractice: false,
-        xpEarned: 20,
-      });
+        nextQuestion: isLast ? "" : `Can you tell me more about ${selectedTopic.name}?`,
+        nextQuestionVi: isLast ? "" : `Con có thể kể thêm cho cô về chủ đề này không?`,
+        isDialogueCompleted: isLast,
+        dialogueTurn: currentTurn,
+        totalDialogueTurns: totalTurns,
+        xpEarned: isLast ? 35 : 25,
+      };
+
+      setEvaluation(fallbackEvaluation);
+      playSound("correct");
+      fireConfetti();
+
+      const turnRecord: DialogueTurnRecord = {
+        turnNumber: currentTurn,
+        question: currentQuestion,
+        questionVi: currentQuestionVi,
+        studentAnswer: textToSubmit,
+        score: 88,
+        stars: 3,
+        sophieComment: fallbackEvaluation.sophieComment,
+        sophieCommentVi: fallbackEvaluation.sophieCommentVi,
+        hasError: false,
+      };
+      setDialogueHistory((prev) => [...prev, turnRecord]);
+
+      const { updatedProgress } = addXpAndRecord("speaking", 25, true);
+      onUpdateProgress(updatedProgress);
+
+      if (isLast) {
+        setIsDialogueCompleted(true);
+      }
+
+      speakText(fallbackEvaluation.sophieComment, { rate: 0.9 });
     } finally {
       setIsEvaluating(false);
     }
@@ -1039,76 +1159,124 @@ export const TeacherSophieCoach: React.FC<TeacherSophieCoachProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-xs font-black uppercase text-slate-600 tracking-wider flex items-center gap-1.5">
               <Mic className="w-4 h-4 text-rose-500" />
-              <span>Phần Trả Lời Của Học Sinh:</span>
+              <span>Phần Trả Lời Của Con (Nói hoặc Gõ):</span>
             </span>
 
             {transcript && (
               <button
-                onClick={() => setTranscript("")}
-                className="text-[11px] font-bold text-slate-400 hover:text-rose-600"
+                onClick={() => {
+                  setTranscript("");
+                  latestTranscriptRef.current = "";
+                  setMicNotice("");
+                }}
+                className="text-[11px] font-bold text-slate-400 hover:text-rose-600 cursor-pointer"
               >
                 Xóa làm lại
               </button>
             )}
           </div>
 
-          {/* Transcript Display Box */}
+          {/* Notice banner if mic empty or error */}
+          {micNotice && (
+            <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs font-bold text-amber-900 flex items-center justify-between gap-2 animate-in fade-in">
+              <div className="flex items-center gap-2">
+                <Info className="w-4 h-4 text-amber-600 shrink-0" />
+                <span>{micNotice}</span>
+              </div>
+              <button
+                onClick={() => setMicNotice("")}
+                className="text-amber-700 hover:text-amber-950 text-xs font-bold px-1.5 py-0.5 rounded cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
+          {/* Evaluating State Banner */}
+          {isEvaluating && (
+            <div className="p-4 rounded-xl bg-indigo-50 border-2 border-indigo-200 flex items-center justify-center gap-3 text-indigo-900 font-bold text-sm animate-pulse shadow-xs">
+              <Sparkles className="w-5 h-5 text-indigo-600 animate-spin" />
+              <span>Cô Sophie đang lắng nghe và chấm điểm phát âm cho con...</span>
+            </div>
+          )}
+
+          {/* Transcript / Editable Input Box */}
           <div
-            className={`min-h-[80px] p-4 rounded-xl border-2 transition-all flex flex-col justify-between ${
+            className={`p-3.5 rounded-xl border-2 transition-all space-y-2 ${
               isRecording
-                ? "bg-rose-50/60 border-rose-400 shadow-inner"
+                ? "bg-rose-50/70 border-rose-400 shadow-inner"
                 : transcript
                 ? "bg-white border-slate-300"
-                : "bg-white/60 border-dashed border-slate-300"
+                : "bg-white border-dashed border-slate-300"
             }`}
           >
-            {transcript ? (
-              <div className="space-y-1">
-                <p className="text-base sm:text-lg font-bold text-slate-800">
-                  "{transcript}"
-                </p>
-                <p className="text-[11px] text-slate-400">
-                  (Giọng nói đã được nhận diện qua microphone)
-                </p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center py-3 text-center text-slate-400">
-                <p className="text-xs font-semibold">
-                  {isRecording
-                    ? "🎙️ Đang lắng nghe... Con hãy nói to rõ ràng vào mic nhé!"
-                    : "Bấm nút Microphone bên dưới rồi nói câu trả lời của con..."}
-                </p>
-              </div>
-            )}
+            <textarea
+              rows={2}
+              value={transcript}
+              onChange={(e) => {
+                setTranscript(e.target.value);
+                latestTranscriptRef.current = e.target.value;
+              }}
+              placeholder={
+                isRecording
+                  ? "🎙️ Đang lắng nghe giọng nói của con... (Con cứ nói tự nhiên nhé)"
+                  : "Bấm nút 'Bấm Mic & Trả Lời' bên dưới rồi nói to, hoặc con có thể gõ câu trả lời vào đây..."
+              }
+              className="w-full bg-transparent font-bold text-sm sm:text-base text-slate-800 placeholder:text-slate-400 focus:outline-none resize-none leading-relaxed"
+            />
 
             {isRecording && (
-              <div className="flex items-center justify-center gap-1.5 pt-2">
-                <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
-                <span className="text-xs font-bold text-rose-600">Đang thu âm...</span>
+              <div className="flex items-center justify-between pt-1 border-t border-rose-200/60 text-xs font-bold text-rose-600">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
+                  <span>Đang thu âm... Nói xong hãy bấm "Dừng & Gửi Cho Cô Chấm" ⚡</span>
+                </div>
+                <span className="text-[11px] text-rose-500 italic">Tự động gửi khi con dừng nói</span>
               </div>
             )}
           </div>
+
+          {/* Quick Starter Chips */}
+          {!transcript && !isRecording && (
+            <div className="flex flex-wrap items-center gap-1.5 pt-1">
+              <span className="text-[11px] text-slate-400 font-bold">Gợi ý câu mẫu:</span>
+              {(hintData?.starters || ["Hello Teacher Sophie!", "My name is...", "I like...", "I am fine, thank you!"]).slice(0, 4).map((starter, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    playSound("click");
+                    setTranscript(starter);
+                    latestTranscriptRef.current = starter;
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-600 text-[11px] font-bold border border-slate-200 transition-all cursor-pointer"
+                >
+                  "{starter}"
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Control Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <button
                 onClick={handleToggleRecord}
-                className={`flex-1 sm:flex-none px-6 py-3 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all shadow-md ${
+                disabled={isEvaluating}
+                className={`flex-1 sm:flex-none px-6 py-3 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer ${
                   isRecording
-                    ? "bg-red-500 hover:bg-red-600 text-white animate-pulse"
+                    ? "bg-red-600 hover:bg-red-700 text-white animate-pulse shadow-[0_4px_0_0_#991B1B] active:translate-y-0.5"
                     : "bg-rose-500 hover:bg-rose-600 text-white shadow-[0_3px_0_0_#BE123C] active:translate-y-0.5"
                 }`}
               >
                 {isRecording ? (
                   <>
-                    <MicOff className="w-5 h-5" />
-                    <span>Dừng Thu Âm</span>
+                    <MicOff className="w-5 h-5 animate-spin" />
+                    <span>Dừng & Gửi Cho Cô Chấm ⚡</span>
                   </>
                 ) : (
                   <>
                     <Mic className="w-5 h-5" />
-                    <span>{transcript ? "Nói lại từ đầu" : "Bấm Mic & Trả Lời"}</span>
+                    <span>{transcript ? "Bấm Mic Nói Lại" : "Bấm Mic & Trả Lời"}</span>
                   </>
                 )}
               </button>
@@ -1116,7 +1284,7 @@ export const TeacherSophieCoach: React.FC<TeacherSophieCoachProps> = ({
               {transcript && (
                 <button
                   onClick={() => speakText(transcript, { rate: 0.9 })}
-                  className="p-3 rounded-2xl bg-slate-200 hover:bg-slate-300 text-slate-700 transition-colors"
+                  className="p-3 rounded-2xl bg-slate-200 hover:bg-slate-300 text-slate-700 transition-colors cursor-pointer"
                   title="Nghe lại giọng nói của con"
                 >
                   <Volume2 className="w-5 h-5" />
@@ -1125,9 +1293,9 @@ export const TeacherSophieCoach: React.FC<TeacherSophieCoachProps> = ({
             </div>
 
             <button
-              onClick={handleSubmitSpokenAnswer}
+              onClick={() => handleSubmitSpokenAnswer(transcript)}
               disabled={!transcript.trim() || isEvaluating || isRecording}
-              className="w-full sm:w-auto px-7 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 disabled:opacity-40 disabled:pointer-events-none text-white font-black text-sm flex items-center justify-center gap-2 shadow-[0_3px_0_0_#059669] active:translate-y-0.5 transition-all"
+              className="w-full sm:w-auto px-7 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 disabled:opacity-40 disabled:pointer-events-none text-white font-black text-sm flex items-center justify-center gap-2 shadow-[0_3px_0_0_#059669] active:translate-y-0.5 transition-all cursor-pointer"
             >
               <Sparkles className="w-5 h-5" />
               <span>{isEvaluating ? "Cô Sophie đang chấm..." : "Gửi Câu Trả Lời Cho Cô"}</span>

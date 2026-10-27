@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { VocabItem, VocabGameType, GradeLevel, UserProgress } from "../../types";
 import { GLOBAL_SUCCESS_VOCAB, EXTENDED_TOPICS_VOCAB } from "../../data/globalSuccessCurriculum";
 import { getAllCurriculumVocab, getUnitsByGrade } from "../../data/curriculum";
-import { speakText, createSpeechRecognizer, stopSpeech } from "../../utils/speech";
+import { speakText, createSpeechRecognizer, stopSpeech, SpeechRecognitionController } from "../../utils/speech";
 import { playSound } from "../../utils/audioEffects";
 import { fireConfetti } from "../../utils/confetti";
 import { addXpAndRecord, recordMissedWord, removeMasteredWord, loadTeacherVocab } from "../../utils/storage";
@@ -58,6 +58,16 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [spokenTranscript, setSpokenTranscript] = useState<string>("");
+  const recognizerRef = useRef<SpeechRecognitionController | null>(null);
+  const latestTranscriptRef = useRef<string>("");
+
+  useEffect(() => {
+    return () => {
+      if (recognizerRef.current) {
+        recognizerRef.current.stop();
+      }
+    };
+  }, []);
 
   // Load comprehensive vocab list across all 16 units (Grades 1-2) and 20 units (Grades 3-5)
   useEffect(() => {
@@ -186,16 +196,32 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
   // Speech Recognition for Speaking Guess
   const handleToggleVoiceGuess = () => {
     if (isRecording) {
+      if (recognizerRef.current) {
+        recognizerRef.current.stop();
+      }
       setIsRecording(false);
+      const textToTest = (latestTranscriptRef.current || spokenTranscript).trim();
+      if (textToTest && currentItem && !textToTest.includes("Listening...")) {
+        const cleaned = textToTest.toLowerCase().replace(/[^a-z0-9]/g, "");
+        const targetCleaned = currentItem.word.toLowerCase().replace(/[^a-z0-9]/g, "");
+        if (cleaned.includes(targetCleaned)) {
+          handleSelectOption(currentItem.word);
+        } else {
+          playSound("wrong");
+          setFeedbackMessage(`💡 You said "${textToTest}". Good try! Say it again or try another guess.`);
+        }
+      }
       return;
     }
 
     setIsRecording(true);
     setSpokenTranscript("Listening... speak your guess now!");
+    latestTranscriptRef.current = "";
 
     const recognizer = createSpeechRecognizer(
       (transcript, isFinal) => {
         setSpokenTranscript(transcript);
+        latestTranscriptRef.current = transcript;
         if (isFinal && currentItem) {
           setIsRecording(false);
           const cleaned = transcript.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -212,9 +238,11 @@ export const VocabularyModule: React.FC<VocabularyModuleProps> = ({
       (err) => {
         setIsRecording(false);
         setFeedbackMessage("Microphone tip: You can also choose from the options!");
-      }
+      },
+      "en-US"
     );
 
+    recognizerRef.current = recognizer;
     recognizer.start();
   };
 

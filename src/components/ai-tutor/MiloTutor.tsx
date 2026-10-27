@@ -51,6 +51,7 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
   const [activeCategoryTab, setActiveCategoryTab] = useState<"tenses" | "patterns" | "vocab" | "grammar">("tenses");
   const chatBottomRef = useRef<HTMLDivElement>(null);
   const recognizerRef = useRef<any>(null);
+  const latestTranscriptRef = useRef<string>("");
 
   const scrollToBottom = () => {
     chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -155,19 +156,22 @@ export const MiloTutor: React.FC<MiloTutorProps> = ({
         recognizerRef.current.stop();
       }
       setIsRecording(false);
-      if (inputText.trim()) {
-        handleSendMessage(inputText);
+      const textToSend = (latestTranscriptRef.current || inputText).trim();
+      if (textToSend) {
+        handleSendMessage(textToSend);
       }
       return;
     }
 
     setIsRecording(true);
     playSound("click");
+    latestTranscriptRef.current = "";
 
     const recognizer = createSpeechRecognizer(
       (transcript, isFinal) => {
         if (transcript) {
           setInputText(transcript);
+          latestTranscriptRef.current = transcript;
         }
         if (isFinal && transcript.trim().length > 1) {
           setIsRecording(false);
